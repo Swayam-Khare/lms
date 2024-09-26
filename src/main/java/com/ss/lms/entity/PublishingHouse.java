@@ -81,6 +81,14 @@ public class PublishingHouse {
         this.book = book;
     }
 
+    public List<PhoneNumber> getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(List<PhoneNumber> phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public String toString() {
         return "PublishingHouse{" +

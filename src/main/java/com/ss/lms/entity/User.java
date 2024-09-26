@@ -3,6 +3,7 @@ package com.ss.lms.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -32,11 +33,16 @@ public class User {
     @JoinColumn(name = "address_id")
     private Address address;
 
-//    TODO: Implement Issue Record
-//    private List<IssueRecord> issueRecord;
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH}
+    )
+    private List<IssueRecord> issueRecord;
 
-    // TODO: implement phone number
-//    private List<PhoneNumber> phoneNumber;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<PhoneNumber> phoneNumber;
 
     public User() {
     }
@@ -103,6 +109,22 @@ public class User {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public List<IssueRecord> getIssueRecord() {
+        return issueRecord;
+    }
+
+    public void setIssueRecord(List<IssueRecord> issueRecord) {
+        this.issueRecord = issueRecord;
+    }
+
+    public List<PhoneNumber> getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(List<PhoneNumber> phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override

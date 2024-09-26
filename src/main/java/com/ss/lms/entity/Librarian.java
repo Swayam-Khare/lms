@@ -79,6 +79,14 @@ public class Librarian {
         this.address = address;
     }
 
+    public List<PhoneNumber> getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(List<PhoneNumber> phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public String toString() {
         return "Librarian{" +

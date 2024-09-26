@@ -5,39 +5,37 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "publishing_house")
-public class PublishingHouse {
+@Table(name = "librarian")
+public class Librarian {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
 
     @Column(name = "email")
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(
-            mappedBy = "publishingHouse",
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
-    )
-    private List<Book> book;
-
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "librarian_id")
     private List<PhoneNumber> phoneNumber;
 
-    public PublishingHouse() {
+    public Librarian() {
     }
 
-    public PublishingHouse(String name, String email) {
-        this.name = name;
+    public Librarian(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 
@@ -49,12 +47,20 @@ public class PublishingHouse {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -73,19 +79,12 @@ public class PublishingHouse {
         this.address = address;
     }
 
-    public List<Book> getBook() {
-        return book;
-    }
-
-    public void setBook(List<Book> book) {
-        this.book = book;
-    }
-
     @Override
     public String toString() {
-        return "PublishingHouse{" +
+        return "Librarian{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", address=" + address +
                 '}';

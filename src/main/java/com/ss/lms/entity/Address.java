@@ -11,16 +11,22 @@ public class Address {
     @Column(name = "id")
     private int id;
 
+    @Column(name = "lane_1")
     private String lane1;
 
+    @Column(name = "lane_2")
     private String lane2;
 
+    @Column(name = "city")
     private String city;
 
+    @Column(name = "state")
     private String state;
 
+    @Column(name = "country")
     private String country;
 
+    @Column(name = "pincode")
     private int pincode;
 
     public Address() {

@@ -2,11 +2,11 @@ package com.ss.lms.entity;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "author")
+public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,31 +22,30 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "join_date")
-    private Date joinDate;
-
-    @Column(name = "due_date")
-    private Date dueDate;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
-//    TODO: Implement Issue Record
-//    private List<IssueRecord> issueRecord;
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "book_author",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private List<Book> book;
 
-    // TODO: implement phone number
-//    private List<PhoneNumber> phoneNumber;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_id")
+    private List<PhoneNumber> phoneNumber;
 
-    public User() {
+    public Author() {
     }
 
-    public User(String firstName, String lastName, String email, Date joinDate, Date dueDate) {
+    public Author(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.joinDate = joinDate;
-        this.dueDate = dueDate;
     }
 
     public int getId() {
@@ -81,22 +80,6 @@ public class User {
         this.email = email;
     }
 
-    public Date getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(Date join_date) {
-        this.joinDate = join_date;
-    }
-
-    public Date getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(Date due_date) {
-        this.dueDate = due_date;
-    }
-
     public Address getAddress() {
         return address;
     }
@@ -105,15 +88,29 @@ public class User {
         this.address = address;
     }
 
+    public List<Book> getBook() {
+        return book;
+    }
+
+    public void setBook(List<Book> book) {
+        this.book = book;
+    }
+
+    public List<PhoneNumber> getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(List<PhoneNumber> phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
+        return "Author{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", join_date=" + joinDate +
-                ", due_date=" + dueDate +
                 ", address=" + address +
                 '}';
     }

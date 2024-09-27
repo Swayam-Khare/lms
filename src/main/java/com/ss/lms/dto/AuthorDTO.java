@@ -1,7 +1,5 @@
 package com.ss.lms.dto;
 
-import com.ss.lms.entity.PhoneNumber;
-
 import java.util.List;
 
 public class AuthorDTO {

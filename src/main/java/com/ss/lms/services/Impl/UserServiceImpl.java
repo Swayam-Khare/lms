@@ -1,5 +1,6 @@
 package com.ss.lms.services.Impl;
 
+import com.ss.lms.dto.UserDTO;
 import com.ss.lms.entity.User;
 import com.ss.lms.repository.UserRepository;
 import com.ss.lms.services.UserService;
@@ -19,8 +20,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDTO> findAll() {
+
     }
 
     @Override

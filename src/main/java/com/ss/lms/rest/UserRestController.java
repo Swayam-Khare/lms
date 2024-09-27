@@ -15,6 +15,4 @@ public class UserRestController {
     public UserRestController(UserService userService) {
         this.userService = userService;
     }
-
-    public
 }

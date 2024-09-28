@@ -30,8 +30,11 @@ public class UserMapper {
                 null
         );
 
-        userDTO.setIssueRecord(user.getIssueRecord().stream().map(issueRecordMapper::toDTO).toList());
-        userDTO.setPhoneNumber(user.getPhoneNumber().stream().map(phoneNumberMapper::toDTO).toList());
+//        userDTO.setIssueRecord(user.getIssueRecord().stream().map(issueRecordMapper::toDTO).toList());
+//        userDTO.setPhoneNumber(user.getPhoneNumber().stream().map(phoneNumberMapper::toDTO).toList());
+
+        userDTO.setIssueRecord(null);
+        userDTO.setPhoneNumber(null);
 
         return userDTO;
     }
@@ -46,8 +49,11 @@ public class UserMapper {
         user.setJoinDate(userDTO.getJoinDate());
         user.setDueDate(userDTO.getDueDate());
         user.setAddress(addressMapper.toEntity(userDTO.getAddress()));
-        user.setIssueRecord(userDTO.getIssueRecord().stream().map(issueRecordMapper::toEntity).toList());
-        user.setPhoneNumber(userDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).toList());
+//        user.setIssueRecord(userDTO.getIssueRecord().stream().map(issueRecordMapper::toEntity).toList());
+//        user.setPhoneNumber(userDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).toList());
+
+        user.setIssueRecord(null);
+        user.setPhoneNumber(null);
 
         return user;
     }

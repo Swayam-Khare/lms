@@ -8,9 +8,13 @@ import com.ss.lms.services.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Logger;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger log = Logger.getLogger("User Service Logger");
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -21,22 +25,61 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> findAll() {
+    public List<UserDTO> getAll() {
         return userRepository.findAll().stream().map(userMapper::toDTO).toList();
     }
 
     @Override
-    public User findById(int id) {
-        return userRepository.findById(id).orElse(null);
+    public UserDTO getById(int id) {
+        log.info("getById method called.");
+
+        return userMapper.toDTO(Objects.requireNonNull(
+                userRepository
+                        .findById(id)
+                        .orElse(null),
+        "No user found with id: " + id
+        ));
     }
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    public UserDTO create(UserDTO userDTO) {
+        log.info("create method called");
+
+        User user = userRepository.save(
+                userMapper.toEntity(userDTO)
+        );
+        return userMapper.toDTO(user);
+    }
+
+    @Override
+    public UserDTO update(UserDTO userDTO) {
+        User user = userRepository
+                .findById(userDTO.getId())
+                .orElse(null);
+
+        if (user == null) {
+            // TODO: throw custom exception "user not found"
+            return null;
+        }
+
+        user = userMapper.toEntity(userDTO);
+
+        return userMapper.toDTO(
+                userRepository.save(user)
+        );
     }
 
     @Override
     public void deleteById(int id) {
+        User user = userRepository
+                .findById(id)
+                .orElse(null);
+
+        if (user == null) {
+            // TODO: throw custom exception "user not found"
+            return;
+        }
+
         userRepository.deleteById(id);
     }
 }

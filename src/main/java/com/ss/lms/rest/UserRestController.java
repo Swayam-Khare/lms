@@ -3,9 +3,7 @@ package com.ss.lms.rest;
 import com.ss.lms.dto.UserDTO;
 import com.ss.lms.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +20,21 @@ public class UserRestController {
 
     @GetMapping("/")
     public List<UserDTO> getAll() {
-        return userService.findAll();
+        return userService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public UserDTO getUserById(@PathVariable int id) {
+        return userService.getById(id);
+    }
+
+    @PostMapping("/")
+    public UserDTO create(@RequestBody UserDTO userDTO) {
+        return userService.create(userDTO);
+    }
+
+    @PutMapping("/")
+    public UserDTO update(@RequestBody UserDTO userDTO) {
+        return userService.update(userDTO);
     }
 }

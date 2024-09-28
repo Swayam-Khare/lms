@@ -1,12 +1,13 @@
 package com.ss.lms.services;
 
+import com.ss.lms.dto.UserDTO;
 import com.ss.lms.entity.User;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<User> findAll();
+    List<UserDTO> findAll();
 
     User findById(int id);
 

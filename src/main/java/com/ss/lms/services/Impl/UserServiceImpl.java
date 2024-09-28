@@ -26,12 +26,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getAll() {
-        return userRepository.findAll().stream().map(userMapper::toDTO).toList();
+
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toDTO)
+                .toList();
     }
 
     @Override
     public UserDTO getById(int id) {
-        log.info("getById method called.");
 
         return userMapper.toDTO(Objects.requireNonNull(
                 userRepository
@@ -43,7 +46,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO create(UserDTO userDTO) {
-        log.info("create method called");
 
         User user = userRepository.save(
                 userMapper.toEntity(userDTO)
@@ -53,6 +55,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO update(UserDTO userDTO) {
+
         User user = userRepository
                 .findById(userDTO.getId())
                 .orElse(null);
@@ -71,6 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteById(int id) {
+
         User user = userRepository
                 .findById(id)
                 .orElse(null);

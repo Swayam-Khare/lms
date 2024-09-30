@@ -10,10 +10,10 @@ public class LibrarianDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private Address address;
+    private AddressDTO address;
     private List<PhoneNumberDTO> phoneNumber;
 
-    public LibrarianDTO(int id, String firstName, String email, String lastName, Address address, List<PhoneNumberDTO> phoneNumber) {
+    public LibrarianDTO(int id, String firstName, String email, String lastName, AddressDTO address, List<PhoneNumberDTO> phoneNumber) {
         this.id = id;
         this.firstName = firstName;
         this.email = email;
@@ -38,7 +38,7 @@ public class LibrarianDTO {
         this.email = email;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressDTO address) {
         this.address = address;
     }
 
@@ -62,7 +62,7 @@ public class LibrarianDTO {
         return email;
     }
 
-    public Address getAddress() {
+    public AddressDTO getAddress() {
         return address;
     }
 

@@ -30,11 +30,17 @@ public class UserMapper {
                 null
         );
 
-//        userDTO.setIssueRecord(user.getIssueRecord().stream().map(issueRecordMapper::toDTO).toList());
-//        userDTO.setPhoneNumber(user.getPhoneNumber().stream().map(phoneNumberMapper::toDTO).toList());
 
-        userDTO.setIssueRecord(null);
-        userDTO.setPhoneNumber(null);
+        userDTO.setIssueRecord(
+                user.getIssueRecord() != null ?
+                        user.getIssueRecord().stream().map(issueRecordMapper::toDTO).toList() :
+                        null);
+
+        userDTO.setPhoneNumber(
+                user.getPhoneNumber() != null ?
+                        user.getPhoneNumber().stream().map(phoneNumberMapper::toDTO).toList() :
+                        null);
+
 
         return userDTO;
     }
@@ -49,11 +55,15 @@ public class UserMapper {
         user.setJoinDate(userDTO.getJoinDate());
         user.setDueDate(userDTO.getDueDate());
         user.setAddress(addressMapper.toEntity(userDTO.getAddress()));
-//        user.setIssueRecord(userDTO.getIssueRecord().stream().map(issueRecordMapper::toEntity).toList());
-//        user.setPhoneNumber(userDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).toList());
 
-        user.setIssueRecord(null);
-        user.setPhoneNumber(null);
+        user.setIssueRecord(userDTO.getIssueRecord() != null ?
+                userDTO.getIssueRecord().stream().map(issueRecordMapper::toEntity).toList() :
+                null);
+
+        user.setPhoneNumber(userDTO.getPhoneNumber() != null ?
+                userDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).toList() :
+                null);
+
 
         return user;
     }

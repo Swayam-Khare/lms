@@ -7,12 +7,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class PhoneNumberMapper {
 
-    // TODO: Complete the implementation
     public PhoneNumberDTO toDTO(PhoneNumber phoneNumber) {
-        return null;
+        return new PhoneNumberDTO(
+                phoneNumber.getNumber(),
+                phoneNumber.getId()
+        );
     }
 
     public PhoneNumber toEntity(PhoneNumberDTO phoneNumberDTO) {
-        return null;
+        PhoneNumber phoneNumber = new PhoneNumber(
+                phoneNumberDTO.getNumber()
+        );
+
+        phoneNumber.setId(phoneNumberDTO.getId());
+
+        return phoneNumber;
     }
 }

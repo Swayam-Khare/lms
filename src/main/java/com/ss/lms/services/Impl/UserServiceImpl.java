@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private static final Logger log = Logger.getLogger("User Service Logger");
+    private static final Logger log = Logger.getLogger("User Service Impl");
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;

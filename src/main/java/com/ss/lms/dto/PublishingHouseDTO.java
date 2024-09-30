@@ -11,11 +11,11 @@ public class PublishingHouseDTO {
     private int id;
     private String name;
     private String email;
-    private Address address;
+    private AddressDTO address;
     private List<BookDTO> book;
     private List<PhoneNumberDTO> phoneNumber;
 
-    public PublishingHouseDTO(int id, String name, String email, Address address, List<BookDTO> book, List<PhoneNumberDTO> phoneNumber) {
+    public PublishingHouseDTO(int id, String name, String email, AddressDTO address, List<BookDTO> book, List<PhoneNumberDTO> phoneNumber) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -36,7 +36,7 @@ public class PublishingHouseDTO {
         return email;
     }
 
-    public Address getAddress() {
+    public AddressDTO getAddress() {
         return address;
     }
 
@@ -60,7 +60,7 @@ public class PublishingHouseDTO {
         this.email = email;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressDTO address) {
         this.address = address;
     }
 

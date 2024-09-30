@@ -11,10 +11,10 @@ public class BookDTO {
     private int pages;
     private int edition;
     private PublishingHouseDTO publishingHouse;
-    private GenreDTO genre;
+    private List<GenreDTO> genre;
     private List<AuthorDTO> author;
 
-    public BookDTO(int id, String isbnNumber, String title, int publishYear, int pages, int edition, PublishingHouseDTO publishingHouse, GenreDTO genre, List<AuthorDTO> author) {
+    public BookDTO(int id, String isbnNumber, String title, int publishYear, int pages, int edition, PublishingHouseDTO publishingHouse, List<GenreDTO> genre, List<AuthorDTO> author) {
         this.id = id;
         this.isbnNumber = isbnNumber;
         this.title = title;
@@ -82,11 +82,11 @@ public class BookDTO {
         this.publishingHouse = publishingHouse;
     }
 
-    public GenreDTO getGenre() {
+    public List<GenreDTO> getGenre() {
         return genre;
     }
 
-    public void setGenre(GenreDTO genre) {
+    public void setGenre(List<GenreDTO> genre) {
         this.genre = genre;
     }
 

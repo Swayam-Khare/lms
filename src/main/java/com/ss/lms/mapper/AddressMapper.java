@@ -7,12 +7,31 @@ import org.springframework.stereotype.Component;
 @Component
 public class AddressMapper {
 
-    // TODO: Complete the implementation
     public AddressDTO toDTO(Address address) {
-        return null;
+
+        return new AddressDTO(
+                address.getId(),
+                address.getLane1(),
+                address.getLane2(),
+                address.getCity(),
+                address.getState(),
+                address.getCountry(),
+                address.getPincode()
+        );
     }
 
     public Address toEntity(AddressDTO addressDTO) {
-        return null;
+        Address address = new Address(
+                addressDTO.getLane1(),
+                addressDTO.getLane2(),
+                addressDTO.getCity(),
+                addressDTO.getState(),
+                addressDTO.getCountry(),
+                addressDTO.getPincode()
+        );
+
+        address.setId(addressDTO.getId());
+
+        return address;
     }
 }

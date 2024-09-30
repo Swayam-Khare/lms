@@ -37,4 +37,9 @@ public class UserRestController {
     public UserDTO update(@RequestBody UserDTO userDTO) {
         return userService.update(userDTO);
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
+        userService.deleteById(id);
+    }
 }

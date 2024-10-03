@@ -60,7 +60,11 @@ public class UserMapper {
         user.setEmail(userDTO.getEmail());
         user.setJoinDate(userDTO.getJoinDate());
         user.setDueDate(userDTO.getDueDate());
-        user.setAddress(addressMapper.toEntity(userDTO.getAddress()));
+        user.setAddress(
+                userDTO.getAddress() != null ?
+                        addressMapper.toEntity(userDTO.getAddress()) :
+                        null
+        );
 
         user.setIssueRecord(userDTO.getIssueRecord() != null ?
                 userDTO.getIssueRecord().stream().map(issueRecordMapper::toEntity).toList() :

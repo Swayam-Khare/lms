@@ -34,7 +34,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
                 configurer
-                        .requestMatchers(HttpMethod.GET, "/api/user/").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/user/").hasRole("EMPLOYEE")
                         .requestMatchers(HttpMethod.GET, "/api/user/**").hasRole("EMPLOYEE")
                         .requestMatchers(HttpMethod.POST, "/api/user/").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.PUT, "/api/user/").hasRole("MANAGER")
@@ -44,6 +44,7 @@ public class SecurityConfiguration {
         http.httpBasic(withDefaults());
         http.cors(withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
+
 
         return http.build();
     }

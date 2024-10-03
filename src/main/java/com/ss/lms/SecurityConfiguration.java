@@ -14,6 +14,8 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 public class SecurityConfiguration {
 
@@ -39,8 +41,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN")
         );
 
-        http.httpBasic(Customizer.withDefaults());
-        http.cors(AbstractHttpConfigurer::disable);
+        http.httpBasic(withDefaults());
+        http.cors(withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
 
         return http.build();

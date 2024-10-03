@@ -2,6 +2,8 @@ package com.ss.lms.mapper;
 
 import com.ss.lms.dto.BookDTO;
 import com.ss.lms.entity.Book;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,7 +13,7 @@ public class BookMapper {
     private final GenreMapper genreMapper;
     private final AuthorMapper authorMapper;
 
-    public BookMapper(PublishingHouseMapper publishingHouseMapper, GenreMapper genreMapper, AuthorMapper authorMapper) {
+    public BookMapper(@Lazy PublishingHouseMapper publishingHouseMapper, @Lazy GenreMapper genreMapper, @Lazy AuthorMapper authorMapper) {
         this.publishingHouseMapper = publishingHouseMapper;
         this.genreMapper = genreMapper;
         this.authorMapper = authorMapper;

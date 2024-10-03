@@ -2,6 +2,8 @@ package com.ss.lms.rest;
 
 import com.ss.lms.dto.UserDTO;
 import com.ss.lms.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "*")
 public class UserRestController {
 
     private final UserService userService;

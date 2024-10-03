@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 public class SecurityConfiguration {
@@ -29,7 +32,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
                 configurer
-                        .requestMatchers(HttpMethod.GET, "/api/user/").hasRole("EMPLOYEE")
+                        .requestMatchers(HttpMethod.GET, "/api/user/").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/user/**").hasRole("EMPLOYEE")
                         .requestMatchers(HttpMethod.POST, "/api/user/").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.PUT, "/api/user/").hasRole("MANAGER")
@@ -37,7 +40,7 @@ public class SecurityConfiguration {
         );
 
         http.httpBasic(Customizer.withDefaults());
-
+        http.cors(AbstractHttpConfigurer::disable);
         http.csrf(AbstractHttpConfigurer::disable);
 
         return http.build();

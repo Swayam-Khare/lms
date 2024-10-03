@@ -2,6 +2,7 @@ package com.ss.lms.mapper;
 
 import com.ss.lms.dto.UserDTO;
 import com.ss.lms.entity.User;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,7 +12,7 @@ public class UserMapper {
     private final IssueRecordMapper issueRecordMapper;
     private final PhoneNumberMapper phoneNumberMapper;
 
-    public UserMapper(AddressMapper addressMapper, IssueRecordMapper issueRecordMapper, PhoneNumberMapper phoneNumberMapper) {
+    public UserMapper(AddressMapper addressMapper, @Lazy IssueRecordMapper issueRecordMapper, PhoneNumberMapper phoneNumberMapper) {
         this.addressMapper = addressMapper;
         this.issueRecordMapper = issueRecordMapper;
         this.phoneNumberMapper = phoneNumberMapper;
@@ -25,11 +26,16 @@ public class UserMapper {
                 user.getEmail(),
                 user.getJoinDate(),
                 user.getDueDate(),
-                addressMapper.toDTO(user.getAddress()),
+                null,
                 null,
                 null
         );
 
+        userDTO.setAddress(
+                user.getAddress() != null ?
+                        addressMapper.toDTO(user.getAddress()) :
+                        null
+        );
 
         userDTO.setIssueRecord(
                 user.getIssueRecord() != null ?

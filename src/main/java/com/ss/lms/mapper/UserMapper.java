@@ -39,7 +39,10 @@ public class UserMapper {
 
         userDTO.setIssueRecord(
                 user.getIssueRecord() != null ?
-                        user.getIssueRecord().stream().map(issueRecordMapper::toDTO).toList() :
+                        user.getIssueRecord()
+                                .stream()
+                                .map(issueRecordMapper::toDTO)
+                                .toList() :
                         null);
 
         userDTO.setPhoneNumber(

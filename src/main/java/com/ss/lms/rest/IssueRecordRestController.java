@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/issue-record")
+@CrossOrigin(origins = "http://localhost:5173")
 public class IssueRecordRestController {
 
     private final IssueRecordService issueRecordService;

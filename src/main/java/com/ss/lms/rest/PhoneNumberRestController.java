@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/phone-number")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PhoneNumberRestController {
 
     private final PhoneNumberService phoneNumberService;

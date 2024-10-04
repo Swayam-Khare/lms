@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/librarian")
+@CrossOrigin(origins = "http://localhost:5173")
 public class LibrarianRestController {
 
     private final LibrarianService librarianService;

@@ -9,13 +9,14 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private Date joinDate;
     private Date dueDate;
     private AddressDTO address;
     private List<IssueRecordDTO> issueRecord;
     private List<PhoneNumberDTO> phoneNumber;
 
-    public UserDTO(int id, String firstName, String lastName, String email, Date joinDate, Date dueDate, AddressDTO address, List<IssueRecordDTO> issueRecord, List<PhoneNumberDTO> phoneNumber) {
+    public UserDTO(int id, String firstName, String lastName, String email, Date joinDate, Date dueDate, AddressDTO address, List<IssueRecordDTO> issueRecord, List<PhoneNumberDTO> phoneNumber, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -25,6 +26,7 @@ public class UserDTO {
         this.address = address;
         this.issueRecord = issueRecord;
         this.phoneNumber = phoneNumber;
+        this.password = password;
     }
 
     public int getId() {
@@ -57,6 +59,14 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Date getJoinDate() {

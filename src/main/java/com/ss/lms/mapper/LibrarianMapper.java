@@ -22,7 +22,8 @@ public class LibrarianMapper {
                 librarian.getEmail(),
                 librarian.getLastName(),
                 addressMapper.toDTO(librarian.getAddress()),
-                null
+                null,
+                librarian.getPassword()
         );
 
         librarianDTO.setPhoneNumber(
@@ -38,7 +39,8 @@ public class LibrarianMapper {
         Librarian librarian = new Librarian(
                 librarianDTO.getFirstName(),
                 librarianDTO.getLastName(),
-                librarianDTO.getEmail()
+                librarianDTO.getEmail(),
+                librarianDTO.getPassword()
         );
 
         librarian.setId(librarianDTO.getId());

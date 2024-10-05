@@ -23,6 +23,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "join_date")
     private Date joinDate;
 
@@ -47,12 +50,13 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, Date joinDate, Date dueDate) {
+    public User(String firstName, String lastName, String email, Date joinDate, Date dueDate, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.joinDate = joinDate;
         this.dueDate = dueDate;
+        this.password = password;
     }
 
     public int getId() {
@@ -85,6 +89,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Date getJoinDate() {

@@ -10,16 +10,18 @@ public class LibrarianDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private AddressDTO address;
     private List<PhoneNumberDTO> phoneNumber;
 
-    public LibrarianDTO(int id, String firstName, String email, String lastName, AddressDTO address, List<PhoneNumberDTO> phoneNumber) {
+    public LibrarianDTO(int id, String firstName, String email, String lastName, AddressDTO address, List<PhoneNumberDTO> phoneNumber, String password) {
         this.id = id;
         this.firstName = firstName;
         this.email = email;
         this.lastName = lastName;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.password = password;
     }
 
     public void setId(int id) {
@@ -36,6 +38,14 @@ public class LibrarianDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setAddress(AddressDTO address) {

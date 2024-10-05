@@ -28,7 +28,8 @@ public class UserMapper {
                 user.getDueDate(),
                 null,
                 null,
-                null
+                null,
+                user.getPassword()
         );
 
         userDTO.setAddress(
@@ -61,6 +62,7 @@ public class UserMapper {
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
         user.setJoinDate(userDTO.getJoinDate());
         user.setDueDate(userDTO.getDueDate());
         user.setAddress(

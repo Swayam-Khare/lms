@@ -26,7 +26,8 @@ public class AuthorMapper {
                 author.getEmail(),
                 addressMapper.toDTO(author.getAddress()),
                 null,
-                null
+                null,
+                author.getPassword()
         );
 
         authorDTO.setBook(
@@ -48,7 +49,8 @@ public class AuthorMapper {
         Author author = new Author(
                 authorDTO.getFirstName(),
                 authorDTO.getLastName(),
-                authorDTO.getEmail()
+                authorDTO.getEmail(),
+                authorDTO.getPassword()
         );
 
         author.setId(authorDTO.getId());

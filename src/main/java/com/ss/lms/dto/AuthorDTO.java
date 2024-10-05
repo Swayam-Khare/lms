@@ -8,11 +8,12 @@ public class AuthorDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private AddressDTO address;
     private List<BookDTO> book;
     private List<PhoneNumberDTO> phoneNumber;
 
-    public AuthorDTO(int id, String firstName, String lastName, String email, AddressDTO address, List<BookDTO> book, List<PhoneNumberDTO> phoneNumber) {
+    public AuthorDTO(int id, String firstName, String lastName, String email, AddressDTO address, List<BookDTO> book, List<PhoneNumberDTO> phoneNumber, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,6 +21,7 @@ public class AuthorDTO {
         this.address = address;
         this.book = book;
         this.phoneNumber = phoneNumber;
+        this.password = password;
     }
 
     public int getId() {
@@ -52,6 +54,14 @@ public class AuthorDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public AddressDTO getAddress() {

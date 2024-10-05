@@ -2,9 +2,13 @@ package com.ss.lms.services.Impl;
 
 import com.ss.lms.dto.UserDTO;
 import com.ss.lms.entity.User;
+import com.ss.lms.mapper.AddressMapper;
+import com.ss.lms.mapper.IssueRecordMapper;
+import com.ss.lms.mapper.PhoneNumberMapper;
 import com.ss.lms.mapper.UserMapper;
 import com.ss.lms.repository.UserRepository;
 import com.ss.lms.services.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,37 +22,52 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final AddressMapper addressMapper;
+    private final IssueRecordMapper issueRecordMapper;
+    private final PhoneNumberMapper phoneNumberMapper;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, AddressMapper addressMapper, IssueRecordMapper issueRecordMapper, PhoneNumberMapper phoneNumberMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.addressMapper = addressMapper;
+        this.issueRecordMapper = issueRecordMapper;
+        this.phoneNumberMapper = phoneNumberMapper;
     }
 
     @Override
     public List<UserDTO> getAll() {
 
-        return userRepository.findAll()
+        List<UserDTO> userDTOList =  userRepository.findAll()
                 .stream()
                 .map(userMapper::toDTO)
                 .toList();
+
+        userDTOList.forEach(dto -> {dto.setPassword(null);});
+        return userDTOList;
     }
 
     @Override
     public UserDTO getById(int id) {
 
-        return userMapper.toDTO(Objects.requireNonNull(
+        UserDTO userDTO =  userMapper.toDTO(Objects.requireNonNull(
                 userRepository
                         .findById(id)
                         .orElse(null),
         "No user found with id: " + id
         ));
+
+        userDTO.setPassword(null);
+        return userDTO;
     }
 
     @Override
     public UserDTO create(UserDTO userDTO) {
 
         User user = userMapper.toEntity(userDTO);
-        return userMapper.toDTO(user);
+        user.setPassword(encoder.encode(user.getPassword()));
+        return userMapper.toDTO(userRepository.save(user));
     }
 
     @Override
@@ -63,11 +82,38 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
-        user = userMapper.toEntity(userDTO);
+        user.setFirstName(userDTO.getFirstName() == null ? user.getFirstName() : userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName() == null ? user.getLastName() : userDTO.getLastName());
+        user.setEmail(userDTO.getEmail() == null ? user.getEmail() : userDTO.getEmail());
+        user.setPassword(userDTO.getPassword() == null ? user.getPassword() : encoder.encode(userDTO.getPassword()));
+        user.setJoinDate(userDTO.getJoinDate() == null ? user.getJoinDate() : userDTO.getJoinDate());
+        user.setDueDate(userDTO.getDueDate() == null ? user.getDueDate() : userDTO.getDueDate());
 
-        return userMapper.toDTO(
+        user.setAddress(
+                userDTO.getAddress() == null ?
+                        user.getAddress() :
+                        addressMapper.toEntity(userDTO.getAddress())
+        );
+
+        user.setIssueRecord(
+                userDTO.getIssueRecord() == null ?
+                        user.getIssueRecord() :
+                        userDTO.getIssueRecord().stream().map(issueRecordMapper::toEntity).toList()
+        );
+
+        user.setPhoneNumber(
+                userDTO.getPhoneNumber() == null ?
+                        user.getPhoneNumber() :
+                        userDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).toList()
+        );
+
+
+        UserDTO responseDTO =  userMapper.toDTO(
                 userRepository.save(user)
         );
+
+        responseDTO.setPassword(null);
+        return responseDTO;
     }
 
     @Override

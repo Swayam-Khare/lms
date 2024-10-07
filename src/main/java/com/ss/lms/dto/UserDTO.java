@@ -108,4 +108,20 @@ public class UserDTO {
     public void setPhoneNumber(List<PhoneNumberDTO> phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", joinDate=" + joinDate +
+                ", dueDate=" + dueDate +
+                ", address=" + address +
+                ", issueRecord=" + issueRecord +
+                ", phoneNumber=" + phoneNumber +
+                '}';
+    }
 }

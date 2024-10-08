@@ -1,11 +1,18 @@
 package com.ss.lms.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 
 public class GenreDTO {
 
     private int id;
+
+    @NotBlank(message = "Genre is required")
     private String genre;
+
+    @Valid
     private List<BookDTO> book;
 
     public GenreDTO(int id, String genre, List<BookDTO> book) {

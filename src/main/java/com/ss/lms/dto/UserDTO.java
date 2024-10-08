@@ -1,19 +1,39 @@
 package com.ss.lms.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+
 import java.sql.Date;
 import java.util.List;
 
 public class UserDTO {
 
     private int id;
+
+    @NotBlank(message = "First Name is required")
     private String firstName;
+
     private String lastName;
+
+    @Email(message = "Please enter a valid email")
+    @NotBlank(message = "Email is required")
     private String email;
+
+    @Min(value = 6, message = "Password must contain at least 6 characters")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*()]).{6,}$", message = "Password must be 8 characters long and combination of uppercase letters, lowercase letters, numbers, special characters.")
     private String password;
+
     private Date joinDate;
     private Date dueDate;
+
+    @Valid
+    @NotNull(message = "The address is required.")
     private AddressDTO address;
+
+    @Valid
     private List<IssueRecordDTO> issueRecord;
+
+    @Valid
     private List<PhoneNumberDTO> phoneNumber;
 
     public UserDTO(int id, String firstName, String lastName, String email, Date joinDate, Date dueDate, AddressDTO address, List<IssueRecordDTO> issueRecord, List<PhoneNumberDTO> phoneNumber, String password) {

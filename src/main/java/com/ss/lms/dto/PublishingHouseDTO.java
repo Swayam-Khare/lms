@@ -3,16 +3,32 @@ package com.ss.lms.dto;
 import com.ss.lms.entity.Address;
 import com.ss.lms.entity.Book;
 import com.ss.lms.entity.PhoneNumber;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
 public class PublishingHouseDTO {
 
     private int id;
+
+    @NotBlank(message = "Name field is required")
     private String name;
+
+    @NotNull
+    @Email(message = "Please enter a valid Email")
     private String email;
+
+    @Valid
+    @NotNull(message = "Address is required")
     private AddressDTO address;
+
+    @Valid
     private List<BookDTO> book;
+
+    @Valid
     private List<PhoneNumberDTO> phoneNumber;
 
     public PublishingHouseDTO(int id, String name, String email, AddressDTO address, List<BookDTO> book, List<PhoneNumberDTO> phoneNumber) {

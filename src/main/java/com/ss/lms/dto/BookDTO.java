@@ -1,17 +1,37 @@
 package com.ss.lms.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
 public class BookDTO {
 
     private int id;
+
+    @NotBlank(message = "ISBN Number is required")
     private String isbnNumber;
+
+    @NotBlank(message = "Title of the book is required")
     private String title;
+
+    @Size(min = 4, max = 4, message = "Enter a valid full year")
     private int publishYear;
+
     private int pages;
     private int edition;
+
+    @Valid
     private PublishingHouseDTO publishingHouse;
+
+    @NotNull(message = "Genre is required")
+    @Valid
     private List<GenreDTO> genre;
+
+    @Valid
+    @NotNull(message = "Author(s) is required")
     private List<AuthorDTO> author;
 
     public BookDTO(int id, String isbnNumber, String title, int publishYear, int pages, int edition, PublishingHouseDTO publishingHouse, List<GenreDTO> genre, List<AuthorDTO> author) {

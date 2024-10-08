@@ -1,14 +1,30 @@
 package com.ss.lms.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
 import java.sql.Date;
 
 public class IssueRecordDTO {
 
     private int id;
+
+    @NotNull(message = "Issue Date is required")
     private Date issueDate;
+
+    @NotNull(message = "Due Date is required")
     private Date dueDate;
+
+    @Valid
+    @NotNull(message = "Book details are required")
     private BookDTO book;
+
+    @Valid
+    @NotNull(message = "details are required")
     private UserDTO user;
+
+    @Valid
+    @NotNull(message = "Librarian details are required")
     private LibrarianDTO librarian;
 
     public IssueRecordDTO(int id, Date issueDate, Date dueDate, BookDTO book, UserDTO user, LibrarianDTO librarian) {

@@ -2,11 +2,11 @@ package com.ss.lms.rest;
 
 import com.ss.lms.dto.AddressDTO;
 import com.ss.lms.services.AddressService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/api/address")
@@ -31,12 +31,12 @@ public class AddressRestController {
     }
 
     @PostMapping("/")
-    public AddressDTO create(@RequestBody AddressDTO addressDTO) {
+    public AddressDTO create(@Valid @RequestBody AddressDTO addressDTO) {
         return addressService.create(addressDTO);
     }
 
     @PutMapping("/")
-    public AddressDTO update(@RequestBody AddressDTO addressDTO) {
+    public AddressDTO update(@Valid @RequestBody AddressDTO addressDTO) {
         return addressService.update(addressDTO);
     }
 

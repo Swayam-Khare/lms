@@ -4,6 +4,7 @@ import com.ss.lms.dto.IssueRecordDTO;
 import com.ss.lms.dto.UserDTO;
 import com.ss.lms.services.IssueRecordService;
 import com.ss.lms.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,12 +34,12 @@ public class IssueRecordRestController {
     }
 
     @PostMapping("/")
-    public IssueRecordDTO create(@RequestBody IssueRecordDTO issueRecordDTO) {
+    public IssueRecordDTO create(@Valid @RequestBody IssueRecordDTO issueRecordDTO) {
         return issueRecordService.create(issueRecordDTO);
     }
 
     @PutMapping("/")
-    public IssueRecordDTO update(@RequestBody IssueRecordDTO issueRecordDTO) {
+    public IssueRecordDTO update(@Valid @RequestBody IssueRecordDTO issueRecordDTO) {
         return issueRecordService.update(issueRecordDTO);
     }
 

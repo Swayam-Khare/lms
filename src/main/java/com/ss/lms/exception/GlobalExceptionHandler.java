@@ -3,19 +3,22 @@ package com.ss.lms.exception;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.util.Date;
+import java.util.*;
+import java.util.logging.Logger;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
+    private static final Logger log = Logger.getLogger("Global Exception Handler");
 
     @ExceptionHandler( AccessDeniedException.class)
     public ResponseEntity<CustomErrorResponse> handleAccessDeniedException( AccessDeniedException e)
@@ -63,8 +66,22 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(customError, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> notValid(MethodArgumentNotValidException ex, HttpServletRequest request) {
+        List<String> errors = new ArrayList<>();
+
+        ex.getAllErrors().forEach(err -> errors.add(err.getDefaultMessage()));
+
+        Map<String, List<String>> result = new HashMap<>();
+        result.put("errors", errors);
+
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CustomErrorResponse> handleException(Exception e) {
+        log.warning("error: " + e);
+
         CustomErrorResponse customError = new CustomErrorResponse(500,e.getMessage(), new Date(System.currentTimeMillis()));
         return new ResponseEntity<>(customError, HttpStatus.INTERNAL_SERVER_ERROR);
     }

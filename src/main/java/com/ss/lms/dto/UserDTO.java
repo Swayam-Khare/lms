@@ -19,8 +19,7 @@ public class UserDTO {
     @NotBlank(message = "Email is required")
     private String email;
 
-    @Min(value = 6, message = "Password must contain at least 6 characters")
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*()]).{6,}$", message = "Password must be 8 characters long and combination of uppercase letters, lowercase letters, numbers, special characters.")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*()]).{6,}$", message = "Password must be 6 characters long and combination of uppercase letters, lowercase letters, numbers, special characters.")
     private String password;
 
     private Date joinDate;

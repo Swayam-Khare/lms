@@ -2,6 +2,7 @@ package com.ss.lms.rest;
 
 import com.ss.lms.dto.GenreDTO;
 import com.ss.lms.services.GenreService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +32,12 @@ public class GenreRestController {
     }
 
     @PostMapping("/")
-    public GenreDTO create(@RequestBody GenreDTO genreDTO) {
+    public GenreDTO create(@Valid @RequestBody GenreDTO genreDTO) {
         return genreService.create(genreDTO);
     }
 
     @PutMapping("/")
-    public GenreDTO update(@RequestBody GenreDTO genreDTO) {
+    public GenreDTO update(@Valid @RequestBody GenreDTO genreDTO) {
         return genreService.update(genreDTO);
     }
 

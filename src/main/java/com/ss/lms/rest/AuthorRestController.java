@@ -2,6 +2,7 @@ package com.ss.lms.rest;
 
 import com.ss.lms.dto.AuthorDTO;
 import com.ss.lms.services.AuthorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +31,12 @@ public class AuthorRestController {
     }
 
     @PostMapping("/")
-    public AuthorDTO create(@RequestBody AuthorDTO authorDTO) {
+    public AuthorDTO create(@Valid @RequestBody AuthorDTO authorDTO) {
         return authorService.create(authorDTO);
     }
 
     @PutMapping("/")
-    public AuthorDTO update(@RequestBody AuthorDTO authorDTO) {
+    public AuthorDTO update(@Valid @RequestBody AuthorDTO authorDTO) {
         return authorService.update(authorDTO);
     }
 

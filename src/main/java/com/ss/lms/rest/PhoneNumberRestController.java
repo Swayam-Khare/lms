@@ -2,6 +2,7 @@ package com.ss.lms.rest;
 
 import com.ss.lms.dto.PhoneNumberDTO;
 import com.ss.lms.services.PhoneNumberService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +31,12 @@ public class PhoneNumberRestController {
     }
 
     @PostMapping("/")
-    public PhoneNumberDTO create(@RequestBody PhoneNumberDTO phoneNumberDTO) {
+    public PhoneNumberDTO create(@Valid @RequestBody PhoneNumberDTO phoneNumberDTO) {
         return phoneNumberService.create(phoneNumberDTO);
     }
 
     @PutMapping("/")
-    public PhoneNumberDTO update(@RequestBody PhoneNumberDTO phoneNumberDTO) {
+    public PhoneNumberDTO update(@Valid @RequestBody PhoneNumberDTO phoneNumberDTO) {
         return phoneNumberService.update(phoneNumberDTO);
     }
 

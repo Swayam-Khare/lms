@@ -1,5 +1,6 @@
 package com.ss.lms.dto;
 
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,8 +23,8 @@ public class AddressDTO {
     @NotBlank(message = "Country is required")
     private String country;
 
-    @NotBlank(message = "Pincode is required")
-    @Size(min = 6, max = 6, message = "Pincode must only contain 6 digits")
+    @NotNull(message = "Pincode is required")
+    @Digits(integer = 6, message = "Pincode must only contain 6 digits", fraction = 0)
     private int pincode;
 
     public AddressDTO(int id, String lane1, String lane2, String city, String state, String country, int pincode) {

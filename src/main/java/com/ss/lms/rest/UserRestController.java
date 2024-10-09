@@ -2,6 +2,7 @@ package com.ss.lms.rest;
 
 import com.ss.lms.dto.UserDTO;
 import com.ss.lms.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +31,12 @@ public class UserRestController {
     }
 
     @PostMapping("/")
-    public UserDTO create(@RequestBody UserDTO userDTO) {
+    public UserDTO create(@Valid @RequestBody UserDTO userDTO) {
         return userService.create(userDTO);
     }
 
     @PutMapping("/")
-    public UserDTO update(@RequestBody UserDTO userDTO) {
+    public UserDTO update(@Valid @RequestBody UserDTO userDTO) {
         return userService.update(userDTO);
     }
 

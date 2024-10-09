@@ -2,6 +2,7 @@ package com.ss.lms.rest;
 
 import com.ss.lms.dto.UserDTO;
 import com.ss.lms.services.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,8 @@ public class AuthRestController {
     }
 
     @PostMapping("/register")
-    public UserDTO register(@RequestBody UserDTO userDTO) {
+    public UserDTO register(@Valid @RequestBody UserDTO userDTO) {
+        log.info("In register method");
         return authService.registerUser(userDTO);
     }
 

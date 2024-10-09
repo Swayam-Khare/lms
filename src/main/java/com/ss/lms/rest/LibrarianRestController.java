@@ -2,6 +2,7 @@ package com.ss.lms.rest;
 
 import com.ss.lms.dto.LibrarianDTO;
 import com.ss.lms.services.LibrarianService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +32,12 @@ public class LibrarianRestController {
     }
 
     @PostMapping("/")
-    public LibrarianDTO create(@RequestBody LibrarianDTO librarianDTO) {
+    public LibrarianDTO create(@Valid @RequestBody LibrarianDTO librarianDTO) {
         return librarianService.create(librarianDTO);
     }
 
     @PutMapping("/")
-    public LibrarianDTO update(@RequestBody LibrarianDTO librarianDTO) {
+    public LibrarianDTO update(@Valid @RequestBody LibrarianDTO librarianDTO) {
         return librarianService.update(librarianDTO);
     }
 

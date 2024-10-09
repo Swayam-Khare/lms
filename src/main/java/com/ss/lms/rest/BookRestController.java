@@ -2,6 +2,7 @@ package com.ss.lms.rest;
 
 import com.ss.lms.dto.BookDTO;
 import com.ss.lms.services.BookService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +32,12 @@ public class BookRestController {
     }
 
     @PostMapping("/")
-    public BookDTO create(@RequestBody BookDTO bookDTO) {
+    public BookDTO create(@Valid @RequestBody BookDTO bookDTO) {
         return bookService.create(bookDTO);
     }
 
     @PutMapping("/")
-    public BookDTO update(@RequestBody BookDTO bookDTO) {
+    public BookDTO update(@Valid @RequestBody BookDTO bookDTO) {
         return bookService.update(bookDTO);
     }
 

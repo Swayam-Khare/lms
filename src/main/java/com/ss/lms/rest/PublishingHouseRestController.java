@@ -2,6 +2,7 @@ package com.ss.lms.rest;
 
 import com.ss.lms.dto.PublishingHouseDTO;
 import com.ss.lms.services.PublishingHouseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +31,12 @@ public class PublishingHouseRestController {
     }
 
     @PostMapping("/")
-    public PublishingHouseDTO create(@RequestBody PublishingHouseDTO publishingHouseDTO) {
+    public PublishingHouseDTO create(@Valid @RequestBody PublishingHouseDTO publishingHouseDTO) {
         return publishingHouseService.create(publishingHouseDTO);
     }
 
     @PutMapping("/")
-    public PublishingHouseDTO update(@RequestBody PublishingHouseDTO publishingHouseDTO) {
+    public PublishingHouseDTO update(@Valid @RequestBody PublishingHouseDTO publishingHouseDTO) {
         return publishingHouseService.update(publishingHouseDTO);
     }
 

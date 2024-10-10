@@ -26,7 +26,7 @@ export default function Navbar() {
 
             <span onClick={() => goTo('about-project')} className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer">About</span>
 
-            <span onClick={() => goTo('about-team')} className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer">Team</span>
+            {/* <span onClick={() => goTo('about-team')} className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer">Team</span> */}
           </div>
 
           <div className="border-2 my-4"></div>

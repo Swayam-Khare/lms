@@ -1,20 +1,25 @@
 
 
+// <footer className="bg-gray-800 flex justify-between text-white px-32 py-10">
+//   <img src="./src/assets/logo-white.svg" alt="logo" className="w-40" />
+//   <div></div>
+// </footer>
+
 export default function Footer() {
   return (
-      <footer class="bg-white dark:bg-gray-900">
+      <footer class="bg-white bg-gray-800">
           <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
               <div class="md:flex md:justify-between">
                   <div class="mb-6 md:mb-0">
-                      <a href="https://localhost:5173/" class="flex items-center">
+                      <a
+                          href="https://localhost:5173/"
+                          class="flex items-center"
+                      >
                           <img
-                              src="https://flowbite.com/docs/images/logo.svg"
+                              src="./src/assets/logo-white.svg"
                               class="h-8 me-3"
-                              alt="FlowBite Logo"
+                              alt="Edify Logo"
                           />
-                          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                              Flowbite
-                          </span>
                       </a>
                   </div>
                   <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -25,10 +30,10 @@ export default function Footer() {
                           <ul class="text-gray-500 dark:text-gray-400 font-medium">
                               <li class="mb-4">
                                   <a
-                                      href="https://flowbite.com/"
+                                      href="https://localhost:5173/"
                                       class="hover:underline"
                                   >
-                                      Flowbite
+                                      Edify
                                   </a>
                               </li>
                               <li>
@@ -87,8 +92,8 @@ export default function Footer() {
               <div class="sm:flex sm:items-center sm:justify-between">
                   <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
                       © 2023{" "}
-                      <a href="https://flowbite.com/" class="hover:underline">
-                          Flowbite™
+                      <a href="https://localhost:5173/" class="hover:underline">
+                          Edify™
                       </a>
                       . All Rights Reserved.
                   </span>

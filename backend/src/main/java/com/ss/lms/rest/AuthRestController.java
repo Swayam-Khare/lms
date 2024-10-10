@@ -1,5 +1,6 @@
 package com.ss.lms.rest;
 
+import com.ss.lms.dto.LoginRequest;
 import com.ss.lms.dto.UserDTO;
 import com.ss.lms.services.AuthService;
 import jakarta.validation.Valid;
@@ -32,8 +33,8 @@ public class AuthRestController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserDTO userDTO) {
-        log.info("Incoming Data: " + userDTO);
-        return authService.loginUser(userDTO.getEmail(), userDTO.getPassword());
+    public String login(@Valid @RequestBody LoginRequest loginRequest) {
+        log.info("Incoming Data: " + loginRequest);
+        return authService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
     }
 }

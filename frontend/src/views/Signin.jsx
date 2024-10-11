@@ -39,12 +39,12 @@ export default function Signin() {
     try {
 
       console.log(data);
-      setLoading(false);
-      return;
+      // setLoading(false);
+      // return;
       
 
       const response = await fetch(
-        "http://localhost:3500/api/v1/auth/login",
+        "http://localhost:8080/api/auth/login",
         {
           method: "POST",
           headers: {
@@ -53,11 +53,13 @@ export default function Signin() {
           body: JSON.stringify(data),
         }
       );
-      const result = await response.json();
+      const result = await response.text();
+      console.log(result);
+      return;
       if (result.status === "success") {
         // save token to local storage
-        localStorage.setItem("user", JSON.stringify(result.user));
-        localStorage.setItem("token", result.token);
+        // localStorage.setItem("user", JSON.stringify(result.user));
+        localStorage.setItem("token", result);
 
         toast.success("Login successful", {
           position: "bottom-center",
@@ -70,9 +72,9 @@ export default function Signin() {
         });
 
         // redirect to home page
-        setTimeout(() => {
-          navigateTo("/dashboard");
-        }, 1000);
+        // setTimeout(() => {
+        //   navigateTo("/dashboard");
+        // }, 1000);
       } else {
         toast.error(`Login failed: ${result.message}`, {
           position: "top-center",
@@ -86,6 +88,8 @@ export default function Signin() {
       }
       
     } catch (error) {
+      console.log(error);
+      
       toast.error(`Login failed: ${error.message}`, {
         position: "top-center",
         autoClose: 3000,
@@ -154,7 +158,7 @@ export default function Signin() {
                     }
                   >
                     <option>Select Role...</option>
-                    <option>Member</option>
+                    <option>User</option>
                     <option>Librarian</option>
                     <option>Admin</option>
                   </select>

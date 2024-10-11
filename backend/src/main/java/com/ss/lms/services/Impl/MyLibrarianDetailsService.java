@@ -1,35 +1,33 @@
 package com.ss.lms.services.Impl;
 
-import com.ss.lms.entity.User;
-import com.ss.lms.entity.UserPrincipal;
-import com.ss.lms.repository.UserRepository;
+import com.ss.lms.entity.Librarian;
+import com.ss.lms.entity.LibrarianPrincipal;
+import com.ss.lms.repository.LibrarianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-@Primary
-public class MyUserDetailsService implements UserDetailsService {
+public class MyLibrarianDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final LibrarianRepository librarianRepository;
 
     @Autowired
-    public MyUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public MyLibrarianDetailsService(LibrarianRepository librarianRepository) {
+        this.librarianRepository = librarianRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(username);
+        Librarian librarian = librarianRepository.findLibrarianByEmail(username);
 
-        if (user == null) {
+        if (librarian == null) {
             System.out.println("User not found");
             throw new UsernameNotFoundException("User not found with email: " + username);
         }
 
-        return new UserPrincipal(user);
+        return new LibrarianPrincipal(librarian);
     }
 }

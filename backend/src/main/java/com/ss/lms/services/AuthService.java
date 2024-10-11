@@ -6,5 +6,5 @@ public interface AuthService {
 
     UserDTO registerUser(UserDTO userDTO);
 
-    String loginUser(String username, String password);
+    String loginUser(String username, String password, String role);
 }

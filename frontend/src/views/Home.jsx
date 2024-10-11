@@ -4,6 +4,7 @@ import Footer from "../components/Footer"
 import HeroSection from "../components/HeroSection"
 import Navbar from "../components/Navbar"
 import NavbarAlt from "../components/NavbarAlt"
+import { Link } from "react-router-dom"; // Import Link for navigation
 import TeamSection from "../components/TeamSection"
 import { useEffect, useState } from "react"
 import Skeleton from 'react-loading-skeleton';

@@ -50,7 +50,7 @@ public class AuthRestController {
         cookie.setMaxAge(60 * 60);
 
         res.addCookie(cookie);
-
+        res.setHeader("Access-Control-Allow-Credentials", "true");
         return token;
     }
 }

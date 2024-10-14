@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,9 +24,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler( AccessDeniedException.class)
     public ResponseEntity<CustomErrorResponse> handleAccessDeniedException( AccessDeniedException e)
     {
-        System.out.println("In the Exception Handler");
         CustomErrorResponse customError = new CustomErrorResponse(403, e.getMessage(), new Date(System.currentTimeMillis()));
         return new ResponseEntity<>(customError, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<CustomErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
+        log.info("In user not found exception handler");
+        CustomErrorResponse customError = new CustomErrorResponse(404, e.getMessage(), new Date(System.currentTimeMillis()));
+        return new ResponseEntity<>(customError, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CustomEntityNotFoundException.class)
@@ -50,7 +57,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<CustomErrorResponse> handleSignatureException(BadCredentialsException e) {
-        CustomErrorResponse customError = new CustomErrorResponse(401,e.getMessage(), new Date(System.currentTimeMillis()));
+        log.info("In Bad Credentials exception handler");
+        CustomErrorResponse customError = new CustomErrorResponse(401, "Invalid Email or Password", new Date(System.currentTimeMillis()));
         return new ResponseEntity<>(customError, HttpStatus.UNAUTHORIZED);
     }
 

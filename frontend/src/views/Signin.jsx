@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
+import axios from "axios";
 import animationData2 from "../assets/signin.json";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,6 +28,36 @@ export default function Signin() {
     setShowPassword(!showPassword);
   };
 
+  const validateInputs = () => {
+    const result = {
+      status: true,
+      message: "Success",
+    };
+
+    const isValidEmail = /^[a-zA-Z0-9._%±]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/i.test(
+      email
+    );
+    const isValidPassword =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*()]).{6,}$/.test(
+        password
+      );
+    const isValidRole = role === "SELECT ROLE..." ? false : true;
+
+    if (!isValidEmail) {
+      result.status = false;
+      result.message = "Please enter a valid email";
+    } else if (!isValidPassword) {
+      result.status = false;
+      result.message =
+        "Password must be 6 characters long and combination of uppercase letters, lowercase letters, numbers, special characters";
+    } else if (!isValidRole) {
+      result.status = false;
+      result.message = "Please select a role";
+    }
+
+    return result;
+  };
+
   const handleSignin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -36,53 +67,41 @@ export default function Signin() {
       role,
     };
 
+    const validateResult = validateInputs();
+
+    if (!validateResult.status) {
+      toast.error(`${validateResult.message}`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        type: "error",
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setLoading(false);
+      return;
+    }
+
     try {
       console.log(data);
 
-      const response = await fetch("http://localhost:8080/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/login",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true
+        }
+      );
+      const result = response.data;
 
-      const result = await response.text();
-
-      if (result.status === "success") {
-        localStorage.setItem("token", result);
-
-        toast.success("Login successful", {
-          position: "bottom-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-
-        // redirect to home page
-        // setTimeout(() => {
-        //   navigateTo("/dashboard");
-        // }, 1000);
-      } else {
-        toast.error(`Login failed: ${result.message}`, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-
-      toast.error(`Login failed: ${error.message}`, {
-        position: "top-center",
+      toast.success("Login successful", {
+        position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -90,19 +109,36 @@ export default function Signin() {
         draggable: true,
         progress: undefined,
       });
+
+      // redirect to home page
+      // setTimeout(() => {
+      //   navigateTo("/dashboard");
+      // }, 1000);
+
+      setLoading(false);
+    } catch (error) {
+      toast.error(`Login failed: ${error.response.data.message}`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
       setLoading(false);
     }
   };
 
   return (
-    <div className="h-screen flex item-center">
-      <div className="flex-grow bg-red-50">
+    <div className="h-screen flex item-center justify-center">
+      <div className="hidden lg:block flex-grow bg-red-50">
         <div className="mt-10">
           <Lottie options={defaultOptions1} width={750} height={600} />
         </div>
       </div>
 
-      <div className="border-2"></div>
+      <div className="hidden lg:block border-2"></div>
 
       <div className="py-10 flex items-center px-16">
         <div>
@@ -143,7 +179,6 @@ export default function Signin() {
                     <option>Select Role...</option>
                     <option>User</option>
                     <option>Librarian</option>
-                    <option>Admin</option>
                   </select>
                 </div>
 

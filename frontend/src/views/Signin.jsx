@@ -149,7 +149,7 @@ export default function Signin() {
           </div>
           <hr />
           <div className="mt-4">
-            <form onSubmit={handleSignin} className="w-96">
+            <form onSubmit={handleSignin} className="w-80 lg:w-96">
               <input
                 type="email"
                 placeholder="Email"

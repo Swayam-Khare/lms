@@ -37,28 +37,19 @@ export default function Signin() {
     };
 
     try {
-
       console.log(data);
-      // setLoading(false);
-      // return;
-      
 
-      const response = await fetch(
-        "http://localhost:8080/api/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
       const result = await response.text();
-      console.log(result);
-      return;
+
       if (result.status === "success") {
-        // save token to local storage
-        // localStorage.setItem("user", JSON.stringify(result.user));
         localStorage.setItem("token", result);
 
         toast.success("Login successful", {
@@ -86,10 +77,10 @@ export default function Signin() {
           progress: undefined,
         });
       }
-      
+      setLoading(false);
     } catch (error) {
       console.log(error);
-      
+
       toast.error(`Login failed: ${error.message}`, {
         position: "top-center",
         autoClose: 3000,
@@ -107,11 +98,7 @@ export default function Signin() {
     <div className="h-screen flex item-center">
       <div className="flex-grow bg-red-50">
         <div className="mt-10">
-          <Lottie
-            options={defaultOptions1}
-            width={750}
-            height={600}
-          />
+          <Lottie options={defaultOptions1} width={750} height={600} />
         </div>
       </div>
 
@@ -142,9 +129,7 @@ export default function Signin() {
                   required
                   placeholder="Password"
                   value={password}
-                  onChange={(e) =>
-                    setPassword(e.target.value)
-                  }
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full mt-4 p-2 border-2 border-gray-300 rounded-md"
                 />
 
@@ -153,9 +138,7 @@ export default function Signin() {
                     placeholder="Hello"
                     className="shadow appearance-none border text-lg rounded w-full py-2 px-3 text-gray-500  focus:outline-none focus:shadow-outline"
                     id="subject"
-                    onChange={(e) =>
-                      setRole(e.target.value.toUpperCase())
-                    }
+                    onChange={(e) => setRole(e.target.value.toUpperCase())}
                   >
                     <option>Select Role...</option>
                     <option>User</option>
@@ -211,10 +194,7 @@ export default function Signin() {
 
             <div className="mt-4 text-center">
               Don't have an account?{" "}
-              <a
-                href="/signup"
-                className="text-primary hover:underline"
-              >
+              <a href="/signup" className="text-primary hover:underline">
                 Sign up
               </a>
             </div>

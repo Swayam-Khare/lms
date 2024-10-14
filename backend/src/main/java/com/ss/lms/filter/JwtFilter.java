@@ -1,6 +1,7 @@
 package com.ss.lms.filter;
 
 import com.ss.lms.services.Impl.JWTService;
+import com.ss.lms.services.Impl.MyLibrarianDetailsService;
 import com.ss.lms.services.Impl.MyUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,9 +21,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
+
+    private static final Logger log = Logger.getLogger("JWT Filter");
 
     private final JWTService jwtService;
 
@@ -43,15 +47,25 @@ public class JwtFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
+        String role = null;
 
         try {
             if (authHeader != null && authHeader.startsWith("Bearer")) {
                 token = authHeader.split(" ")[1];
                 username = jwtService.extractUsername(token);
+                role = jwtService.extractRole(token);
+                log.info(role);
             }
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(username);
+
+                UserDetails userDetails = null;
+                if (role.equals("LIBRARIAN")) {
+                    userDetails = context.getBean(MyLibrarianDetailsService.class).loadUserByUsername(username);
+                }
+                else {
+                    userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(username);
+                }
 
                 if (jwtService.validateToken(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken =

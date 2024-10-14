@@ -38,8 +38,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
                 configurer
-                        .requestMatchers(HttpMethod.POST, "/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/register/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/user/").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.GET, "/api/user/**").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/api/user/").hasRole("LIBRARIAN")

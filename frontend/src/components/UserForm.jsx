@@ -1,104 +1,172 @@
-// src/components/UserForm.js
+import React, { useState, useEffect } from "react";
 
-import React from 'react';
+export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    joinDate: "",
+    dueDate: "",
+    address: "",
+    phoneNumbers: [""]
+  });
 
-const UserForm = ({ showModal, onClose, newUser, onChange, onAddUser, addPhoneNumber }) => {
+  useEffect(() => {
+    if (selectedUser) {
+      setUser(selectedUser);
+    } else {
+      resetForm();
+    }
+  }, [selectedUser]);
+
+  const resetForm = () => {
+    setUser({
+      firstName: "",
+      lastName: "",
+      email: "",
+      joinDate: "",
+      dueDate: "",
+      address: "",
+      phoneNumbers: [""]
+    });
+    setSelectedUser(null);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(user);
+    resetForm();
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const handlePhoneChange = (index, value) => {
+    const updatedPhones = [...user.phoneNumbers];
+    updatedPhones[index] = value;
+    setUser({ ...user, phoneNumbers: updatedPhones });
+  };
+
+  const addPhoneField = () => {
+    setUser({ ...user, phoneNumbers: [...user.phoneNumbers, ""] });
+  };
+
+  const removePhoneField = (index) => {
+    const updatedPhones = user.phoneNumbers.filter((_, i) => i !== index);
+    setUser({ ...user, phoneNumbers: updatedPhones });
+  };
+
   return (
-    showModal && (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-6 rounded shadow-lg">
-          <h2 className="text-xl font-bold mb-4">Add New User</h2>
-          <input
-            type="text"
-            name="firstName"
-            placeholder="First Name"
-            value={newUser.firstName}
-            onChange={onChange}
-            className="border rounded w-full mb-2 p-2"
+    <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block font-medium text-gray-700">First Name</label>
+          <input 
+            type="text" 
+            name="firstName" 
+            value={user.firstName} 
+            onChange={handleInputChange} 
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
           />
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Last Name"
-            value={newUser.lastName}
-            onChange={onChange}
-            className="border rounded w-full mb-2 p-2"
+        </div>
+        <div>
+          <label className="block font-medium text-gray-700">Last Name</label>
+          <input 
+            type="text" 
+            name="lastName" 
+            value={user.lastName} 
+            onChange={handleInputChange} 
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
           />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={newUser.email}
-            onChange={onChange}
-            className="border rounded w-full mb-2 p-2"
+        </div>
+        <div>
+          <label className="block font-medium text-gray-700">Email</label>
+          <input 
+            type="email" 
+            name="email" 
+            value={user.email} 
+            onChange={handleInputChange} 
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={newUser.password}
-            onChange={onChange}
-            className="border rounded w-full mb-2 p-2"
+        </div>
+        <div>
+          <label className="block font-medium text-gray-700">Join Date</label>
+          <input 
+            type="date" 
+            name="joinDate" 
+            value={user.joinDate} 
+            onChange={handleInputChange} 
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
           />
-          <input
-            type="date"
-            name="joinDate"
-            placeholder="Join Date"
-            value={newUser.joinDate}
-            onChange={onChange}
-            className="border rounded w-full mb-2 p-2"
+        </div>
+        <div>
+          <label className="block font-medium text-gray-700">Due Date</label>
+          <input 
+            type="date" 
+            name="dueDate" 
+            value={user.dueDate} 
+            onChange={handleInputChange} 
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
           />
-          <input
-            type="date"
-            name="dueDate"
-            placeholder="Due Date"
-            value={newUser.dueDate}
-            onChange={onChange}
-            className="border rounded w-full mb-2 p-2"
+        </div>
+        <div>
+          <label className="block font-medium text-gray-700">Address</label>
+          <input 
+            type="text" 
+            name="address" 
+            value={user.address} 
+            onChange={handleInputChange} 
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
           />
-          <input
-            type="text"
-            name="address"
-            placeholder="Address"
-            value={newUser.address}
-            onChange={onChange}
-            className="border rounded w-full mb-2 p-2"
-          />
-          <h3 className="font-bold">Phone Numbers:</h3>
-          {newUser.phoneNumbers.map((phone, index) => (
-            <input
-              key={index}
-              type="text"
-              placeholder={`Phone Number ${index + 1}`}
-              value={phone}
-              onChange={(e) => onChange({ target: { name: `phoneNumbers[${index}]`, value: e.target.value } })}
-              className="border rounded w-full mb-2 p-2"
-            />
-          ))}
-          <button 
-            onClick={addPhoneNumber} 
-            className="bg-blue-500 text-white px-4 py-1 rounded mb-2"
-          >
-            Add Another Phone Number
-          </button>
-          <div className="flex justify-between mt-4">
-            <button 
-              onClick={onAddUser} 
-              className="bg-[#00684a] text-white px-4 py-2 rounded"
-            >
-              Submit
-            </button>
-            <button 
-              onClick={onClose} 
-              className="bg-red-500 text-white px-4 py-2 rounded"
-            >
-              Cancel
-            </button>
-          </div>
         </div>
       </div>
-    )
-  );
-};
 
-export default UserForm;
+      <div className="mt-4">
+        <label className="block font-medium text-gray-700">Phone Numbers</label>
+        {user.phoneNumbers.map((phone, index) => (
+          <div key={index} className="flex items-center mt-1">
+            <input 
+              type="text" 
+              value={phone} 
+              onChange={(e) => handlePhoneChange(index, e.target.value)} 
+              className="block w-full p-2 border border-gray-300 rounded-md mr-2"
+            />
+            {index > 0 && (
+              <button 
+                type="button" 
+                onClick={() => removePhoneField(index)} 
+                className="text-red-500 hover:text-red-700"
+              >
+                Remove
+              </button>
+            )}
+          </div>
+        ))}
+        <button 
+          type="button" 
+          onClick={addPhoneField} 
+          className="mt-2 text-green-600 hover:text-green-800"
+        >
+          + Add Phone
+        </button>
+      </div>
+
+      <div className="mt-6">
+        <button 
+          type="submit" 
+          className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-600 transition"
+        >
+          {selectedUser ? "Update User" : "Add User"}
+        </button>
+      </div>
+    </form>
+  );
+}

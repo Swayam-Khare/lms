@@ -1,118 +1,81 @@
-// src/views/ViewUsers.js
+import React, { useState, useEffect } from "react";
+import Footer from "../components/Footer"; // Adjust path as necessary
+import Fab from "../components/Fab"; // Floating Action Button for 'Add User'
+import UserForm from "../components/UserForm";
+import UserList from "../components/UserList";
 
-import { useEffect, useState } from "react";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
-import Footer from "../components/Footer"; // Adjust the path as necessary
-import UserList from "../components/UserList"; // Import UserList
-import UserForm from "../components/UserForm"; // Import UserForm
-
-const ViewUsers = () => {
-  const [loading, setLoading] = useState(true);
+export default function ViewUsers() {
   const [users, setUsers] = useState([]);
-  const [showModal, setShowModal] = useState(false); // For the add user modal
-  const [newUser, setNewUser] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    joinDate: '',
-    dueDate: '',
-    address: '',
-    phoneNumbers: [''], // Start with one phone number field
-  });
+  const [selectedUser, setSelectedUser] = useState(null); // For editing a user
 
   useEffect(() => {
-    const fetchUsers = () => {
-      // Dummy user data
-      const dummyUsers = [
-        {
-          id: 1,
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'john.doe@example.com',
-          password: 'password123',
-          joinDate: '2022-01-15',
-          dueDate: '2023-01-15',
-          address: '123 Elm Street, Springfield',
-          phoneNumbers: ['123-456-7890', '987-654-3210'],
-        },
-        {
-          id: 2,
-          firstName: 'Jane',
-          lastName: 'Smith',
-          email: 'jane.smith@example.com',
-          password: 'password123',
-          joinDate: '2021-06-20',
-          dueDate: '2023-06-20',
-          address: '456 Oak Avenue, Springfield',
-          phoneNumbers: ['234-567-8901'],
-        },
-        {
-          id: 3,
-          firstName: 'Alice',
-          lastName: 'Johnson',
-          email: 'alice.johnson@example.com',
-          password: 'password123',
-          joinDate: '2020-11-11',
-          dueDate: '2022-11-11',
-          address: '789 Maple Road, Springfield',
-          phoneNumbers: ['345-678-9012', '321-654-9870'],
-        },
-      ];
+    // Dummy user data
+    const dummyUsers = [
+      {
+        id: 1,
+        firstName: "John",
+        lastName: "Doe",
+        email: "johndoe@example.com",
+        joinDate: "2023-01-15",
+        dueDate: "2023-12-15",
+        address: "1234 Elm Street",
+        phoneNumbers: ["123-456-7890", "987-654-3210"]
+      },
+      {
+        id: 2,
+        firstName: "Jane",
+        lastName: "Smith",
+        email: "janesmith@example.com",
+        joinDate: "2022-03-22",
+        dueDate: "2023-03-22",
+        address: "5678 Oak Street",
+        phoneNumbers: ["555-555-5555"]
+      }
+    ];
 
-      setUsers(dummyUsers);
-      setLoading(false);
-    };
-
-    fetchUsers();
+    setUsers(dummyUsers);
   }, []);
 
-  const handleDelete = (id) => {
+  const handleAddOrUpdateUser = (user) => {
+    if (selectedUser) {
+      setUsers(users.map(u => (u.id === selectedUser.id ? user : u)));
+    } else {
+      setUsers([...users, { ...user, id: users.length + 1 }]); // Add new user with a dummy ID
+    }
+    setSelectedUser(null);
+  };
+
+  const handleDeleteUser = (id) => {
     setUsers(users.filter(user => user.id !== id));
   };
 
-  const handleUpdate = (user) => {
-    setNewUser(user);
-    setShowModal(true);
-  };
-
-  const handleAddUser = () => {
-    const updatedUsers = [...users, { ...newUser, id: users.length + 1 }];
-    setUsers(updatedUsers);
-    setShowModal(false);
-    resetForm();
-  };
-
-  const resetForm = () => {
-    setNewUser({
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      joinDate: '',
-      dueDate: '',
-      address: '',
-      phoneNumbers: [''],
-    });
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewUser((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const addPhoneNumber = () => {
-    setNewUser((prev) => ({
-      ...prev,
-      phoneNumbers: [...prev.phoneNumbers, ''],
-    }));
-  };
-
   return (
+    <>
+    <div className="bg-gray-100 min-h-screen p-6 relative">
+      {/* Background Art */}
+      <div className="absolute inset-0 bg-fixed bg-no-repeat bg-cover opacity-10" style={{ backgroundImage: 'url("/path-to-your-background-image.jpg")' }}></div>
+
+      <div className="relative max-w-7xl mx-auto bg-white bg-opacity-80 backdrop-blur-md shadow-lg rounded-lg p-8">
+        <h1 className="text-4xl font-bold text-green-700 mb-6 text-center">View Users</h1>
+        
+        <UserForm 
+          onSubmit={handleAddOrUpdateUser} 
+          selectedUser={selectedUser} 
+          setSelectedUser={setSelectedUser} 
+        />
+
+        <UserList 
+          users={users} 
+          onEdit={setSelectedUser} 
+          onDelete={handleDeleteUser} 
+        />
+
+        
+        
+      </div>
+    </div>
+    <Footer />
+    </>
     <>
       <div className="p-6">
         <button
@@ -144,6 +107,4 @@ const ViewUsers = () => {
       <Footer />
     </>
   );
-};
-
-export default ViewUsers;
+}

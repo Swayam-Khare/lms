@@ -111,9 +111,9 @@ export default function Signin() {
       });
 
       // redirect to home page
-      // setTimeout(() => {
-      //   navigateTo("/dashboard");
-      // }, 1000);
+      setTimeout(() => {
+        navigateTo("/viewUsers");
+      }, 1000);
 
       setLoading(false);
     } catch (error) {

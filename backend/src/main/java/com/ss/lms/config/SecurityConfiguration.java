@@ -50,7 +50,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/api/user/").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.GET, "/api/user/**").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/api/user/").hasRole("LIBRARIAN")
-                        .requestMatchers(HttpMethod.PUT, "/api/user/").hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT, "/api/user/").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("LIBRARIAN")
         )
         .sessionManagement(session ->

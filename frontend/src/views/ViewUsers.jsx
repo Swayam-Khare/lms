@@ -4,67 +4,84 @@ import axios from "axios";
 import getToken from "../utils/cookieUtils";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ViewUsers() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null); // For editing a user
 
-  useEffect(() => {
-    // Dummy user data
-    const dummyUsers = [
-      {
-        id: 1,
-        firstName: "John",
-        lastName: "Doe",
-        email: "johndoe@example.com",
-        joinDate: "2023-01-15",
-        dueDate: "2023-12-15",
-        address: {
-          lane1: "1234 Elm Street",
-          lane2: "Apt 12B",
-          city: "Some City",
-          state: "Some State",
-          country: "Some Country",
-          pincode: 123456,
-        },
-        phoneNumbers: ["123-456-7890", "987-654-3210"],
-      },
-      {
-        id: 2,
-        firstName: "Jane",
-        lastName: "Smith",
-        email: "janesmith@example.com",
-        joinDate: "2022-03-22",
-        dueDate: "2023-03-22",
-        address: {
-          lane1: "5678 Oak Street",
-          lane2: "",
-          city: "Another City",
-          state: "Another State",
-          country: "Another Country",
-          pincode: 654321,
-        },
-        phoneNumbers: ["555-555-5555"],
-      },
-    ];
+  async function updateUser() {
+    try {
 
-    setUsers(dummyUsers);
+      const result = await axios.put('http://localhost:8080/api/user/',
+        selectedUser,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getToken()
+          },
+          withCredentials: true
+        }
+      )
+      console.log(result);
+
+      toast.success("User Updated", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setTimeout(() => {
+        navigateTo("/viewUsers");
+      }, 1000);
+
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function fetchUsers() {
+    try {
+      const response = await axios.get("http://localhost:8080/api/user/", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + getToken(),
+        },
+        withCredentials: true,
+      });
+      const result = response.data;
+
+      console.log(result);
+
+      setUsers([...result]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchUsers();
   }, []);
 
-  const handleAddOrUpdateUser = (user) => {
+  const handleAddOrUpdateUser = async (user) => {
     if (selectedUser) {
       // Update existing user
-      setUsers(
-        users.map((u) =>
-          u.id === selectedUser.id ? { ...user, id: selectedUser.id } : u
-        )
-      );
+      console.log(selectedUser);
+      await updateUser();
+
     } else {
       // Add new user with a unique ID
       const newUser = { ...user, id: users.length + 1 };
       setUsers([...users, newUser]);
     }
     setSelectedUser(null);
+    fetchUsers();
   };
 
   const handleDeleteUser = (id) => {
@@ -98,6 +115,7 @@ export default function ViewUsers() {
             onDelete={handleDeleteUser}
           />
         </div>
+        <ToastContainer />
       </div>
 
       <Footer />

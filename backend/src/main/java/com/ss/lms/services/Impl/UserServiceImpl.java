@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -82,6 +83,8 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
+        log.info(userDTO.toString());
+
         user.setFirstName(userDTO.getFirstName() == null ? user.getFirstName() : userDTO.getFirstName());
         user.setLastName(userDTO.getLastName() == null ? user.getLastName() : userDTO.getLastName());
         user.setEmail(userDTO.getEmail() == null ? user.getEmail() : userDTO.getEmail());
@@ -98,13 +101,13 @@ public class UserServiceImpl implements UserService {
         user.setIssueRecord(
                 userDTO.getIssueRecord() == null ?
                         user.getIssueRecord() :
-                        userDTO.getIssueRecord().stream().map(issueRecordMapper::toEntity).toList()
+                        userDTO.getIssueRecord().stream().map(issueRecordMapper::toEntity).collect(Collectors.toList())
         );
 
         user.setPhoneNumber(
                 userDTO.getPhoneNumber() == null ?
                         user.getPhoneNumber() :
-                        userDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).toList()
+                        userDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).collect(Collectors.toList())
         );
 
 

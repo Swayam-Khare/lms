@@ -7,7 +7,14 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
     email: "",
     joinDate: "",
     dueDate: "",
-    address: "",
+    address: {
+      lane1: "",
+      lane2: "",
+      city: "",
+      state: "",
+      country: "",
+      pincode: ""
+    },
     phoneNumbers: [""]
   });
 
@@ -26,7 +33,14 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
       email: "",
       joinDate: "",
       dueDate: "",
-      address: "",
+      address: {
+        lane1: "",
+        lane2: "",
+        city: "",
+        state: "",
+        country: "",
+        pincode: ""
+      },
       phoneNumbers: [""]
     });
     setSelectedUser(null);
@@ -41,6 +55,11 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
+  };
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, address: { ...user.address, [name]: value } });
   };
 
   const handlePhoneChange = (index, value) => {
@@ -117,12 +136,66 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
           />
         </div>
         <div>
-          <label className="block font-medium text-gray-700">Address</label>
+          <label className="block font-medium text-gray-700">Address Lane 1</label>
           <input 
             type="text" 
-            name="address" 
-            value={user.address} 
-            onChange={handleInputChange} 
+            name="lane1" 
+            value={user.address.lane1} 
+            onChange={handleAddressChange} 
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+        <div>
+          <label className="block font-medium text-gray-700">Address Lane 2</label>
+          <input 
+            type="text" 
+            name="lane2" 
+            value={user.address.lane2} 
+            onChange={handleAddressChange} 
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+          />
+        </div>
+        <div>
+          <label className="block font-medium text-gray-700">City</label>
+          <input 
+            type="text" 
+            name="city" 
+            value={user.address.city} 
+            onChange={handleAddressChange} 
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+        <div>
+          <label className="block font-medium text-gray-700">State</label>
+          <input 
+            type="text" 
+            name="state" 
+            value={user.address.state} 
+            onChange={handleAddressChange} 
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+        <div>
+          <label className="block font-medium text-gray-700">Country</label>
+          <input 
+            type="text" 
+            name="country" 
+            value={user.address.country} 
+            onChange={handleAddressChange} 
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+        <div>
+          <label className="block font-medium text-gray-700">Pincode</label>
+          <input 
+            type="number" 
+            name="pincode" 
+            value={user.address.pincode} 
+            onChange={handleAddressChange} 
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             required
           />

@@ -74,8 +74,10 @@ export default function Signup() {
       
       setLoading(false);
     } catch (error) {
-      toast.error(`Signup failed: ${error.message}`, {
-        position: 'top-center',
+      console.log(error.response.data.errors);
+      
+      toast.error(`Signup failed: ${error.response.data.errors}`, {
+        position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,

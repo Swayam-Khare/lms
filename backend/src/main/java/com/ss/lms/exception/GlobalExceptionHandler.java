@@ -88,7 +88,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CustomErrorResponse> handleException(Exception e) {
-        log.warning("error: " + e);
+        log.warning("error: " + e.getMessage());
+        e.printStackTrace();
 
         CustomErrorResponse customError = new CustomErrorResponse(500,e.getMessage(), new Date(System.currentTimeMillis()));
         return new ResponseEntity<>(customError, HttpStatus.INTERNAL_SERVER_ERROR);

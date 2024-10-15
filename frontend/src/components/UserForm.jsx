@@ -15,7 +15,7 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
       country: "",
       pincode: ""
     },
-    phoneNumbers: [""]
+    phoneNumber: []
   });
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
         country: "",
         pincode: ""
       },
-      phoneNumbers: [""]
+      phoneNumber: []
     });
     setSelectedUser(null);
   };
@@ -54,27 +54,27 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setSelectedUser({ ...user, [name]: value });
   };
 
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
-    setUser({ ...user, address: { ...user.address, [name]: value } });
+    setSelectedUser({ ...user, address: { ...user.address, [name]: value } });
   };
 
   const handlePhoneChange = (index, value) => {
-    const updatedPhones = [...user.phoneNumbers];
-    updatedPhones[index] = value;
-    setUser({ ...user, phoneNumbers: updatedPhones });
+    const updatedPhones = [...user.phoneNumber];
+    updatedPhones[index] = {number: value};
+    setSelectedUser({ ...user, phoneNumber: updatedPhones });
   };
 
   const addPhoneField = () => {
-    setUser({ ...user, phoneNumbers: [...user.phoneNumbers, ""] });
+    setSelectedUser({ ...user, phoneNumber: [...user.phoneNumber, {number: ""}] });
   };
 
   const removePhoneField = (index) => {
-    const updatedPhones = user.phoneNumbers.filter((_, i) => i !== index);
-    setUser({ ...user, phoneNumbers: updatedPhones });
+    const updatedPhones = user.phoneNumber.filter((_, i) => i !== index);
+    setSelectedUser({ ...user, phoneNumber: updatedPhones });
   };
 
   return (
@@ -140,7 +140,7 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
           <input 
             type="text" 
             name="lane1" 
-            value={user.address.lane1} 
+            value={user.address?.lane1} 
             onChange={handleAddressChange} 
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             required
@@ -151,7 +151,7 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
           <input 
             type="text" 
             name="lane2" 
-            value={user.address.lane2} 
+            value={user.address?.lane2} 
             onChange={handleAddressChange} 
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
           />
@@ -161,7 +161,7 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
           <input 
             type="text" 
             name="city" 
-            value={user.address.city} 
+            value={user.address?.city} 
             onChange={handleAddressChange} 
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             required
@@ -172,7 +172,7 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
           <input 
             type="text" 
             name="state" 
-            value={user.address.state} 
+            value={user.address?.state} 
             onChange={handleAddressChange} 
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             required
@@ -183,7 +183,7 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
           <input 
             type="text" 
             name="country" 
-            value={user.address.country} 
+            value={user.address?.country} 
             onChange={handleAddressChange} 
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             required
@@ -194,7 +194,7 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
           <input 
             type="number" 
             name="pincode" 
-            value={user.address.pincode} 
+            value={user.address?.pincode} 
             onChange={handleAddressChange} 
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             required
@@ -204,11 +204,11 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
 
       <div className="mt-4">
         <label className="block font-medium text-gray-700">Phone Numbers</label>
-        {user.phoneNumbers.map((phone, index) => (
+        {user.phoneNumber.map((phone, index) => (
           <div key={index} className="flex items-center mt-1">
             <input 
               type="text" 
-              value={phone} 
+              value={phone.number} 
               onChange={(e) => handlePhoneChange(index, e.target.value)} 
               className="block w-full p-2 border border-gray-300 rounded-md mr-2"
             />

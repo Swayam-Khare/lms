@@ -24,7 +24,13 @@ export default function UserList({ users, onEdit, onDelete }) {
               <td className="py-3 px-4">{user.email}</td>
               <td className="py-3 px-4">{user.joinDate}</td>
               <td className="py-3 px-4">{user.dueDate}</td>
-              <td className="py-3 px-4">{user.address}</td>
+              <td className="py-3 px-4">
+                <div>{user.address.lane1}</div>
+                <div>{user.address.lane2}</div>
+                <div>{user.address.city}, {user.address.state}</div>
+                <div>{user.address.country}</div>
+                <div>{user.address.pincode}</div>
+              </td>
               <td className="py-3 px-4">
                 {user.phoneNumbers.join(', ')}
               </td>

@@ -18,7 +18,14 @@ export default function ViewUsers() {
         email: "johndoe@example.com",
         joinDate: "2023-01-15",
         dueDate: "2023-12-15",
-        address: "1234 Elm Street",
+        address: {
+          lane1: "1234 Elm Street",
+          lane2: "Apt 12B",
+          city: "Some City",
+          state: "Some State",
+          country: "Some Country",
+          pincode: 123456
+        },
         phoneNumbers: ["123-456-7890", "987-654-3210"]
       },
       {
@@ -28,7 +35,14 @@ export default function ViewUsers() {
         email: "janesmith@example.com",
         joinDate: "2022-03-22",
         dueDate: "2023-03-22",
-        address: "5678 Oak Street",
+        address: {
+          lane1: "5678 Oak Street",
+          lane2: "",
+          city: "Another City",
+          state: "Another State",
+          country: "Another Country",
+          pincode: 654321
+        },
         phoneNumbers: ["555-555-5555"]
       }
     ];
@@ -38,9 +52,12 @@ export default function ViewUsers() {
 
   const handleAddOrUpdateUser = (user) => {
     if (selectedUser) {
-      setUsers(users.map(u => (u.id === selectedUser.id ? user : u)));
+      // Update existing user
+      setUsers(users.map(u => (u.id === selectedUser.id ? { ...user, id: selectedUser.id } : u)));
     } else {
-      setUsers([...users, { ...user, id: users.length + 1 }]); // Add new user with a dummy ID
+      // Add new user with a unique ID
+      const newUser = { ...user, id: users.length + 1 };
+      setUsers([...users, newUser]);
     }
     setSelectedUser(null);
   };
@@ -51,30 +68,29 @@ export default function ViewUsers() {
 
   return (
     <>
-    <div className="bg-gray-100 min-h-screen p-6 relative">
-      {/* Background Art */}
-      <div className="absolute inset-0 bg-fixed bg-no-repeat bg-cover opacity-10" style={{ backgroundImage: 'url("/path-to-your-background-image.jpg")' }}></div>
+      <div className="bg-gray-100 min-h-screen p-6 relative">
+        {/* Background Art */}
+        <div className="absolute inset-0 bg-fixed bg-no-repeat bg-cover opacity-10" style={{ backgroundImage: 'url("/path-to-your-background-image.jpg")' }}></div>
 
-      <div className="relative max-w-7xl mx-auto bg-white bg-opacity-80 backdrop-blur-md shadow-lg rounded-lg p-8">
-        <h1 className="text-4xl font-bold text-green-700 mb-6 text-center">View Users</h1>
-        
-        <UserForm 
-          onSubmit={handleAddOrUpdateUser} 
-          selectedUser={selectedUser} 
-          setSelectedUser={setSelectedUser} 
-        />
+        <div className="relative max-w-7xl mx-auto bg-white bg-opacity-80 backdrop-blur-md shadow-lg rounded-lg p-8">
+          <h1 className="text-4xl font-bold text-green-700 mb-6 text-center">View Users</h1>
+          
+          <UserForm 
+            onSubmit={handleAddOrUpdateUser} 
+            selectedUser={selectedUser} 
+            setSelectedUser={setSelectedUser} 
+          />
 
-        <UserList 
-          users={users} 
-          onEdit={setSelectedUser} 
-          onDelete={handleDeleteUser} 
-        />
+          <UserList 
+            users={users} 
+            onEdit={setSelectedUser} 
+            onDelete={handleDeleteUser} 
+          />
 
-        
-        
+          <Fab /> {/* Assuming this is your Floating Action Button for adding users */}
+        </div>
       </div>
-    </div>
-    <Footer />
+      <Footer />
     </>
   );
 }

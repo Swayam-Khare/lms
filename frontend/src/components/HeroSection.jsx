@@ -27,7 +27,7 @@ export default function HeroSection() {
           Welcome <br />
           to{" "}
           <ReactTyped
-            strings={["Edify!", "Success!", "Growth!"]}
+            strings={["Knowledge!", "Success!", "Growth!"]}
             typeSpeed={130}
             loop
             backSpeed={30}

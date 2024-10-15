@@ -5,6 +5,7 @@ import Signin from './views/Signin';
 import Signup from './views/Signup';
 import ViewBooks from './views/ViewBooks';
 import ViewUsers from './views/ViewUsers';
+import ViewIssueRecords from './views/ViewIssueRecords'; 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -35,7 +36,11 @@ const router = createBrowserRouter([
   {
     path: "/viewUsers", // Add route for ViewUsers
     element: <ViewUsers />,
-},
+  },  
+  {
+    path: "/viewIssueRecords", // Add the new route for issue records
+    element: <ViewIssueRecords />,
+  },
 ]);
 
 function App() {

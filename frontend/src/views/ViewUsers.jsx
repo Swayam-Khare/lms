@@ -113,34 +113,36 @@ const ViewUsers = () => {
   };
 
   return (
-    <div className="p-6">
-      <button 
-        onClick={() => setShowModal(true)} 
-        className="bg-[#00684a] text-white px-4 py-2 rounded mb-4"
-      >
-        Add User
-      </button>
-      {loading ? (
-        <Skeleton height={400} count={5} />
-      ) : (
-        <>
-          <UserList 
-            users={users} 
-            onDelete={handleDelete} 
-            onUpdate={handleUpdate} 
-          />
-          <Footer />
-          <UserForm 
-            showModal={showModal} 
-            onClose={() => setShowModal(false)} 
-            newUser={newUser} 
-            onChange={handleChange} 
-            onAddUser={handleAddUser} 
-            addPhoneNumber={addPhoneNumber} 
-          />
-        </>
-      )}
-    </div>
+    <>
+      <div className="p-6">
+        <button
+          onClick={() => setShowModal(true)}
+          className="bg-[#00684a] text-white px-4 py-2 rounded mb-4"
+        >
+          Add User
+        </button>
+        {loading ? (
+          <Skeleton height={400} count={5} />
+        ) : (
+          <>
+            <UserList
+              users={users}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+            />
+            <UserForm
+              showModal={showModal}
+              onClose={() => setShowModal(false)}
+              newUser={newUser}
+              onChange={handleChange}
+              onAddUser={handleAddUser}
+              addPhoneNumber={addPhoneNumber}
+            />
+          </>
+        )}
+      </div>
+      <Footer />
+    </>
   );
 };
 

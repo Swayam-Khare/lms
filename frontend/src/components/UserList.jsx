@@ -11,8 +11,6 @@ export default function UserList({ users, onEdit, onDelete }) {
             <th className="py-3 px-4 text-left text-sm font-medium">Email</th>
             <th className="py-3 px-4 text-left text-sm font-medium">Join Date</th>
             <th className="py-3 px-4 text-left text-sm font-medium">Due Date</th>
-            <th className="py-3 px-4 text-left text-sm font-medium">Address</th>
-            <th className="py-3 px-4 text-left text-sm font-medium">Phone Numbers</th>
             <th className="py-3 px-4 text-left text-sm font-medium">Actions</th>
           </tr>
         </thead>
@@ -24,10 +22,6 @@ export default function UserList({ users, onEdit, onDelete }) {
               <td className="py-3 px-4">{user.email}</td>
               <td className="py-3 px-4">{user.joinDate}</td>
               <td className="py-3 px-4">{user.dueDate}</td>
-              <td className="py-3 px-4">{user.address}</td>
-              <td className="py-3 px-4">
-                {user.phoneNumbers.join(', ')}
-              </td>
               <td className="py-3 px-4 flex space-x-2">
                 <button 
                   onClick={() => onEdit(user)} 

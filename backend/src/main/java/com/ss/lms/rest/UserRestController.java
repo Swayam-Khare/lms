@@ -30,8 +30,14 @@ public class UserRestController {
         return userService.getById(id);
     }
 
+    @GetMapping("/me")
+    public UserDTO getSelfDetails() {
+        return userService.getSelfDetails();
+    }
+
     @PostMapping("/")
-    public UserDTO create(@Valid @RequestBody UserDTO userDTO) {
+    public UserDTO create(@RequestBody UserDTO userDTO) {
+        userDTO.setPassword(userDTO.getEmail());
         return userService.create(userDTO);
     }
 

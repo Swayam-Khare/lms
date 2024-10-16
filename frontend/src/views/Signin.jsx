@@ -95,10 +95,12 @@ export default function Signin() {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true
+          withCredentials: true,
         }
       );
       const result = response.data;
+      console.log(result);
+      
 
       toast.success("Login successful", {
         position: "bottom-center",
@@ -117,15 +119,29 @@ export default function Signin() {
 
       setLoading(false);
     } catch (error) {
-      toast.error(`Login failed: ${error.response.data.message}`, {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-      });
+      if (error.response) {
+        toast.error(`Login failed: ${error.response.data.message}`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+      }
+      else {
+        toast.error(`Login failed: Network Error`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+      }
+
       setLoading(false);
     }
   };

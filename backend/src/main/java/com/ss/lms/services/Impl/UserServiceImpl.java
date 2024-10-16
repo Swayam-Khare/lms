@@ -8,6 +8,8 @@ import com.ss.lms.mapper.PhoneNumberMapper;
 import com.ss.lms.mapper.UserMapper;
 import com.ss.lms.repository.UserRepository;
 import com.ss.lms.services.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +61,15 @@ public class UserServiceImpl implements UserService {
         "No user found with id: " + id
         ));
 
+        userDTO.setPassword(null);
+        return userDTO;
+    }
+
+    @Override
+    public UserDTO getSelfDetails() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findUserByEmail(userDetails.getUsername());
+        UserDTO userDTO = userMapper.toDTO(user);
         userDTO.setPassword(null);
         return userDTO;
     }

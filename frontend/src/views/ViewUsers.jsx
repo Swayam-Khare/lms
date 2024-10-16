@@ -1,29 +1,81 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer"; // Adjust path as necessary
 import axios from "axios";
-import getToken from "../utils/cookieUtils";
+import { getToken } from "../utils/cookieUtils";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 export default function ViewUsers() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null); // For editing a user
 
+  const navigateTo = useNavigate();
+
+  async function addUser(user) {
+    try {
+      const result = await axios.post("http://localhost:8080/api/user/", user, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + getToken(),
+        },
+        withCredentials: true,
+      });
+
+      console.log(result);
+
+      toast.success("User Added", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+    } catch (error) {
+      console.log(error);
+
+      if (error.response) {
+        toast.error(`Add User failed: ${error.response.data.message}`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+      } else {
+        toast.error(`Add User failed: Network Error`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+      }
+    }
+  }
+
   async function updateUser() {
     try {
-
-      const result = await axios.put('http://localhost:8080/api/user/',
+      const result = await axios.put(
+        "http://localhost:8080/api/user/",
         selectedUser,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + getToken()
+            Authorization: "Bearer " + getToken(),
           },
-          withCredentials: true
+          withCredentials: true,
         }
-      )
+      );
       console.log(result);
 
       toast.success("User Updated", {
@@ -39,10 +91,29 @@ export default function ViewUsers() {
       setTimeout(() => {
         navigateTo("/viewUsers");
       }, 1000);
-
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
+      if (error.response) {
+        toast.error(`Update failed: ${error.response.data.message}`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+      } else {
+        toast.error(`Update failed: Network Error`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+      }
     }
   }
 
@@ -70,22 +141,67 @@ export default function ViewUsers() {
   }, []);
 
   const handleAddOrUpdateUser = async (user) => {
-    if (selectedUser) {
+    if (selectedUser.id) {
       // Update existing user
       console.log(selectedUser);
       await updateUser();
-
     } else {
       // Add new user with a unique ID
-      const newUser = { ...user, id: users.length + 1 };
-      setUsers([...users, newUser]);
+      console.log("Add user ", user);
+
+      await addUser(user);
     }
     setSelectedUser(null);
     fetchUsers();
   };
 
-  const handleDeleteUser = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
+  const handleDeleteUser = async (id) => {
+    try{
+      const result = await axios.delete('http://localhost:8080/api/user/' + id,
+        {
+          headers: {
+            Authorization: "Bearer " + getToken()
+          },
+          withCredentials: true
+        }
+      );
+
+      console.log(result);
+      toast.success("User Deleted", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      await fetchUsers();
+
+    }
+    catch(error) {
+      console.log(error);
+      if (error.response) {
+        if (error.response.data.message.startsWith("JWT expired")) {
+          
+          toast.error(`Login time expired. Please Login Again`, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
+          
+          setTimeout(() => {
+            navigateTo("/signin");
+          }, 2000);
+
+        }
+      }
+    }
   };
 
   return (

@@ -48,7 +48,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/auth/register/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/user/").hasRole("LIBRARIAN")
-                        .requestMatchers(HttpMethod.GET, "/api/user/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/api/user/**").hasAnyAuthority("ROLE_LIBRARIAN", "ROLE_USER")
                         .requestMatchers(HttpMethod.POST, "/api/user/").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.PUT, "/api/user/").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("LIBRARIAN")

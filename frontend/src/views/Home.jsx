@@ -1,23 +1,48 @@
+import axios from "axios"
 import AboutSection from "../components/AboutSection"
 import Fab from "../components/Fab"
 import Footer from "../components/Footer"
 import HeroSection from "../components/HeroSection"
 import Navbar from "../components/Navbar"
 import NavbarAlt from "../components/NavbarAlt"
-import { Link } from "react-router-dom"; // Import Link for navigation
-import TeamSection from "../components/TeamSection"
 import { useEffect, useState } from "react"
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
+import {getToken} from "../utils/cookieUtils"
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [isTop, setIsTop] = useState(true);
   const [user, setUser] = useState(null);
 
+  async function fetchUser() {
+    try {
+      const response = await axios.get("http://localhost:8080/api/user/me",
+        {
+          headers: {
+            Authorization: "Bearer " + getToken()
+          },
+          withCredentials: true
+        }
+      );
+
+      if (response.data) {
+        setUser(response.data)
+      }
+      else {
+        setUser(null);
+      }
+
+    }
+    catch(error) {
+      console.log(error);
+      setUser(null);
+    }
+  }
+
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    setUser(user);
+
+    fetchUser();
 
     const checkScroll = () => {
       setIsTop(window.scrollY < 50);

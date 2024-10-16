@@ -1,9 +1,9 @@
-
+import { deleteCookie } from "../utils/cookieUtils";
 
 export default function ProfileMenu({ user, onClick }) {
 
   function logout() {
-    localStorage.removeItem('user');
+    deleteCookie();
     onClick('');
     window.location.reload();
   }

@@ -232,12 +232,19 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
         </button>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 flex space-x-4">
         <button 
           type="submit" 
           className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-600 transition"
         >
           {selectedUser ? "Update User" : "Add User"}
+        </button>
+        <button 
+          type="button" 
+          onClick={resetForm} 
+          className="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-400 transition"
+        >
+          Reset
         </button>
       </div>
     </form>

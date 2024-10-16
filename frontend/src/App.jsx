@@ -9,6 +9,7 @@ import ViewIssueRecords from './views/ViewIssueRecords';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyAccount from './views/MyAccount';
 import ChangePassword from './views/ChangePassword';
+import UserDashboard from './views/UserDashboard';
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/changePassword", // Add the new route for issue records
     element: <ChangePassword/>,
+  },
+  {
+    path: "/userDashboard", // Add the new route for issue records
+    element: <UserDashboard/>,
   },
 ]);
 

@@ -58,9 +58,9 @@ export default function Home() {
             {user ? <NavbarAlt user={user} /> : <Navbar />}
             <HeroSection />
           </section>
-          <section id="about-project" className="h-screen">
+          {/* <section id="about-project" className="h-screen">
             <AboutSection />
-          </section>
+          </section> */}
           {/* <section id="about-team" className="h-screen">
             <TeamSection />
           </section> */}

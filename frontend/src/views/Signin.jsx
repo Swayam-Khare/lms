@@ -11,7 +11,7 @@ export default function Signin() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("SELECT ROLE...");
 
   const navigateTo = useNavigate();
 
@@ -172,7 +172,7 @@ export default function Signin() {
                 required
                 className="w-full mt-4 p-2 border-2 border-gray-300 rounded-md"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.toLowerCase())}
               />
 
               <div className="relative">

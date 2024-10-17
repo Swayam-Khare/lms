@@ -37,7 +37,7 @@ public class UserRestController {
 
     @PostMapping("/")
     public UserDTO create(@RequestBody UserDTO userDTO) {
-        userDTO.setPassword(userDTO.getEmail());
+        userDTO.setPassword(userDTO.getEmail() + "LMS123");
         return userService.create(userDTO);
     }
 

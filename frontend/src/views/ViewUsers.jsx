@@ -4,6 +4,8 @@ import axios from "axios";
 import { getToken } from "../utils/cookieUtils";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
+import Navbar from "../components/Navbar";
+import NavbarAlt from "../components/NavbarAlt";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 export default function ViewUsers() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null); // For editing a user
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const navigateTo = useNavigate();
 
@@ -35,7 +39,6 @@ export default function ViewUsers() {
         draggable: true,
         progress: undefined,
       });
-
     } catch (error) {
       console.log(error);
 
@@ -117,6 +120,26 @@ export default function ViewUsers() {
     }
   }
 
+  async function fetchUser() {
+    try {
+      const response = await axios.get("http://localhost:8080/api/user/me", {
+        headers: {
+          Authorization: "Bearer " + getToken(),
+        },
+        withCredentials: true,
+      });
+
+      if (response.data) {
+        setUser(response.data);
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      console.log(error);
+      setUser(null);
+    }
+  }
+
   async function fetchUsers() {
     try {
       const response = await axios.get("http://localhost:8080/api/user/", {
@@ -136,8 +159,19 @@ export default function ViewUsers() {
     }
   }
 
+  async function secure() {
+    const token = getToken();
+
+    if (!token) {
+      navigateTo("/");
+    }
+  }
+
   useEffect(() => {
+    secure();
+    fetchUser();
     fetchUsers();
+    setLoading(false);
   }, []);
 
   const handleAddOrUpdateUser = async (user) => {
@@ -156,13 +190,14 @@ export default function ViewUsers() {
   };
 
   const handleDeleteUser = async (id) => {
-    try{
-      const result = await axios.delete('http://localhost:8080/api/user/' + id,
+    try {
+      const result = await axios.delete(
+        "http://localhost:8080/api/user/" + id,
         {
           headers: {
-            Authorization: "Bearer " + getToken()
+            Authorization: "Bearer " + getToken(),
           },
-          withCredentials: true
+          withCredentials: true,
         }
       );
 
@@ -178,13 +213,10 @@ export default function ViewUsers() {
       });
 
       await fetchUsers();
-
-    }
-    catch(error) {
+    } catch (error) {
       console.log(error);
       if (error.response) {
         if (error.response.data.message.startsWith("JWT expired")) {
-          
           toast.error(`Login time expired. Please Login Again`, {
             position: "top-center",
             autoClose: 3000,
@@ -194,18 +226,18 @@ export default function ViewUsers() {
             draggable: false,
             progress: undefined,
           });
-          
+
           setTimeout(() => {
             navigateTo("/signin");
           }, 2000);
-
         }
       }
     }
   };
 
-  return (
+  return (loading ? <div>Loading...</div> : (
     <>
+      {user ? <NavbarAlt user={user} /> : <Navbar />}
       <div className="bg-gray-100 min-h-screen p-6 relative">
         {/* Background Art */}
         <div
@@ -234,5 +266,5 @@ export default function ViewUsers() {
 
       <Footer />
     </>
-  );
+  ));
 }

@@ -80,7 +80,7 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white shadow-lg rounded-lg p-6 mb-6"
+      className="bg-white  rounded-lg p-6 mb-6"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>

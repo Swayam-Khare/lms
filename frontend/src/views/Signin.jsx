@@ -100,7 +100,6 @@ export default function Signin() {
       );
       const result = response.data;
       console.log(result);
-      
 
       toast.success("Login successful", {
         position: "bottom-center",
@@ -114,7 +113,11 @@ export default function Signin() {
 
       // redirect to home page
       setTimeout(() => {
-        navigateTo("/viewUsers");
+        if (role === "LIBRARIAN") {
+          navigateTo("/viewUsers");
+        } else {
+          navigateTo("/userDashboard");
+        }
       }, 1000);
 
       setLoading(false);
@@ -129,8 +132,7 @@ export default function Signin() {
           draggable: false,
           progress: undefined,
         });
-      }
-      else {
+      } else {
         toast.error(`Login failed: Network Error`, {
           position: "top-center",
           autoClose: 3000,

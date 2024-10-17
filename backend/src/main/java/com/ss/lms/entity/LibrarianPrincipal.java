@@ -20,11 +20,6 @@ public class LibrarianPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_LIBRARIAN"));
-
-//        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//        authorities.add(new SimpleGrantedAuthority("ROLE_LIBRARIAN"));
-//        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-//        return authorities;
     }
 
     @Override

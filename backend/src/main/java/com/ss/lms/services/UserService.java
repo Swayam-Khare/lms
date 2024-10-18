@@ -18,4 +18,6 @@ public interface UserService {
     void deleteById(int id);
 
     UserDTO getSelfDetails();
+
+    List<UserDTO> searchUsers(String searchText);
 }

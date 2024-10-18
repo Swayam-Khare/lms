@@ -40,6 +40,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDTO> searchUsers(String searchText) {
+        List<UserDTO> userDTOList =  userRepository.findUserBySearch(searchText)
+                .stream()
+                .map(userMapper::toDTO)
+                .toList();
+
+        userDTOList.forEach(dto -> {dto.setPassword(null);});
+        return userDTOList;
+    }
+
+    @Override
     public List<UserDTO> getAll() {
 
         List<UserDTO> userDTOList =  userRepository.findAll()

@@ -2,7 +2,6 @@ package com.ss.lms.mapper;
 
 import com.ss.lms.dto.BookDTO;
 import com.ss.lms.entity.Book;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +26,8 @@ public class BookMapper {
                 book.getPublishYear(),
                 book.getPages(),
                 book.getEdition(),
+                book.getQuantity(),
+                book.getAvailable(),
                 publishingHouseMapper.toDTO(book.getPublishingHouse()),
                 null,
                 null
@@ -53,7 +54,9 @@ public class BookMapper {
                 bookDTO.getTitle(),
                 bookDTO.getPublishYear(),
                 bookDTO.getPages(),
-                bookDTO.getEdition()
+                bookDTO.getEdition(),
+                bookDTO.getQuantity(),
+                bookDTO.getAvailable()
         );
 
         book.setId(bookDTO.getId());

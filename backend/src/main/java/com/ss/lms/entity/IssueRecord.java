@@ -3,6 +3,7 @@ package com.ss.lms.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "issue_record")
@@ -21,11 +22,6 @@ public class IssueRecord {
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "book_id")
-    private Book book;
-
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -33,6 +29,12 @@ public class IssueRecord {
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "librarian_id")
     private Librarian librarian;
+
+    @OneToMany(
+            mappedBy = "issueRecord",
+            cascade = CascadeType.ALL
+    )
+    private List<IssueBook> issueBook;
 
     public IssueRecord() {
     }
@@ -66,14 +68,6 @@ public class IssueRecord {
         this.dueDate = due_date;
     }
 
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
     public User getUser() {
         return user;
     }
@@ -90,13 +84,20 @@ public class IssueRecord {
         this.librarian = librarian;
     }
 
+    public List<IssueBook> getIssueBook() {
+        return issueBook;
+    }
+
+    public void setIssueBook(List<IssueBook> issueBook) {
+        this.issueBook = issueBook;
+    }
+
     @Override
     public String toString() {
         return "IssueRecord{" +
                 "id=" + id +
                 ", issue_date=" + issueDate +
                 ", due_date=" + dueDate +
-                ", book=" + book +
                 ", user=" + user +
                 ", librarian=" + librarian +
                 '}';

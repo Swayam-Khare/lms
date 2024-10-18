@@ -10,22 +10,32 @@ public class IssueRecordMapper {
     private final BookMapper bookMapper;
     private final UserMapper userMapper;
     private final LibrarianMapper librarianMapper;
+    private final IssueBookMapper issueBookMapper;
 
-    public IssueRecordMapper(BookMapper bookMapper, UserMapper userMapper, LibrarianMapper librarianMapper) {
+    public IssueRecordMapper(BookMapper bookMapper, UserMapper userMapper, LibrarianMapper librarianMapper, IssueBookMapper issueBookMapper) {
         this.bookMapper = bookMapper;
         this.userMapper = userMapper;
         this.librarianMapper = librarianMapper;
+        this.issueBookMapper = issueBookMapper;
     }
 
     public IssueRecordDTO toDTO(IssueRecord issueRecord) {
-        return new IssueRecordDTO(
+        IssueRecordDTO issueRecordDTO = new IssueRecordDTO(
                 issueRecord.getId(),
                 issueRecord.getIssueDate(),
                 issueRecord.getDueDate(),
-                bookMapper.toDTO(issueRecord.getBook()),
                 userMapper.toDTO(issueRecord.getUser()),
-                librarianMapper.toDTO(issueRecord.getLibrarian())
+                librarianMapper.toDTO(issueRecord.getLibrarian()),
+                null
         );
+
+        issueRecordDTO.setIssueBook(
+                issueRecord.getIssueBook() != null ?
+                        issueRecord.getIssueBook().stream().map(issueBookMapper::toDTO).toList() :
+                        null
+        );
+
+        return issueRecordDTO;
     }
 
     public IssueRecord toEntity(IssueRecordDTO issueRecordDTO) {
@@ -36,16 +46,18 @@ public class IssueRecordMapper {
 
         issueRecord.setId(issueRecordDTO.getId());
 
-        issueRecord.setBook(
-                bookMapper.toEntity(issueRecordDTO.getBook())
-        );
-
         issueRecord.setUser(
                 userMapper.toEntity(issueRecordDTO.getUser())
         );
 
         issueRecord.setLibrarian(
                 librarianMapper.toEntity(issueRecordDTO.getLibrarian())
+        );
+
+        issueRecord.setIssueBook(
+                issueRecordDTO.getIssueBook() != null ?
+                        issueRecordDTO.getIssueBook().stream().map(issueBookMapper::toEntity).toList() :
+                        null
         );
 
         return issueRecord;

@@ -28,6 +28,12 @@ public class Book {
     @Column(name = "edition")
     private int edition;
 
+    @Column(name = "quantity")
+    private int quantity;
+
+    @Column(name = "available")
+    private int available;
+
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "publish_house_id")
@@ -54,12 +60,14 @@ public class Book {
     public Book() {
     }
 
-    public Book(String isbnNumber, String title, int publishYear, int pages, int edition) {
+    public Book(String isbnNumber, String title, int publishYear, int pages, int edition, int quantity, int available) {
         this.isbnNumber = isbnNumber;
         this.title = title;
         this.publishYear = publishYear;
         this.pages = pages;
         this.edition = edition;
+        this.quantity = quantity;
+        this.available = available;
     }
 
     public int getId() {
@@ -108,6 +116,22 @@ public class Book {
 
     public void setEdition(int edition) {
         this.edition = edition;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(int available) {
+        this.available = available;
     }
 
     public PublishingHouse getPublishingHouse() {

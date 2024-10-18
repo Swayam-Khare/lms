@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Date;
+import java.util.List;
 
 public class IssueRecordDTO {
 
@@ -16,10 +17,6 @@ public class IssueRecordDTO {
     private Date dueDate;
 
     @Valid
-    @NotNull(message = "Book details are required")
-    private BookDTO book;
-
-    @Valid
     @NotNull(message = "details are required")
     private UserDTO user;
 
@@ -27,13 +24,16 @@ public class IssueRecordDTO {
     @NotNull(message = "Librarian details are required")
     private LibrarianDTO librarian;
 
-    public IssueRecordDTO(int id, Date issueDate, Date dueDate, BookDTO book, UserDTO user, LibrarianDTO librarian) {
+    @Valid
+    private List<IssueBookDTO> issueBook;
+
+    public IssueRecordDTO(int id, Date issueDate, Date dueDate, UserDTO user, LibrarianDTO librarian, List<IssueBookDTO> issueBook) {
         this.id = id;
         this.issueDate = issueDate;
         this.dueDate = dueDate;
-        this.book = book;
         this.user = user;
         this.librarian = librarian;
+        this.issueBook = issueBook;
     }
 
     public int getId() {
@@ -60,14 +60,6 @@ public class IssueRecordDTO {
         this.dueDate = dueDate;
     }
 
-    public BookDTO getBook() {
-        return book;
-    }
-
-    public void setBook(BookDTO book) {
-        this.book = book;
-    }
-
     public UserDTO getUser() {
         return user;
     }
@@ -82,5 +74,13 @@ public class IssueRecordDTO {
 
     public void setLibrarian(LibrarianDTO librarian) {
         this.librarian = librarian;
+    }
+
+    public @Valid List<IssueBookDTO> getIssueBook() {
+        return issueBook;
+    }
+
+    public void setIssueBook(@Valid List<IssueBookDTO> issueBook) {
+        this.issueBook = issueBook;
     }
 }

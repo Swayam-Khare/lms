@@ -29,7 +29,8 @@ public class UserMapper {
                 null,
                 null,
                 null,
-                user.getPassword()
+                user.getPassword(),
+                user.getTotalFine()
         );
 
         userDTO.setAddress(
@@ -65,6 +66,7 @@ public class UserMapper {
         user.setPassword(userDTO.getPassword());
         user.setJoinDate(userDTO.getJoinDate());
         user.setDueDate(userDTO.getDueDate());
+        user.setTotalFine(userDTO.getTotalFine());
         user.setAddress(
                 userDTO.getAddress() != null ?
                         addressMapper.toEntity(userDTO.getAddress()) :

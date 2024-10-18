@@ -19,9 +19,12 @@ public class UserDTO {
     @NotBlank(message = "Email is required")
     private String email;
 
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*()]).{6,}$", message = "Password must be 6 characters long and combination of uppercase letters, lowercase letters, numbers, special characters.")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*()]).{6,}$",
+            message = "Password must be 6 characters long and combination of uppercase letters, " +
+                    "lowercase letters, numbers, special characters.")
     private String password;
 
+    private float totalFine;
     private Date joinDate;
     private Date dueDate;
 
@@ -35,7 +38,7 @@ public class UserDTO {
     @Valid
     private List<PhoneNumberDTO> phoneNumber;
 
-    public UserDTO(int id, String firstName, String lastName, String email, Date joinDate, Date dueDate, AddressDTO address, List<IssueRecordDTO> issueRecord, List<PhoneNumberDTO> phoneNumber, String password) {
+    public UserDTO(int id, String firstName, String lastName, String email, Date joinDate, Date dueDate, AddressDTO address, List<IssueRecordDTO> issueRecord, List<PhoneNumberDTO> phoneNumber, String password, float totalFine) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -46,6 +49,7 @@ public class UserDTO {
         this.issueRecord = issueRecord;
         this.phoneNumber = phoneNumber;
         this.password = password;
+        this.totalFine = totalFine;
     }
 
     public int getId() {
@@ -86,6 +90,14 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public float getTotalFine() {
+        return totalFine;
+    }
+
+    public void setTotalFine(float totalFine) {
+        this.totalFine = totalFine;
     }
 
     public Date getJoinDate() {

@@ -1,6 +1,7 @@
 package com.ss.lms.dto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,6 +24,12 @@ public class BookDTO {
     private int pages;
     private int edition;
 
+    @Min(value = 0, message = "Quantity of Books must be greater than or equal to 0")
+    private int quantity;
+
+    @Min(value = 0, message = "Available Books must be greater than or equal to 0")
+    private int available;
+
     @Valid
     private PublishingHouseDTO publishingHouse;
 
@@ -34,13 +41,15 @@ public class BookDTO {
     @NotNull(message = "Author(s) is required")
     private List<AuthorDTO> author;
 
-    public BookDTO(int id, String isbnNumber, String title, int publishYear, int pages, int edition, PublishingHouseDTO publishingHouse, List<GenreDTO> genre, List<AuthorDTO> author) {
+    public BookDTO(int id, String isbnNumber, String title, int publishYear, int pages, int edition, int quantity, int available, PublishingHouseDTO publishingHouse, List<GenreDTO> genre, List<AuthorDTO> author) {
         this.id = id;
         this.isbnNumber = isbnNumber;
         this.title = title;
         this.publishYear = publishYear;
         this.pages = pages;
         this.edition = edition;
+        this.quantity = quantity;
+        this.available = available;
         this.publishingHouse = publishingHouse;
         this.genre = genre;
         this.author = author;
@@ -92,6 +101,24 @@ public class BookDTO {
 
     public void setEdition(int edition) {
         this.edition = edition;
+    }
+
+    @Min(value = 0, message = "Quantity of Books must be greater than or equal to 0")
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(@Min(value = 0, message = "Quantity of Books must be greater than or equal to 0") int quantity) {
+        this.quantity = quantity;
+    }
+
+    @Min(value = 0, message = "Available Books must be greater than or equal to 0")
+    public int getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(@Min(value = 0, message = "Available Books must be greater than or equal to 0") int available) {
+        this.available = available;
     }
 
     public PublishingHouseDTO getPublishingHouse() {

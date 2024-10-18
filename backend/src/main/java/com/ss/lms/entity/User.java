@@ -32,6 +32,9 @@ public class User {
     @Column(name = "due_date")
     private Date dueDate;
 
+    @Column(name = "total_fine")
+    private float totalFine;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
@@ -50,13 +53,14 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, Date joinDate, Date dueDate, String password) {
+    public User(String firstName, String lastName, String email, Date joinDate, Date dueDate, String password, float totalFine) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.joinDate = joinDate;
         this.dueDate = dueDate;
         this.password = password;
+        this.totalFine = totalFine;
     }
 
     public int getId() {
@@ -115,6 +119,14 @@ public class User {
         this.dueDate = due_date;
     }
 
+    public float getTotalFine() {
+        return totalFine;
+    }
+
+    public void setTotalFine(float totalFine) {
+        this.totalFine = totalFine;
+    }
+
     public Address getAddress() {
         return address;
     }
@@ -148,6 +160,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", join_date=" + joinDate +
                 ", due_date=" + dueDate +
+                ", total_fine=" + totalFine +
                 ", address=" + address +
                 '}';
     }

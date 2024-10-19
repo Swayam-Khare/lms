@@ -1,7 +1,11 @@
 package com.ss.lms.services.Impl;
 
 import com.ss.lms.dto.UserDTO;
+import com.ss.lms.dto.UserInfoResponse;
+import com.ss.lms.entity.IssueBook;
+import com.ss.lms.entity.IssueRecord;
 import com.ss.lms.entity.User;
+import com.ss.lms.entity.UserPrincipal;
 import com.ss.lms.mapper.AddressMapper;
 import com.ss.lms.mapper.IssueRecordMapper;
 import com.ss.lms.mapper.PhoneNumberMapper;
@@ -154,5 +158,18 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserInfoResponse getInfo() {
+        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userPrincipal.getEntity();
+
+        // Total fine
+        float totalFine = user.getTotalFine();
+
+        // Books to return
+        List<IssueRecord> records = user.getIssueRecord();
+
     }
 }

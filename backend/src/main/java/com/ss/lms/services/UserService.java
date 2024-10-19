@@ -1,6 +1,7 @@
 package com.ss.lms.services;
 
 import com.ss.lms.dto.UserDTO;
+import com.ss.lms.dto.UserInfoResponse;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface UserService {
     UserDTO getSelfDetails();
 
     List<UserDTO> searchUsers(String searchText);
+
+    UserInfoResponse getInfo();
 }

@@ -11,7 +11,6 @@ import com.ss.lms.mapper.UserMapper;
 import com.ss.lms.repository.LibrarianRepository;
 import com.ss.lms.repository.UserRepository;
 import com.ss.lms.services.AuthService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -21,13 +20,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.logging.Logger;
 
 @Service
@@ -102,13 +99,13 @@ public class AuthServiceImpl implements AuthService {
             LibrarianPrincipal principal = (LibrarianPrincipal) userDetails;
             LibrarianDTO librarian = librarianMapper.toDTO(principal.getEntity());
             librarian.setPassword(null);
-            return new ResponseEntity<>(librarian, HttpStatus.FOUND);
+            return new ResponseEntity<>(librarian, HttpStatus.OK);
         }
         else {
             UserPrincipal principal = (UserPrincipal) userDetails;
             UserDTO user = userMapper.toDTO(principal.getEntity());
             user.setPassword(null);
-            return new ResponseEntity<>(user, HttpStatus.FOUND);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
     }
 }

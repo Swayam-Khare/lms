@@ -29,8 +29,6 @@ export default function HeroSection() {
           our extensive collection of books and journals
         </div>
         <div className="text-7xl text-primary font-bold">
-          Come <br />
-          and{" "}
           <ReactTyped
             strings={["Explore!", "Borrow!", "Learn!"]}
             typeSpeed={130}

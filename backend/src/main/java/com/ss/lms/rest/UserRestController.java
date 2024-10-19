@@ -1,6 +1,7 @@
 package com.ss.lms.rest;
 
 import com.ss.lms.dto.UserDTO;
+import com.ss.lms.dto.UserInfoResponse;
 import com.ss.lms.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ public class UserRestController {
     @GetMapping("/")
     public List<UserDTO> getAll() {
         return userService.getAll();
+    }
+
+    @GetMapping("/info")
+    public UserInfoResponse getInfo() {
+        return userService.getInfo();
     }
 
     @GetMapping("/{id}")

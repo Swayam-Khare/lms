@@ -122,7 +122,7 @@ export default function ViewUsers() {
 
   async function fetchUser() {
     try {
-      const response = await axios.get("http://localhost:8080/api/user/me", {
+      const response = await axios.get("http://localhost:8080/api/auth/me", {
         headers: {
           Authorization: "Bearer " + getToken(),
         },
@@ -136,6 +136,21 @@ export default function ViewUsers() {
       }
     } catch (error) {
       console.log(error);
+      if (error.response?.data?.message?.startsWith("JWT")) {
+        toast.error(`Login time expired. Please Login Again`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+
+        setTimeout(() => {
+          navigateTo("/signin");
+        }, 2000);
+      }
       setUser(null);
     }
   }
@@ -235,7 +250,9 @@ export default function ViewUsers() {
     }
   };
 
-  return (loading ? <div>Loading...</div> : (
+  return loading ? (
+    <div>Loading...</div>
+  ) : (
     <>
       {user ? <NavbarAlt user={user} /> : <Navbar />}
       <div className="bg-gray-100 min-h-screen p-6 relative">
@@ -266,5 +283,5 @@ export default function ViewUsers() {
 
       <Footer />
     </>
-  ));
+  );
 }

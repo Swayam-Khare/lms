@@ -52,6 +52,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/user/").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.PUT, "/api/user/").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("LIBRARIAN")
+                        .anyRequest().authenticated()
         )
         .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

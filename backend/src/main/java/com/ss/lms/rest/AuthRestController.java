@@ -8,6 +8,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
@@ -39,7 +40,7 @@ public class AuthRestController {
 
     @PostMapping("/login")
     public String login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse res) {
-        String token = authService.loginUser(
+        String token = authService.login(
                 loginRequest.getEmail(),
                 loginRequest.getPassword(),
                 loginRequest.getRole()
@@ -50,7 +51,11 @@ public class AuthRestController {
         cookie.setMaxAge(60 * 60);
 
         res.addCookie(cookie);
-        res.setHeader("Access-Control-Allow-Credentials", "true");
         return token;
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getDetails() {
+         return authService.getDetails();
     }
 }

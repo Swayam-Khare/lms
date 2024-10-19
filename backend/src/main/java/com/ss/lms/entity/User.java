@@ -41,12 +41,13 @@ public class User {
 
     @OneToMany(
             mappedBy = "user",
+            fetch = FetchType.EAGER,
             cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH}
     )
     private List<IssueRecord> issueRecord;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private List<PhoneNumber> phoneNumber;
 

@@ -29,7 +29,7 @@ public class Librarian {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "librarian_id")
     private List<PhoneNumber> phoneNumber;
 

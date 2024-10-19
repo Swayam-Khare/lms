@@ -2,6 +2,7 @@ package com.ss.lms.mapper;
 
 import com.ss.lms.dto.IssueBookDTO;
 import com.ss.lms.entity.IssueBook;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,7 +11,7 @@ public class IssueBookMapper {
     private final IssueRecordMapper issueRecordMapper;
     private final BookCopyMapper bookCopyMapper;
 
-    public IssueBookMapper(IssueRecordMapper issueRecordMapper, BookCopyMapper bookCopyMapper) {
+    public IssueBookMapper(@Lazy IssueRecordMapper issueRecordMapper, @Lazy BookCopyMapper bookCopyMapper) {
         this.issueRecordMapper = issueRecordMapper;
         this.bookCopyMapper = bookCopyMapper;
     }

@@ -51,4 +51,8 @@ public class LibrarianPrincipal implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public Librarian getEntity() {
+        return this.librarian;
+    }
 }

@@ -3,7 +3,9 @@ package com.ss.lms.services.Impl;
 import com.ss.lms.dto.LibrarianDTO;
 import com.ss.lms.dto.UserDTO;
 import com.ss.lms.entity.Librarian;
+import com.ss.lms.entity.LibrarianPrincipal;
 import com.ss.lms.entity.User;
+import com.ss.lms.entity.UserPrincipal;
 import com.ss.lms.mapper.LibrarianMapper;
 import com.ss.lms.mapper.UserMapper;
 import com.ss.lms.repository.LibrarianRepository;
@@ -12,13 +14,20 @@ import com.ss.lms.services.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
 @Service
@@ -68,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String loginUser(String username, String password, String role) {
+    public String login(String username, String password, String role) {
 
         if (role.equals("LIBRARIAN")) {
             context.getBean(DaoAuthenticationProvider.class).setUserDetailsService(librarianDetailsService);
@@ -81,5 +90,25 @@ public class AuthServiceImpl implements AuthService {
             return jwtService.generateToken(username, role);
 
         return "fail";
+    }
+
+    @Override
+    public ResponseEntity<?> getDetails() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        GrantedAuthority[] roles = userDetails.getAuthorities().toArray(new GrantedAuthority[0]);
+        String role = roles[0].getAuthority();
+
+        if (role.equals("ROLE_LIBRARIAN")) {
+            LibrarianPrincipal principal = (LibrarianPrincipal) userDetails;
+            LibrarianDTO librarian = librarianMapper.toDTO(principal.getEntity());
+            librarian.setPassword(null);
+            return new ResponseEntity<>(librarian, HttpStatus.FOUND);
+        }
+        else {
+            UserPrincipal principal = (UserPrincipal) userDetails;
+            UserDTO user = userMapper.toDTO(principal.getEntity());
+            user.setPassword(null);
+            return new ResponseEntity<>(user, HttpStatus.FOUND);
+        }
     }
 }

@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<CustomErrorResponse> handleSignatureException(BadCredentialsException e) {
+    public ResponseEntity<CustomErrorResponse> handleBadCredentialException(BadCredentialsException e) {
         log.info("In Bad Credentials exception handler");
         CustomErrorResponse customError = new CustomErrorResponse(401, "Invalid Email or Password", new Date(System.currentTimeMillis()));
         return new ResponseEntity<>(customError, HttpStatus.UNAUTHORIZED);

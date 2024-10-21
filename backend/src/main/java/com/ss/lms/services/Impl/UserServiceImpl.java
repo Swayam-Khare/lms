@@ -1,5 +1,6 @@
 package com.ss.lms.services.Impl;
 
+import com.ss.lms.dto.IssueRecordDTO;
 import com.ss.lms.dto.UserDTO;
 import com.ss.lms.dto.UserInfoResponse;
 import com.ss.lms.entity.IssueBook;
@@ -10,13 +11,16 @@ import com.ss.lms.mapper.AddressMapper;
 import com.ss.lms.mapper.IssueRecordMapper;
 import com.ss.lms.mapper.PhoneNumberMapper;
 import com.ss.lms.mapper.UserMapper;
+import com.ss.lms.repository.IssueRecordRepository;
 import com.ss.lms.repository.UserRepository;
 import com.ss.lms.services.UserService;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -34,13 +38,15 @@ public class UserServiceImpl implements UserService {
     private final PhoneNumberMapper phoneNumberMapper;
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    private final IssueRecordRepository issueRecordRepository;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, AddressMapper addressMapper, IssueRecordMapper issueRecordMapper, PhoneNumberMapper phoneNumberMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, AddressMapper addressMapper, IssueRecordMapper issueRecordMapper, PhoneNumberMapper phoneNumberMapper, IssueRecordRepository issueRecordRepository) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.addressMapper = addressMapper;
         this.issueRecordMapper = issueRecordMapper;
         this.phoneNumberMapper = phoneNumberMapper;
+        this.issueRecordRepository = issueRecordRepository;
     }
 
     @Override
@@ -167,9 +173,38 @@ public class UserServiceImpl implements UserService {
 
         // Total fine
         float totalFine = user.getTotalFine();
+        Date membershipEndDate = user.getDueDate();
 
-        // Books to return
+        PageRequest pageRequest = PageRequest.of(0, 5);
+        List<IssueRecordDTO> latestIssueRecords = issueRecordRepository
+                .findByUserOrderByDueDateDesc(user, pageRequest)
+                .stream()
+                .map(issueRecordMapper::toDTO)
+                .toList();
+
+
+        int numberOfBooksToReturn = 0;
+        int totalNumberOfBooksBorrowed = 0;
+
         List<IssueRecord> records = user.getIssueRecord();
 
+        for (IssueRecord record : records) {
+            List<IssueBook> books = record.getIssueBook();
+
+            for (IssueBook book : books) {
+                if (!book.isReturned()) {
+                    numberOfBooksToReturn++;
+                }
+                totalNumberOfBooksBorrowed++;
+            }
+        }
+
+        return new UserInfoResponse(
+                totalFine,
+                numberOfBooksToReturn,
+                totalNumberOfBooksBorrowed,
+                membershipEndDate,
+                latestIssueRecords
+        );
     }
 }

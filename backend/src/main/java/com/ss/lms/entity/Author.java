@@ -22,8 +22,8 @@ public class Author {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
-    private String password;
+//    @Column(name = "password")
+//    private String password;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
@@ -45,11 +45,10 @@ public class Author {
     public Author() {
     }
 
-    public Author(String firstName, String lastName, String email, String password) {
+    public Author(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
     }
 
     public int getId() {
@@ -82,14 +81,6 @@ public class Author {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Address getAddress() {

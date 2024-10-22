@@ -29,9 +29,9 @@ public class PublishingHouse {
     )
     private List<Book> book;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id")
-    private List<PhoneNumber> phoneNumber;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "publishing_house_id")
+//    private List<PhoneNumber> phoneNumber;
 
     public PublishingHouse() {
     }
@@ -79,14 +79,6 @@ public class PublishingHouse {
 
     public void setBook(List<Book> book) {
         this.book = book;
-    }
-
-    public List<PhoneNumber> getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(List<PhoneNumber> phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     @Override

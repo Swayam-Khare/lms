@@ -1,10 +1,7 @@
 package com.ss.lms.dto;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ public class BookDTO {
     @NotBlank(message = "Title of the book is required")
     private String title;
 
-    @Size(min = 4, max = 4, message = "Enter a valid full year")
+    @Digits(integer = 4, message = "Enter a valid full year", fraction = 0)
     private int publishYear;
 
     private int pages;

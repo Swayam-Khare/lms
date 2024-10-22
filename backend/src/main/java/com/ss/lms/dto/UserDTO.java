@@ -29,7 +29,7 @@ public class UserDTO {
     private Date dueDate;
 
     @Valid
-    @NotNull(message = "The address is required.")
+//    @NotNull(message = "The address is required.")
     private AddressDTO address;
 
     @Valid

@@ -19,7 +19,7 @@ public class PublishingHouseDTO {
     private String email;
 
     @Valid
-    @NotNull(message = "Address is required")
+//    @NotNull(message = "Address is required")
     private AddressDTO address;
 
     @Valid

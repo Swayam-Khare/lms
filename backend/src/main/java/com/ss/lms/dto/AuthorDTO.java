@@ -23,7 +23,7 @@ public class AuthorDTO {
 //    private String password;
 
     @Valid
-    @NotNull(message = "The address is required.")
+//    @NotNull(message = "The address is required.")
     private AddressDTO address;
 
     @Valid

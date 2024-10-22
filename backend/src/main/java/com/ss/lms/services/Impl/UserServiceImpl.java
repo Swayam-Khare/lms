@@ -136,13 +136,6 @@ public class UserServiceImpl implements UserService {
                         userDTO.getIssueRecord().stream().map(issueRecordMapper::toEntity).collect(Collectors.toList())
         );
 
-        user.setPhoneNumber(
-                userDTO.getPhoneNumber() == null ?
-                        user.getPhoneNumber() :
-                        userDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).collect(Collectors.toList())
-        );
-
-
         UserDTO responseDTO =  userMapper.toDTO(
                 userRepository.save(user)
         );

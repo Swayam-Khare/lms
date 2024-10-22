@@ -27,7 +27,10 @@ public class AddressDTO {
     @Digits(integer = 6, message = "Pincode must only contain 6 digits", fraction = 0)
     private int pincode;
 
-    public AddressDTO(int id, String lane1, String lane2, String city, String state, String country, int pincode) {
+    @Size(min = 10, max = 12, message = "Phone number must contain 10 digits")
+    private String phoneNumber;
+
+    public AddressDTO(int id, String lane1, String lane2, String city, String state, String country, int pincode, String phoneNumber) {
         this.id = id;
         this.lane1 = lane1;
         this.lane2 = lane2;
@@ -35,6 +38,7 @@ public class AddressDTO {
         this.state = state;
         this.country = country;
         this.pincode = pincode;
+        this.phoneNumber = phoneNumber;
     }
 
     public int getId() {
@@ -91,5 +95,13 @@ public class AddressDTO {
 
     public void setPincode(int pincode) {
         this.pincode = pincode;
+    }
+
+    public @Size(min = 10, max = 12, message = "Phone number must contain 10 digits") String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(@Size(min = 10, max = 12, message = "Phone number must contain 10 digits") String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

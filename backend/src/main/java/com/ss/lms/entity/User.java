@@ -47,9 +47,9 @@ public class User {
     )
     private List<IssueRecord> issueRecord;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private List<PhoneNumber> phoneNumber;
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "user_id")
+//    private List<PhoneNumber> phoneNumber;
 
     public User() {
     }
@@ -142,14 +142,6 @@ public class User {
 
     public void setIssueRecord(List<IssueRecord> issueRecord) {
         this.issueRecord = issueRecord;
-    }
-
-    public List<PhoneNumber> getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(List<PhoneNumber> phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     @Override

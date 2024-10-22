@@ -1,8 +1,5 @@
 package com.ss.lms.dto;
 
-import com.ss.lms.entity.Address;
-import com.ss.lms.entity.Book;
-import com.ss.lms.entity.PhoneNumber;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

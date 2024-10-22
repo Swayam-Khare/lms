@@ -22,19 +22,12 @@ public class LibrarianMapper {
                 librarian.getEmail(),
                 librarian.getLastName(),
                 null,
-                null,
                 librarian.getPassword()
         );
 
         librarianDTO.setAddress(
                 librarian.getAddress() != null ?
                         addressMapper.toDTO(librarian.getAddress()) :
-                        null
-        );
-
-        librarianDTO.setPhoneNumber(
-                librarian.getPhoneNumber() != null ?
-                        librarian.getPhoneNumber().stream().map(phoneNumberMapper::toDTO).toList() :
                         null
         );
 
@@ -54,12 +47,6 @@ public class LibrarianMapper {
         librarian.setAddress(
                 librarianDTO.getAddress() != null ?
                         addressMapper.toEntity(librarianDTO.getAddress()) :
-                        null
-        );
-
-        librarian.setPhoneNumber(
-                librarianDTO.getPhoneNumber() != null ?
-                        librarianDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).toList() :
                         null
         );
 

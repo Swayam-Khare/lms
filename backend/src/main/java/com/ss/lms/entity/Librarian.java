@@ -29,9 +29,9 @@ public class Librarian {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "librarian_id")
-    private List<PhoneNumber> phoneNumber;
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "librarian_id")
+//    private List<PhoneNumber> phoneNumber;
 
     public Librarian() {
     }
@@ -89,14 +89,6 @@ public class Librarian {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public List<PhoneNumber> getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(List<PhoneNumber> phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     @Override

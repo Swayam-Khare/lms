@@ -25,19 +25,12 @@ public class AuthorMapper {
                 author.getLastName(),
                 author.getEmail(),
                 addressMapper.toDTO(author.getAddress()),
-                null,
                 null
         );
 
         authorDTO.setBook(
                 author.getBook() != null ?
                         author.getBook().stream().map(bookMapper::toDTO).toList() :
-                        null
-        );
-
-        authorDTO.setPhoneNumber(
-                author.getPhoneNumber() != null ?
-                        author.getPhoneNumber().stream().map(phoneNumberMapper::toDTO).toList() :
                         null
         );
 
@@ -57,12 +50,6 @@ public class AuthorMapper {
         author.setBook(
                 authorDTO.getBook() != null ?
                         authorDTO.getBook().stream().map(bookMapper::toEntity).toList() :
-                        null
-        );
-
-        author.setPhoneNumber(
-                authorDTO.getPhoneNumber() != null ?
-                        authorDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).toList() :
                         null
         );
 

@@ -35,10 +35,11 @@ public class UserDTO {
     @Valid
     private List<IssueRecordDTO> issueRecord;
 
-    @Valid
-    private List<PhoneNumberDTO> phoneNumber;
+//    @Valid
+//    private List<PhoneNumberDTO> phoneNumber;
 
-    public UserDTO(int id, String firstName, String lastName, String email, Date joinDate, Date dueDate, AddressDTO address, List<IssueRecordDTO> issueRecord, List<PhoneNumberDTO> phoneNumber, String password, float totalFine) {
+    public UserDTO(int id, String firstName, String lastName, String email, Date joinDate, Date dueDate,
+                   AddressDTO address, List<IssueRecordDTO> issueRecord, String password, float totalFine) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -47,7 +48,6 @@ public class UserDTO {
         this.dueDate = dueDate;
         this.address = address;
         this.issueRecord = issueRecord;
-        this.phoneNumber = phoneNumber;
         this.password = password;
         this.totalFine = totalFine;
     }
@@ -132,14 +132,6 @@ public class UserDTO {
         this.issueRecord = issueRecord;
     }
 
-    public List<PhoneNumberDTO> getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(List<PhoneNumberDTO> phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -152,7 +144,6 @@ public class UserDTO {
                 ", dueDate=" + dueDate +
                 ", address=" + address +
                 ", issueRecord=" + issueRecord +
-                ", phoneNumber=" + phoneNumber +
                 '}';
     }
 }

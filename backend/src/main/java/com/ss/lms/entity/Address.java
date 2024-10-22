@@ -29,16 +29,20 @@ public class Address {
     @Column(name = "pincode")
     private int pincode;
 
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
     public Address() {
     }
 
-    public Address(String lane1, String lane2, String city, String state, String country, int pincode) {
+    public Address(String lane1, String lane2, String city, String state, String country, int pincode, String phoneNumber) {
         this.lane1 = lane1;
         this.lane2 = lane2;
         this.city = city;
         this.state = state;
         this.country = country;
         this.pincode = pincode;
+        this.phoneNumber = phoneNumber;
     }
 
     public int getId() {
@@ -97,6 +101,14 @@ public class Address {
         this.pincode = pincode;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public String toString() {
         return "Address{" +
@@ -106,6 +118,7 @@ public class Address {
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", country='" + country + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", pincode=" + pincode +
                 '}';
     }

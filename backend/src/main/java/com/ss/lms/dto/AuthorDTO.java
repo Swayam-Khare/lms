@@ -29,18 +29,17 @@ public class AuthorDTO {
     @Valid
     private List<BookDTO> book;
 
-    @Valid
-    private List<PhoneNumberDTO> phoneNumber;
+//    @Valid
+//    private List<PhoneNumberDTO> phoneNumber;
 
     public AuthorDTO(int id, String firstName, String lastName, String email, AddressDTO address,
-                     List<BookDTO> book, List<PhoneNumberDTO> phoneNumber) {
+                     List<BookDTO> book) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
         this.book = book;
-        this.phoneNumber = phoneNumber;
     }
 
     public int getId() {
@@ -89,13 +88,5 @@ public class AuthorDTO {
 
     public void setBook(List<BookDTO> book) {
         this.book = book;
-    }
-
-    public List<PhoneNumberDTO> getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(List<PhoneNumberDTO> phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 }

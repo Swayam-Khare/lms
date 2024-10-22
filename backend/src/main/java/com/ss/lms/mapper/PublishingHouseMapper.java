@@ -9,12 +9,10 @@ public class PublishingHouseMapper {
 
     private final AddressMapper addressMapper;
     private final BookMapper bookMapper;
-    private final PhoneNumberMapper phoneNumberMapper;
 
-    public PublishingHouseMapper(AddressMapper addressMapper, BookMapper bookMapper, PhoneNumberMapper phoneNumberMapper) {
+    public PublishingHouseMapper(AddressMapper addressMapper, BookMapper bookMapper) {
         this.addressMapper = addressMapper;
         this.bookMapper = bookMapper;
-        this.phoneNumberMapper = phoneNumberMapper;
     }
 
     public PublishingHouseDTO toDTO(PublishingHouse publishingHouse) {
@@ -30,12 +28,6 @@ public class PublishingHouseMapper {
         publishingHouseDTO.setBook(
                 publishingHouse.getBook() != null ?
                         publishingHouse.getBook().stream().map(bookMapper::toDTO).toList() :
-                        null
-        );
-
-        publishingHouseDTO.setPhoneNumber(
-                publishingHouse.getPhoneNumber() != null ?
-                        publishingHouse.getPhoneNumber().stream().map(phoneNumberMapper::toDTO).toList() :
                         null
         );
 
@@ -57,12 +49,6 @@ public class PublishingHouseMapper {
         publishingHouse.setBook(
                 publishingHouseDTO.getBook() != null ?
                         publishingHouseDTO.getBook().stream().map(bookMapper::toEntity).toList() :
-                        null
-        );
-
-        publishingHouse.setPhoneNumber(
-                publishingHouseDTO.getPhoneNumber() != null ?
-                        publishingHouseDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).toList() :
                         null
         );
 

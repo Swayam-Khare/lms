@@ -26,16 +26,15 @@ public class LibrarianDTO {
 //    @NotNull(message = "The address is required.")
     private AddressDTO address;
 
-    @Valid
-    private List<PhoneNumberDTO> phoneNumber;
+//    @Valid
+//    private List<PhoneNumberDTO> phoneNumber;
 
-    public LibrarianDTO(int id, String firstName, String email, String lastName, AddressDTO address, List<PhoneNumberDTO> phoneNumber, String password) {
+    public LibrarianDTO(int id, String firstName, String email, String lastName, AddressDTO address, String password) {
         this.id = id;
         this.firstName = firstName;
         this.email = email;
         this.lastName = lastName;
         this.address = address;
-        this.phoneNumber = phoneNumber;
         this.password = password;
     }
 
@@ -67,10 +66,6 @@ public class LibrarianDTO {
         this.address = address;
     }
 
-    public void setPhoneNumber(List<PhoneNumberDTO> phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public int getId() {
         return id;
     }
@@ -89,9 +84,5 @@ public class LibrarianDTO {
 
     public AddressDTO getAddress() {
         return address;
-    }
-
-    public List<PhoneNumberDTO> getPhoneNumber() {
-        return phoneNumber;
     }
 }

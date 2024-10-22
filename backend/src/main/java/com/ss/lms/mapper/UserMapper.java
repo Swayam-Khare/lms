@@ -10,12 +10,10 @@ public class UserMapper {
 
     private final AddressMapper addressMapper;
     private final IssueRecordMapper issueRecordMapper;
-    private final PhoneNumberMapper phoneNumberMapper;
 
-    public UserMapper(AddressMapper addressMapper, @Lazy IssueRecordMapper issueRecordMapper, PhoneNumberMapper phoneNumberMapper) {
+    public UserMapper(AddressMapper addressMapper, @Lazy IssueRecordMapper issueRecordMapper) {
         this.addressMapper = addressMapper;
         this.issueRecordMapper = issueRecordMapper;
-        this.phoneNumberMapper = phoneNumberMapper;
     }
 
     public UserDTO toDTO(User user) {
@@ -26,7 +24,6 @@ public class UserMapper {
                 user.getEmail(),
                 user.getJoinDate(),
                 user.getDueDate(),
-                null,
                 null,
                 null,
                 user.getPassword(),
@@ -45,13 +42,8 @@ public class UserMapper {
                                 .stream()
                                 .map(issueRecordMapper::toDTO)
                                 .toList() :
-                        null);
-
-        userDTO.setPhoneNumber(
-                user.getPhoneNumber() != null ?
-                        user.getPhoneNumber().stream().map(phoneNumberMapper::toDTO).toList() :
-                        null);
-
+                        null
+        );
 
         return userDTO;
     }
@@ -67,6 +59,7 @@ public class UserMapper {
         user.setJoinDate(userDTO.getJoinDate());
         user.setDueDate(userDTO.getDueDate());
         user.setTotalFine(userDTO.getTotalFine());
+
         user.setAddress(
                 userDTO.getAddress() != null ?
                         addressMapper.toEntity(userDTO.getAddress()) :
@@ -75,12 +68,8 @@ public class UserMapper {
 
         user.setIssueRecord(userDTO.getIssueRecord() != null ?
                 userDTO.getIssueRecord().stream().map(issueRecordMapper::toEntity).toList() :
-                null);
-
-        user.setPhoneNumber(userDTO.getPhoneNumber() != null ?
-                userDTO.getPhoneNumber().stream().map(phoneNumberMapper::toEntity).toList() :
-                null);
-
+                null
+        );
 
         return user;
     }

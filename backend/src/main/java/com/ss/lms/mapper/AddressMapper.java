@@ -16,7 +16,8 @@ public class AddressMapper {
                 address.getCity(),
                 address.getState(),
                 address.getCountry(),
-                address.getPincode()
+                address.getPincode(),
+                address.getPhoneNumber()
         );
     }
 
@@ -27,7 +28,8 @@ public class AddressMapper {
                 addressDTO.getCity(),
                 addressDTO.getState(),
                 addressDTO.getCountry(),
-                addressDTO.getPincode()
+                addressDTO.getPincode(),
+                addressDTO.getPhoneNumber()
         );
 
         address.setId(addressDTO.getId());

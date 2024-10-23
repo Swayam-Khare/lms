@@ -41,7 +41,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(customError, HttpStatus.NOT_FOUND);
     }
 
-
     @ExceptionHandler(MalformedJwtException.class)
     public ResponseEntity<CustomErrorResponse> handleMalformedJwtException(MalformedJwtException e) {
         CustomErrorResponse customError = new CustomErrorResponse(401,e.getMessage(), new Date(System.currentTimeMillis()));
@@ -88,9 +87,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CustomErrorResponse> handleException(Exception e) {
-        log.warning("error: " + e.getMessage());
-        e.printStackTrace();
-
         CustomErrorResponse customError = new CustomErrorResponse(500,e.getMessage(), new Date(System.currentTimeMillis()));
         return new ResponseEntity<>(customError, HttpStatus.INTERNAL_SERVER_ERROR);
     }

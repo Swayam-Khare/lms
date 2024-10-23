@@ -14,7 +14,7 @@ public class PublishingHouseDTO {
     @NotBlank(message = "Name field is required")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Email is required")
     @Email(message = "Please enter a valid Email")
     private String email;
 
@@ -25,16 +25,12 @@ public class PublishingHouseDTO {
     @Valid
     private List<BookDTO> book;
 
-    @Valid
-    private List<PhoneNumberDTO> phoneNumber;
-
-    public PublishingHouseDTO(int id, String name, String email, AddressDTO address, List<BookDTO> book, List<PhoneNumberDTO> phoneNumber) {
+    public PublishingHouseDTO(int id, String name, String email, AddressDTO address, List<BookDTO> book) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.address = address;
         this.book = book;
-        this.phoneNumber = phoneNumber;
     }
 
     public int getId() {
@@ -57,10 +53,6 @@ public class PublishingHouseDTO {
         return book;
     }
 
-    public List<PhoneNumberDTO> getPhoneNumber() {
-        return phoneNumber;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -79,9 +71,5 @@ public class PublishingHouseDTO {
 
     public void setBook(List<BookDTO> book) {
         this.book = book;
-    }
-
-    public void setPhoneNumber(List<PhoneNumberDTO> phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 }

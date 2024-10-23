@@ -36,7 +36,7 @@ public class AuthorRestController {
     }
 
     @PutMapping("/")
-    public AuthorDTO update(@Valid @RequestBody AuthorDTO authorDTO) {
+    public AuthorDTO update(@RequestBody AuthorDTO authorDTO) {
         return authorService.update(authorDTO);
     }
 

@@ -1,15 +1,13 @@
 package com.ss.lms.services.Impl;
 
 import com.ss.lms.dto.PublishingHouseDTO;
-import com.ss.lms.dto.UserDTO;
 import com.ss.lms.entity.PublishingHouse;
-import com.ss.lms.entity.User;
+import com.ss.lms.exception.CustomEntityNotFoundException;
+import com.ss.lms.mapper.AddressMapper;
+import com.ss.lms.mapper.BookMapper;
 import com.ss.lms.mapper.PublishingHouseMapper;
-import com.ss.lms.mapper.UserMapper;
 import com.ss.lms.repository.PublishingHouseRepository;
-import com.ss.lms.repository.UserRepository;
 import com.ss.lms.services.PublishingHouseService;
-import com.ss.lms.services.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +21,14 @@ public class PublishingHouseServiceImpl implements PublishingHouseService {
 
     private final PublishingHouseRepository publishingHouseRepository;
     private final PublishingHouseMapper publishingHouseMapper;
+    private final AddressMapper addressMapper;
+    private final BookMapper bookMapper;
 
-    public PublishingHouseServiceImpl(PublishingHouseRepository publishingHouseRepository, PublishingHouseMapper publishingHouseMapper) {
+    public PublishingHouseServiceImpl(PublishingHouseRepository publishingHouseRepository, PublishingHouseMapper publishingHouseMapper, AddressMapper addressMapper, BookMapper bookMapper) {
         this.publishingHouseRepository = publishingHouseRepository;
         this.publishingHouseMapper = publishingHouseMapper;
+        this.addressMapper = addressMapper;
+        this.bookMapper = bookMapper;
     }
 
     @Override
@@ -59,18 +61,30 @@ public class PublishingHouseServiceImpl implements PublishingHouseService {
     }
 
     @Override
-    public PublishingHouseDTO update(PublishingHouseDTO publishingHouseDTO) {
+    public PublishingHouseDTO update(PublishingHouseDTO dto) {
 
         PublishingHouse publishingHouse = publishingHouseRepository
-                .findById(publishingHouseDTO.getId())
+                .findById(dto.getId())
                 .orElse(null);
 
         if (publishingHouse == null) {
-            // TODO: throw custom exception "Publishing House not found"
-            return null;
+            throw new CustomEntityNotFoundException("Publishing House not found with id: " + dto.getId());
         }
 
-        publishingHouse = publishingHouseMapper.toEntity(publishingHouseDTO);
+        publishingHouse.setName(dto.getName() == null ? publishingHouse.getName() : dto.getName());
+        publishingHouse.setEmail(dto.getEmail() == null ? publishingHouse.getEmail() : dto.getEmail());
+
+        publishingHouse.setAddress(
+                dto.getAddress() == null ?
+                        publishingHouse.getAddress() :
+                        addressMapper.toEntity(dto.getAddress())
+        );
+
+        publishingHouse.setBook(
+                dto.getBook() == null ?
+                        publishingHouse.getBook() :
+                        dto.getBook().stream().map(bookMapper::toEntity).toList()
+        );
 
         return publishingHouseMapper.toDTO(
                 publishingHouseRepository.save(publishingHouse)
@@ -85,8 +99,7 @@ public class PublishingHouseServiceImpl implements PublishingHouseService {
                 .orElse(null);
 
         if (publishingHouse == null) {
-            // TODO: throw custom exception "Publishing House not found"
-            return;
+            throw new CustomEntityNotFoundException("Publishing House not found with id: " + id);
         }
 
         publishingHouseRepository.deleteById(id);

@@ -36,7 +36,7 @@ public class PublishingHouseRestController {
     }
 
     @PutMapping("/")
-    public PublishingHouseDTO update(@Valid @RequestBody PublishingHouseDTO publishingHouseDTO) {
+    public PublishingHouseDTO update(@RequestBody PublishingHouseDTO publishingHouseDTO) {
         return publishingHouseService.update(publishingHouseDTO);
     }
 

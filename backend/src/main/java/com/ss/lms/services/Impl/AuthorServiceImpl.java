@@ -2,27 +2,34 @@ package com.ss.lms.services.Impl;
 
 import com.ss.lms.dto.AuthorDTO;
 import com.ss.lms.entity.Author;
+import com.ss.lms.exception.CustomEntityNotFoundException;
+import com.ss.lms.mapper.AddressMapper;
 import com.ss.lms.mapper.AuthorMapper;
+import com.ss.lms.mapper.BookMapper;
 import com.ss.lms.repository.AuthorRepository;
 import com.ss.lms.services.AuthorService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
-    private static final Logger log = Logger.getLogger("Author Service Impl");
+//    private static final Logger log = Logger.getLogger("Author Service Impl");
 
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
+    private final AddressMapper addressMapper;
+    private final BookMapper bookMapper;
 
-    public AuthorServiceImpl(AuthorRepository authorRepository, AuthorMapper authorMapper) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, AuthorMapper authorMapper,
+                             AddressMapper addressMapper, BookMapper bookMapper) {
         this.authorRepository = authorRepository;
         this.authorMapper = authorMapper;
+        this.addressMapper = addressMapper;
+        this.bookMapper = bookMapper;
     }
 
     @Override
@@ -62,11 +69,24 @@ public class AuthorServiceImpl implements AuthorService {
                 .orElse(null);
 
         if (author == null) {
-            // TODO: throw custom exception "author not found"
-            return null;
+            throw new CustomEntityNotFoundException("No author found with id: " + authorDTO.getId());
         }
 
-        author = authorMapper.toEntity(authorDTO);
+        author.setFirstName(authorDTO.getFirstName() == null ? author.getFirstName() : authorDTO.getFirstName());
+        author.setLastName(authorDTO.getLastName() == null ? author.getLastName() : authorDTO.getLastName());
+        author.setEmail(authorDTO.getEmail() == null ? author.getEmail() : authorDTO.getEmail());
+
+        author.setAddress(
+                authorDTO.getAddress() == null ?
+                        author.getAddress() :
+                        addressMapper.toEntity(authorDTO.getAddress())
+        );
+
+        author.setBook(
+                authorDTO.getBook() == null ?
+                        author.getBook() :
+                        authorDTO.getBook().stream().map(bookMapper::toEntity).toList()
+        );
 
         return authorMapper.toDTO(
                 authorRepository.save(author)
@@ -81,8 +101,7 @@ public class AuthorServiceImpl implements AuthorService {
                 .orElse(null);
 
         if (author == null) {
-            // TODO: throw custom exception "author not found"
-            return;
+            throw new CustomEntityNotFoundException("No author found with id: " + id);
         }
 
         authorRepository.deleteById(id);

@@ -10,12 +10,10 @@ public class AuthorMapper {
 
     private final AddressMapper addressMapper;
     private final BookMapper bookMapper;
-    private final PhoneNumberMapper phoneNumberMapper;
 
-    public AuthorMapper(AddressMapper addressMapper, BookMapper bookMapper, PhoneNumberMapper phoneNumberMapper) {
+    public AuthorMapper(AddressMapper addressMapper, BookMapper bookMapper) {
         this.addressMapper = addressMapper;
         this.bookMapper = bookMapper;
-        this.phoneNumberMapper = phoneNumberMapper;
     }
 
     public AuthorDTO toDTO(Author author) {
@@ -24,8 +22,14 @@ public class AuthorMapper {
                 author.getFirstName(),
                 author.getLastName(),
                 author.getEmail(),
-                addressMapper.toDTO(author.getAddress()),
+                null,
                 null
+        );
+
+        authorDTO.setAddress(
+                author.getAddress() != null ?
+                        addressMapper.toDTO(author.getAddress()) :
+                        null
         );
 
         authorDTO.setBook(
@@ -45,7 +49,11 @@ public class AuthorMapper {
         );
 
         author.setId(authorDTO.getId());
-        author.setAddress(addressMapper.toEntity(authorDTO.getAddress()));
+        author.setAddress(
+                authorDTO.getAddress() != null ?
+                        addressMapper.toEntity(authorDTO.getAddress()) :
+                        null
+        );
 
         author.setBook(
                 authorDTO.getBook() != null ?

@@ -21,7 +21,6 @@ public class PublishingHouseMapper {
                 publishingHouse.getName(),
                 publishingHouse.getEmail(),
                 addressMapper.toDTO(publishingHouse.getAddress()),
-                null,
                 null
         );
 
@@ -34,24 +33,26 @@ public class PublishingHouseMapper {
         return publishingHouseDTO;
     }
 
-    public PublishingHouse toEntity(PublishingHouseDTO publishingHouseDTO) {
-        PublishingHouse publishingHouse = new PublishingHouse(
-                publishingHouseDTO.getName(),
-                publishingHouseDTO.getEmail()
+    public PublishingHouse toEntity(PublishingHouseDTO dto) {
+        PublishingHouse entity = new PublishingHouse(
+                dto.getName(),
+                dto.getEmail()
         );
 
-        publishingHouse.setId(publishingHouseDTO.getId());
+        entity.setId(dto.getId());
 
-        publishingHouse.setAddress(
-                addressMapper.toEntity(publishingHouseDTO.getAddress())
-        );
-
-        publishingHouse.setBook(
-                publishingHouseDTO.getBook() != null ?
-                        publishingHouseDTO.getBook().stream().map(bookMapper::toEntity).toList() :
+        entity.setAddress(
+                dto.getAddress() != null ?
+                        addressMapper.toEntity(dto.getAddress()) :
                         null
         );
 
-        return publishingHouse;
+        entity.setBook(
+                dto.getBook() != null ?
+                        dto.getBook().stream().map(bookMapper::toEntity).toList() :
+                        null
+        );
+
+        return entity;
     }
 }

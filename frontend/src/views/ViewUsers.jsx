@@ -9,12 +9,14 @@ import NavbarAlt from "../components/NavbarAlt";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import DialogComp from "../components/DialogComp";
 
 export default function ViewUsers() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null); // For editing a user
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const navigateTo = useNavigate();
 
@@ -182,13 +184,6 @@ export default function ViewUsers() {
     }
   }
 
-  useEffect(() => {
-    secure();
-    fetchUser();
-    fetchUsers();
-    setLoading(false);
-  }, []);
-
   const handleAddOrUpdateUser = async (user) => {
     if (selectedUser.id) {
       // Update existing user
@@ -250,6 +245,13 @@ export default function ViewUsers() {
     }
   };
 
+  useEffect(() => {
+    secure();
+    fetchUser();
+    fetchUsers();
+    setLoading(false);
+  }, []);
+
   return loading ? (
     <div>Loading...</div>
   ) : (
@@ -264,14 +266,17 @@ export default function ViewUsers() {
           }}
         ></div>
         <div className="relative max-w-7xl mx-auto bg-white bg-opacity-80 backdrop-blur-md shadow-lg rounded-lg p-8">
-          <h1 className="text-4xl font-bold text-green-700 mb-6 text-center">
+          <h1 className="text-4xl font-bold text-primary mb-6 text-center">
             View Users
           </h1>
-          <UserForm
-            onSubmit={handleAddOrUpdateUser}
-            selectedUser={selectedUser}
-            setSelectedUser={setSelectedUser}
-          />
+          <div className="flex justify-end">
+            <button
+              onClick={() => setOpen(true)}
+              className="bg-primary box-border text-white px-4 py-2 rounded-md border-primary border-2 hover:border-black transition"
+            >
+              Add User
+            </button>
+          </div>
           <UserList
             users={users}
             onEdit={setSelectedUser}
@@ -282,6 +287,8 @@ export default function ViewUsers() {
       </div>
 
       <Footer />
+
+      <DialogComp open={open} setOpen={setOpen} />
     </>
   );
 }

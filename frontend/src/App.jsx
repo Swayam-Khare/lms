@@ -1,15 +1,16 @@
-import './App.css';
-import BooksPage from './views/BooksPage';
-import Home from './views/Home';
-import Signin from './views/Signin';
-import Signup from './views/Signup';
-import ViewBooks from './views/ViewBooks';
-import ViewUsers from './views/ViewUsers';
-import ViewIssueRecords from './views/ViewIssueRecords'; 
+import "./App.css";
+import BooksPage from "./views/BooksPage";
+import Home from "./views/Home";
+import Signin from "./views/Signin";
+import Signup from "./views/Signup";
+import ViewBooks from "./views/ViewBooks";
+import ViewUsers from "./views/ViewUsers";
+import ViewIssueRecords from "./views/ViewIssueRecords";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import MyAccount from './views/MyAccount';
-import ChangePassword from './views/ChangePassword';
-import UserDashboard from './views/UserDashboard';
+import MyAccount from "./views/MyAccount";
+import ChangePassword from "./views/ChangePassword";
+import UserDashboard from "./views/UserDashboard";
+import DialogComp from "./components/DialogComp";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: "/userDashboard", // Add the new route for issue records
     element: <UserDashboard />,
+  },
+  {
+    path: "/test", // Add the new route for issue records
+    element: <DialogComp />,
   },
 ]);
 

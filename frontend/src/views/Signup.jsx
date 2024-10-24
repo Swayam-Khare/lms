@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import Lottie from 'react-lottie';
-import animationData2 from '../assets/sign.json';
-import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Lottie from "react-lottie";
+import animationData2 from "../assets/sign.json";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigateTo = useNavigate();
 
   useEffect(() => {
-    document.title = 'Signup - Edify';
+    document.title = "Signup - Edify";
   }, []);
 
   const defaultOptions1 = {
@@ -22,8 +25,8 @@ export default function Signup() {
     autoplay: true,
     animationData: animationData2,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice'
-    }
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
   const handleTogglePassword = () => {
@@ -37,7 +40,7 @@ export default function Signup() {
       firstName,
       lastName,
       email,
-      password
+      password,
     };
 
     try {
@@ -54,30 +57,9 @@ export default function Signup() {
       const result = response.data;
 
       console.log(result);
-      
 
-
-        toast.success('Signup successful', {
-          position: 'bottom-center',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-
-        // redirect to home page
-        // setTimeout(() => {
-        //   window.location.href = '/signin';
-        // }, 3000);
-      
-      setLoading(false);
-    } catch (error) {
-      console.log(error.response.data.errors);
-      
-      toast.error(`Signup failed: ${error.response.data.errors}`, {
-        position: "top-center",
+      toast.success("Signup successful", {
+        position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -85,6 +67,45 @@ export default function Signup() {
         draggable: true,
         progress: undefined,
       });
+
+      // redirect to home page
+      setTimeout(() => {
+        navigateTo("/signin")
+      }, 2000)
+
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      if (
+        error.response?.data?.status === 400 &&
+        error.response?.data?.message.includes("Duplicate Entry")
+      ) {
+        toast.error(`User with the email already present. Please Log in`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else if (
+        error.status === 400 &&
+        error.response?.data?.errors?.length > 0
+      ) {
+        console.log('inside');
+        
+        toast.error(`${error.response.data.errors[0]}`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+
       setLoading(false);
     }
   };
@@ -108,7 +129,7 @@ export default function Signup() {
                 type="text"
                 placeholder="First Name"
                 required
-                name='firstName'
+                name="firstName"
                 className="w-full mt-4 p-2 border-2 border-gray-300 rounded-md"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
@@ -118,7 +139,7 @@ export default function Signup() {
                 type="text"
                 placeholder="Last Name"
                 required
-                name='lastName'
+                name="lastName"
                 className="w-full mt-4 p-2 border-2 border-gray-300 rounded-md"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
@@ -128,10 +149,10 @@ export default function Signup() {
                 type="email"
                 placeholder="Email"
                 required
-                name='email'
+                name="email"
                 className="w-full mt-4 p-2 border-2 border-gray-300 rounded-md"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.toLowerCase())}
               />
 
               <div className="relative">
@@ -140,7 +161,7 @@ export default function Signup() {
                   required
                   placeholder="Password"
                   value={password}
-                  name='password'
+                  name="password"
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full mt-4 p-2 border-2 border-gray-300 rounded-md"
                 />

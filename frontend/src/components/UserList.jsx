@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import DialogComp from "./DialogComp";
+
 export default function UserList({ users, onEdit, onDelete }) {
+
   return (
-    <div className="mt-8 overflow-x-auto">
+    <div className="mt-4 overflow-x-auto">
       <table className="min-w-full bg-white shadow-lg rounded-lg">
-        <thead className="bg-green-700 text-white">
+        <thead className="bg-primary text-white">
           <tr>
             <th className="py-3 px-4 text-left text-sm font-medium">
               First Name
@@ -47,6 +50,8 @@ export default function UserList({ users, onEdit, onDelete }) {
           ))}
         </tbody>
       </table>
+
+      
     </div>
   );
 }

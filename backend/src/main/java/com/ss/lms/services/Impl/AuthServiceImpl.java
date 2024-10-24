@@ -68,7 +68,6 @@ public class AuthServiceImpl implements AuthService {
     public LibrarianDTO registerLibrarian(LibrarianDTO librarianDTO) {
         Librarian librarian = librarianMapper.toEntity(librarianDTO);
         librarian.setPassword(encoder.encode(librarian.getPassword()));
-        log.info("librarian password: " + librarian.getPassword());
 
         return librarianMapper.toDTO(librarianRepo.save(librarian));
     }

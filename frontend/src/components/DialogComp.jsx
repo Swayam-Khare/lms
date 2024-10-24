@@ -14,7 +14,7 @@ export default function DialogComp({ open, setOpen, onSubmit, selectedUser, setS
 
   return (
     <>
-      <Dialog open={open} handler={handleOpen}>
+      <Dialog size="xl" open={open} handler={handleOpen}>
         <DialogHeader className="text-primary">Add User</DialogHeader>
         <DialogBody>
           <UserForm onSubmit={onSubmit} selectedUser={selectedUser} setSelectedUser={setSelectedUser} />

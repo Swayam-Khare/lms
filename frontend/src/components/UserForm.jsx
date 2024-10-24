@@ -13,9 +13,9 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
       city: "",
       state: "",
       country: "",
-      pincode: ""
+      pincode: "",
+      phoneNumber: ""
     },
-    phoneNumber: []
   });
 
   useEffect(() => {
@@ -62,27 +62,24 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
     setSelectedUser({ ...user, address: { ...user.address, [name]: value } });
   };
 
-  const handlePhoneChange = (index, value) => {
-    const updatedPhones = [...user.phoneNumber];
-    updatedPhones[index] = {number: value};
-    setSelectedUser({ ...user, phoneNumber: updatedPhones });
-  };
+  // const handlePhoneChange = (index, value) => {
+  //   const updatedPhones = [...user.phoneNumber];
+  //   updatedPhones[index] = {number: value};
+  //   setSelectedUser({ ...user, phoneNumber: updatedPhones });
+  // };
 
-  const addPhoneField = () => {
-    setSelectedUser({ ...user, phoneNumber: [...user.phoneNumber, {number: ""}] });
-  };
+  // const addPhoneField = () => {
+  //   setSelectedUser({ ...user, phoneNumber: [...user.phoneNumber, {number: ""}] });
+  // };
 
-  const removePhoneField = (index) => {
-    const updatedPhones = user.phoneNumber.filter((_, i) => i !== index);
-    setSelectedUser({ ...user, phoneNumber: updatedPhones });
-  };
+  // const removePhoneField = (index) => {
+  //   const updatedPhones = user.phoneNumber.filter((_, i) => i !== index);
+  //   setSelectedUser({ ...user, phoneNumber: updatedPhones });
+  // };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white  rounded-lg p-6 mb-6"
-    >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit} className="bg-white rounded-lg h-">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div>
           <label className="block font-medium text-gray-700">First Name</label>
           <input
@@ -207,36 +204,17 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
             required
           />
         </div>
-      </div>
-
-      <div className="mt-4">
-        <label className="block font-medium text-gray-700">Phone Numbers</label>
-        {user.phoneNumber.map((phone, index) => (
-          <div key={index} className="flex items-center mt-1">
-            <input
-              type="text"
-              value={phone.number}
-              onChange={(e) => handlePhoneChange(index, e.target.value)}
-              className="block w-full p-2 border border-gray-300 rounded-md mr-2"
-            />
-            {index > 0 && (
-              <button
-                type="button"
-                onClick={() => removePhoneField(index)}
-                className="text-red-500 hover:text-red-700"
-              >
-                Remove
-              </button>
-            )}
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={addPhoneField}
-          className="mt-2 text-green-600 hover:text-green-800"
-        >
-          + Add Phone
-        </button>
+        <div>
+          <label className="block font-medium text-gray-700">Phone Number</label>
+          <input
+            type="text"
+            name="phoneNumber"
+            value={user.address?.phoneNumber}
+            onChange={handleAddressChange}
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
       </div>
 
       <div className="mt-6">

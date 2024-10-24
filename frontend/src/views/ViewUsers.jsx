@@ -196,6 +196,7 @@ export default function ViewUsers() {
       await addUser(user);
     }
     setSelectedUser(null);
+    setOpen(false);
     fetchUsers();
   };
 
@@ -279,16 +280,21 @@ export default function ViewUsers() {
           </div>
           <UserList
             users={users}
-            onEdit={setSelectedUser}
+            onEdit={(user) => {setOpen(true); setSelectedUser(user)}}
             onDelete={handleDeleteUser}
           />
         </div>
         <ToastContainer />
+        <DialogComp
+          open={open}
+          setOpen={setOpen}
+          onSubmit={handleAddOrUpdateUser}
+          selectedUser={selectedUser}
+          setSelectedUser={setSelectedUser}
+        />
       </div>
 
       <Footer />
-
-      <DialogComp open={open} setOpen={setOpen} />
     </>
   );
 }

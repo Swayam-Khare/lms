@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer"; // Adjust path as necessary
 import axios from "axios";
 import { getToken } from "../utils/cookieUtils";
-import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
 import Navbar from "../components/Navbar";
 import NavbarAlt from "../components/NavbarAlt";
@@ -17,6 +16,7 @@ export default function ViewUsers() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigateTo = useNavigate();
 
@@ -41,29 +41,22 @@ export default function ViewUsers() {
         draggable: true,
         progress: undefined,
       });
+
+      setSelectedUser(null);
+
+      setOpen(false);
     } catch (error) {
       console.log(error);
-
-      if (error.response) {
-        toast.error(`Add User failed: ${error.response.data.message}`, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-        });
-      } else {
-        toast.error(`Add User failed: Network Error`, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-        });
+      if (
+        error.response?.data?.status === 400 &&
+        error.response?.data?.message.includes("Duplicate Entry")
+      ) {
+        setErrorMessage(`User with the email already present`);
+      } else if (
+        error.status === 400 &&
+        error.response?.data?.errors?.length > 0
+      ) {
+        setErrorMessage(error.response.data.errors[0]);
       }
     }
   }
@@ -96,28 +89,23 @@ export default function ViewUsers() {
       setTimeout(() => {
         navigateTo("/viewUsers");
       }, 1000);
+
+      setErrorMessage("");
+
+      setOpen(false);
+      setSelectedUser(null);
     } catch (error) {
       console.log(error);
-      if (error.response) {
-        toast.error(`Update failed: ${error.response.data.message}`, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-        });
-      } else {
-        toast.error(`Update failed: Network Error`, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-        });
+      if (
+        error.response?.data?.status === 400 &&
+        error.response?.data?.message.includes("Duplicate Entry")
+      ) {
+        setErrorMessage(`User with the email already present`);
+      } else if (
+        error.status === 400 &&
+        error.response?.data?.errors?.length > 0
+      ) {
+        setErrorMessage(error.response.data.errors[0]);
       }
     }
   }
@@ -195,8 +183,6 @@ export default function ViewUsers() {
 
       await addUser(user);
     }
-    setSelectedUser(null);
-    setOpen(false);
     fetchUsers();
   };
 
@@ -272,7 +258,7 @@ export default function ViewUsers() {
           </h1>
           <div className="flex justify-end">
             <button
-              onClick={() => setOpen(true)}
+              onClick={() => {setOpen(true); setSelectedUser(null); setErrorMessage('')}}
               className="bg-primary box-border text-white px-4 py-2 rounded-md border-primary border-2 hover:border-black transition"
             >
               Add User
@@ -280,7 +266,11 @@ export default function ViewUsers() {
           </div>
           <UserList
             users={users}
-            onEdit={(user) => {setOpen(true); setSelectedUser(user)}}
+            onEdit={(user) => {
+              setOpen(true);
+              setErrorMessage('')
+              setSelectedUser(user);
+            }}
             onDelete={handleDeleteUser}
           />
         </div>
@@ -291,9 +281,9 @@ export default function ViewUsers() {
           onSubmit={handleAddOrUpdateUser}
           selectedUser={selectedUser}
           setSelectedUser={setSelectedUser}
+          errorMessage={errorMessage}
         />
       </div>
-
       <Footer />
     </>
   );

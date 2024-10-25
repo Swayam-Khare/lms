@@ -1,9 +1,6 @@
 package com.ss.lms.dto;
 
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class AddressDTO {
 
@@ -24,13 +21,15 @@ public class AddressDTO {
     private String country;
 
     @NotNull(message = "Pincode is required")
-    @Digits(integer = 6, message = "Pincode must only contain 6 digits", fraction = 0)
+    @Min(value = 100000, message = "Pincode must contain at least 6 digits")
+    @Max(value = 999999, message = "Pincode must contain at most 6 digits")
     private int pincode;
 
-    @Size(min = 10, max = 12, message = "Phone number must contain 10 digits")
+    @Size(min = 10, max = 13, message = "Phone number must contain 10 digits")
     private String phoneNumber;
 
-    public AddressDTO(int id, String lane1, String lane2, String city, String state, String country, int pincode, String phoneNumber) {
+    public AddressDTO(int id, String lane1, String lane2, String city, String state,
+                      String country, int pincode, String phoneNumber) {
         this.id = id;
         this.lane1 = lane1;
         this.lane2 = lane2;
@@ -97,11 +96,13 @@ public class AddressDTO {
         this.pincode = pincode;
     }
 
-    public @Size(min = 10, max = 12, message = "Phone number must contain 10 digits") String getPhoneNumber() {
+    public @Size(min = 10, max = 12, message = "Phone number must contain 10 digits")
+            String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(@Size(min = 10, max = 12, message = "Phone number must contain 10 digits") String phoneNumber) {
+    public void setPhoneNumber(@Size(min = 10, max = 13, message = "Phone number must contain 10 digits")
+                               String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }

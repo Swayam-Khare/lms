@@ -49,7 +49,6 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(user);
-    resetForm();
   };
 
   const handleInputChange = (e) => {
@@ -99,7 +98,6 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
             value={user.lastName}
             onChange={handleInputChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            required
           />
         </div>
         <div>
@@ -145,7 +143,6 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
             value={user.address?.lane1}
             onChange={handleAddressChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            required
           />
         </div>
         <div>
@@ -168,7 +165,6 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
             value={user.address?.city}
             onChange={handleAddressChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            required
           />
         </div>
         <div>
@@ -179,7 +175,6 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
             value={user.address?.state}
             onChange={handleAddressChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            required
           />
         </div>
         <div>
@@ -190,7 +185,6 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
             value={user.address?.country}
             onChange={handleAddressChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            required
           />
         </div>
         <div>
@@ -201,7 +195,6 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
             value={user.address?.pincode}
             onChange={handleAddressChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            required
           />
         </div>
         <div>
@@ -212,7 +205,6 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
             value={user.address?.phoneNumber}
             onChange={handleAddressChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            required
           />
         </div>
       </div>

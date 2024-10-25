@@ -8,7 +8,7 @@ import {
 } from "@material-tailwind/react";
 import UserForm from "./UserForm";
 
-export default function DialogComp({ open, setOpen, onSubmit, selectedUser, setSelectedUser }) {
+export default function DialogComp({ open, setOpen, onSubmit, selectedUser, setSelectedUser, errorMessage }) {
 
   const handleOpen = () => setOpen(!open);
 
@@ -17,8 +17,14 @@ export default function DialogComp({ open, setOpen, onSubmit, selectedUser, setS
       <Dialog size="xl" open={open} handler={handleOpen}>
         <DialogHeader className="text-primary">Add User</DialogHeader>
         <DialogBody>
-          <UserForm onSubmit={onSubmit} selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
+          <UserForm
+            onSubmit={onSubmit}
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
+          />
+          <div className="text-red-600 flex justify-center">{errorMessage}</div>
         </DialogBody>
+        <DialogFooter></DialogFooter>
       </Dialog>
     </>
   );

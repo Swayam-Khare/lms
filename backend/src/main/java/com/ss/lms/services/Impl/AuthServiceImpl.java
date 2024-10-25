@@ -45,7 +45,11 @@ public class AuthServiceImpl implements AuthService {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     @Autowired
-    public AuthServiceImpl(UserRepository userRepo, LibrarianRepository librarianRepo, UserMapper userMapper, LibrarianMapper librarianMapper, AuthenticationManager authManager, JWTService jwtService, ApplicationContext context, MyLibrarianDetailsService librarianDetailsService, MyUserDetailsService userDetailsService) {
+    public AuthServiceImpl(UserRepository userRepo, LibrarianRepository librarianRepo,
+                           UserMapper userMapper, LibrarianMapper librarianMapper,
+                           AuthenticationManager authManager, JWTService jwtService,
+                           ApplicationContext context, MyLibrarianDetailsService librarianDetailsService,
+                           MyUserDetailsService userDetailsService) {
         this.userRepo = userRepo;
         this.librarianRepo = librarianRepo;
         this.userMapper = userMapper;

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  Button,
   Dialog,
   DialogHeader,
   DialogBody,
@@ -8,7 +7,7 @@ import {
 } from "@material-tailwind/react";
 import UserForm from "./UserForm";
 
-export default function DialogComp({ open, setOpen, onSubmit, selectedUser, setSelectedUser, errorMessage }) {
+export default function UserDialog({ open, setOpen, onSubmit, selectedUser, setSelectedUser, errorMessage }) {
 
   const handleOpen = () => setOpen(!open);
 

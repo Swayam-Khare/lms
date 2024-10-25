@@ -8,7 +8,7 @@ import NavbarAlt from "../components/NavbarAlt";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import DialogComp from "../components/DialogComp";
+import UserDialog from "../components/UserDialog";
 
 export default function ViewUsers() {
   const [users, setUsers] = useState([]);
@@ -258,8 +258,13 @@ export default function ViewUsers() {
           </h1>
           <div className="flex justify-end">
             <button
-              onClick={() => {setOpen(true); setSelectedUser(null); setErrorMessage('')}}
-              className="bg-primary box-border text-white px-4 py-2 rounded-md border-primary border-2 hover:border-black transition"
+              onClick={() => {
+                setOpen(true);
+                setSelectedUser(null);
+                setErrorMessage("");
+              }}
+              className="bg-primary box-border text-white px-4 py-2 rounded-md border-primary border-2
+              hover:border-black transition"
             >
               Add User
             </button>
@@ -268,14 +273,14 @@ export default function ViewUsers() {
             users={users}
             onEdit={(user) => {
               setOpen(true);
-              setErrorMessage('')
+              setErrorMessage("");
               setSelectedUser(user);
             }}
             onDelete={handleDeleteUser}
           />
         </div>
         <ToastContainer />
-        <DialogComp
+        <UserDialog
           open={open}
           setOpen={setOpen}
           onSubmit={handleAddOrUpdateUser}

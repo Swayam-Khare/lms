@@ -77,7 +77,7 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
   // };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg h-">
+    <form onSubmit={handleSubmit} className="bg-white rounded-lg">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div>
           <label className="block font-medium text-gray-700">First Name</label>

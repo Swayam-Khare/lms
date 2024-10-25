@@ -10,7 +10,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyAccount from "./views/MyAccount";
 import ChangePassword from "./views/ChangePassword";
 import UserDashboard from "./views/UserDashboard";
-import DialogComp from "./components/DialogComp";
 
 const router = createBrowserRouter([
   {
@@ -56,10 +55,6 @@ const router = createBrowserRouter([
   {
     path: "/userDashboard", // Add the new route for issue records
     element: <UserDashboard />,
-  },
-  {
-    path: "/test", // Add the new route for issue records
-    element: <DialogComp />,
   },
 ]);
 

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import DialogComp from "./DialogComp";
+import DialogComp from "./UserDialog";
 
 export default function UserList({ users, onEdit, onDelete }) {
-
   return (
     <div className="mt-4 overflow-x-auto">
       <table className="min-w-full bg-white shadow-lg rounded-lg">
@@ -50,8 +49,6 @@ export default function UserList({ users, onEdit, onDelete }) {
           ))}
         </tbody>
       </table>
-
-      
     </div>
   );
 }

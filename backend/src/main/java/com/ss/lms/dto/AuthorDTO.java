@@ -18,19 +18,11 @@ public class AuthorDTO {
     @NotBlank(message = "Email is required")
     private String email;
 
-//    @Min(value = 6, message = "Password must contain at least 6 characters")
-//    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*()]).{6,}$", message = "Password must be 8 characters long and combination of uppercase letters, lowercase letters, numbers, special characters.")
-//    private String password;
-
     @Valid
-//    @NotNull(message = "The address is required.")
     private AddressDTO address;
 
     @Valid
     private List<BookDTO> book;
-
-//    @Valid
-//    private List<PhoneNumberDTO> phoneNumber;
 
     public AuthorDTO(int id, String firstName, String lastName, String email, AddressDTO address,
                      List<BookDTO> book) {

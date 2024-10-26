@@ -10,7 +10,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
   const [pages, setPages] = useState("");
   const [edition, setEdition] = useState("");
   const [publishingHouse, setPublishingHouse] = useState("");
-  const [author, setAuthor] = useState(null);
+  const [author, setAuthor] = useState([]);
   const [genres, setGenres] = useState([]);
   const [allAuthors, setAllAuthors] = useState([]);
   const [allPublishingHouses, setAllPublishingHouses] = useState([]);
@@ -44,28 +44,26 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({
-      title,
-      isbnNumber: isbn,
-      publishingYear,
-      pages,
-      edition,
-      publishingHouse,
-      authors: author,
-      genre: genres,
-    });
+    // onSubmit({
+    //   title,
+    //   isbnNumber: isbn,
+    //   publishingYear,
+    //   pages,
+    //   edition,
+    //   publishingHouse,
+    //   authors: author,
+    //   genre: genres,
+    // });
     setSelectedBook(null);
   };
 
   const handleAuthorChange = (i) => {
-    setAuthor([...author, allAuthors[i]]);
-    console.log(author);
+    const auth = allAuthors.find((val) => val.id == i); 
+    setAuthor(auth);
   };
 
   const handleGenreChange = (index, field, value) => {
-    const newGenres = [...genres];
-    newGenres[index][field] = value;
-    setGenres(newGenres);
+    
   };
 
   async function fetchAuthors() {
@@ -77,15 +75,13 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
         withCredentials: true,
       });
 
-      console.log(response);
-
       if (response.data?.length) {
         setAllAuthors(response.data);
+        setAuthor(response.data[0]);
       }
     } catch (error) {
       console.log(error);
     }
-
     setLoading(false);
   }
 
@@ -109,9 +105,11 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
             value={isbn}
             onChange={(e) => setISBN(e.target.value)}
             required
-            className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring focus:ring-primary focus:border-primary"
+            className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
+              focus:ring focus:ring-primary focus:border-primary"
           />
         </div>
+
         {/* Book Title */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium">Book Title</label>
@@ -121,9 +119,11 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring focus:ring-primary focus:border-primary"
+            className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
+              focus:ring focus:ring-primary focus:border-primary"
           />
         </div>
+
         {/* Published Year */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium">
@@ -138,7 +138,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
             min="1"
             step="1"
             className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900
-            focus:outline-none focus:ring focus:ring-primary focus:border-primary"
+              focus:outline-none focus:ring focus:ring-primary focus:border-primary"
             onKeyDown={(e) => {
               // Allow only number keys, backspace, delete, and arrow keys
               if (
@@ -153,6 +153,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
             }}
           />
         </div>
+
         {/* Pages */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium">Pages</label>
@@ -164,7 +165,8 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
             required
             min="1"
             step="1"
-            className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring focus:ring-primary focus:border-primary"
+            className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
+              focus:ring focus:ring-primary focus:border-primary"
             onKeyDown={(e) => {
               // Allow only number keys, backspace, delete, and arrow keys
               if (
@@ -179,6 +181,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
             }}
           />
         </div>
+
         {/* Edition */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium">Edition</label>
@@ -190,9 +193,11 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
             required
             min="1"
             step="1"
-            className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring focus:ring-primary focus:border-primary"
+            className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
+              focus:ring focus:ring-primary focus:border-primary"
           />
         </div>
+
         {/* Publishing House Name */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium">
@@ -204,7 +209,8 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
             value={publishingHouse}
             onChange={(e) => setPublishingHouse(e.target.value)}
             required
-            className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring focus:ring-primary focus:border-primary"
+            className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900
+              focus:outline-none focus:ring focus:ring-primary focus:border-primary"
           />
         </div>
 
@@ -214,13 +220,14 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
               Author Name
             </label>
             <select
+              defaultValue={allAuthors[0].id}
               onChange={(e) => handleAuthorChange(e.target.value)}
               required
               className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
                 focus:ring focus:ring-primary focus:border-primary"
             >
               {allAuthors.map((val, i) => (
-                <option key={i} value={i}>
+                <option key={i} value={val.id}>
                   {val.firstName} {val.lastName}
                 </option>
               ))}

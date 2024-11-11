@@ -14,6 +14,7 @@ import com.ss.lms.mapper.UserMapper;
 import com.ss.lms.repository.IssueRecordRepository;
 import com.ss.lms.repository.UserRepository;
 import com.ss.lms.services.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,17 +36,15 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final AddressMapper addressMapper;
     private final IssueRecordMapper issueRecordMapper;
-    private final PhoneNumberMapper phoneNumberMapper;
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
     private final IssueRecordRepository issueRecordRepository;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, AddressMapper addressMapper, IssueRecordMapper issueRecordMapper, PhoneNumberMapper phoneNumberMapper, IssueRecordRepository issueRecordRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, @Lazy AddressMapper addressMapper, @Lazy IssueRecordMapper issueRecordMapper, IssueRecordRepository issueRecordRepository) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.addressMapper = addressMapper;
         this.issueRecordMapper = issueRecordMapper;
-        this.phoneNumberMapper = phoneNumberMapper;
         this.issueRecordRepository = issueRecordRepository;
     }
 

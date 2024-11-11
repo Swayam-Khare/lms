@@ -33,9 +33,7 @@ public class AuthorMapper {
         );
 
         authorDTO.setBook(
-                author.getBook() != null ?
-                        author.getBook().stream().map(bookMapper::toDTO).toList() :
-                        null
+                null
         );
 
         return authorDTO;

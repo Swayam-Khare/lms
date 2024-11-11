@@ -9,23 +9,25 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
   const [publishingYear, setPublishingYear] = useState("");
   const [pages, setPages] = useState("");
   const [edition, setEdition] = useState("");
-  const [publishingHouse, setPublishingHouse] = useState("");
-  const [author, setAuthor] = useState([]);
-  const [genres, setGenres] = useState([]);
+  const [publishingHouse, setPublishingHouse] = useState(null);
+  const [author, setAuthor] = useState(null);
+  const [genre, setGenre] = useState(null);
   const [allAuthors, setAllAuthors] = useState([]);
   const [allPublishingHouses, setAllPublishingHouses] = useState([]);
   const [allGenres, setAllGenres] = useState([]);
 
   useEffect(() => {
+    console.log(selectedBook);
+
     if (selectedBook) {
       setTitle(selectedBook.title);
       setISBN(selectedBook.isbnNumber);
-      setPublishingYear(selectedBook.publishingYear);
+      setPublishingYear(parseInt(selectedBook.publishYear));
       setPages(selectedBook.pages);
       setEdition(selectedBook.edition);
       setPublishingHouse(selectedBook.publishingHouse);
-      setAuthor(selectedBook.author || []);
-      setGenres(selectedBook.genres || []);
+      setAuthor(selectedBook.author[0] || null);
+      setGenre(selectedBook.genre[0] || null);
     } else {
       resetForm();
     }
@@ -39,31 +41,38 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
     setEdition("");
     setPublishingHouse("");
     setAuthor([]);
-    setGenres([]);
+    setGenre([]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // onSubmit({
-    //   title,
-    //   isbnNumber: isbn,
-    //   publishingYear,
-    //   pages,
-    //   edition,
-    //   publishingHouse,
-    //   authors: author,
-    //   genre: genres,
-    // });
+    console.log(publishingHouse);
+    onSubmit({
+      title,
+      isbnNumber: isbn,
+      publishYear: publishingYear,
+      pages,
+      edition,
+      publishingHouse,
+      author: [author],
+      genre: [genre],
+    });
     setSelectedBook(null);
   };
 
   const handleAuthorChange = (i) => {
-    const auth = allAuthors.find((val) => val.id == i); 
+    const auth = allAuthors.find((val) => val.id == i);
     setAuthor(auth);
   };
 
-  const handleGenreChange = (index, field, value) => {
-    
+  const handleGenreChange = (i) => {
+    const gen = allGenres.find((val) => val.id == i);
+    setGenre(gen);
+  };
+
+  const handlePublishingHouseChange = (i) => {
+    const pubHouse = allPublishingHouses.find((val) => val.id == i);
+    setPublishingHouse(pubHouse);
   };
 
   async function fetchAuthors() {
@@ -82,13 +91,69 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
     } catch (error) {
       console.log(error);
     }
-    setLoading(false);
+  }
+
+  async function fetchGenres() {
+    try {
+      const response = await axios.get("http://localhost:8080/api/genre/", {
+        headers: {
+          Authorization: "Bearer " + getToken(),
+        },
+        withCredentials: true,
+      });
+
+      if (response.data?.length) {
+        setAllGenres(response.data);
+        setGenre(response.data[0]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function fetchPublishingHouse() {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/api/publishing-house/",
+        {
+          headers: {
+            Authorization: "Bearer " + getToken(),
+          },
+          withCredentials: true,
+        }
+      );
+
+      if (response.data?.length) {
+        setAllPublishingHouses(response.data);
+        setPublishingHouse(response.data[0]);
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
-    fetchAuthors();
-    // fetchGenres();
-    // fetchPublishingHouse();
+    const promise1 = fetchAuthors();
+    const promise2 = fetchGenres();
+    const promise3 = fetchPublishingHouse();
+
+    if (selectedBook) {
+      setTitle(selectedBook.title);
+      setISBN(selectedBook.isbnNumber);
+      setPublishingYear(selectedBook.publishingYear);
+      setPages(selectedBook.pages);
+      setEdition(selectedBook.edition);
+      setPublishingHouse(selectedBook.publishingHouse);
+      setAuthor(selectedBook.author[0] || null);
+      setGenre(selectedBook.genre[0] || null);
+    } else {
+      resetForm();
+    }
+
+    Promise.all([promise1, promise2, promise3]).then((_values) => {
+      setLoading(false);
+    });
   }, []);
 
   return loading ? (
@@ -132,7 +197,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
           <input
             type="number"
             placeholder="Enter Published Year"
-            value={publishingYear}
+            value={parseInt(publishingYear)}
             onChange={(e) => setPublishingYear(e.target.value)}
             required
             min="1"
@@ -198,36 +263,44 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
           />
         </div>
 
-        {/* Publishing House Name */}
-        <div className="mb-4">
-          <label className="block text-gray-700 font-medium">
-            Publishing House Name
-          </label>
-          <input
-            type="text"
-            placeholder="Enter Publishing House Name"
-            value={publishingHouse}
-            onChange={(e) => setPublishingHouse(e.target.value)}
-            required
-            className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900
-              focus:outline-none focus:ring focus:ring-primary focus:border-primary"
-          />
+        {/* Publishing House */}
+        <div className="flex mb-4 items-center space-x-4">
+          <div className="flex-1">
+            <label className="block text-gray-700 font-medium">
+              Publishing House
+            </label>
+            <select
+              defaultValue={allPublishingHouses[0].id}
+              onChange={(e) => handlePublishingHouseChange(e.target.value)}
+              required
+              className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
+                focus:ring focus:ring-primary focus:border-primary"
+            >
+              {allPublishingHouses.map((val, i) => (
+                <option key={i} value={val.id}>
+                  {val.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
+        {/* Author Name */}
         <div className="flex mb-4 items-center space-x-4">
           <div className="flex-1">
             <label className="block text-gray-700 font-medium">
               Author Name
             </label>
             <select
-              defaultValue={allAuthors[0].id}
+              defaultValue={author.id}
               onChange={(e) => handleAuthorChange(e.target.value)}
               required
-              className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
-                focus:ring focus:ring-primary focus:border-primary"
+              className="w-full p-2 mt-2 border border-gray-300 rounded-lg 
+               text-gray-900 focus:outline-none focus:ring focus:ring-primary 
+               focus:border-primary"
             >
               {allAuthors.map((val, i) => (
-                <option key={i} value={val.id}>
+                <option key={val.id} value={val.id}>
                   {val.firstName} {val.lastName}
                 </option>
               ))}
@@ -235,31 +308,35 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
           </div>
         </div>
 
+        {/* Genre */}
         <div className="flex mb-4 items-center space-x-4">
           <div className="flex-1">
-            <label className="block text-gray-700 font-medium">
-              Genre Name
-            </label>
-            <input
-              type="text"
-              placeholder="Enter Genre Name"
+            <label className="block text-gray-700 font-medium">Genre</label>
+            <select
+              defaultValue={allGenres[0].id}
               onChange={(e) => handleGenreChange(e.target.value)}
               required
-              className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900
-                  focus:outline-none focus:ring focus:ring-primary focus:border-primary"
-            />
+              className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
+                focus:ring focus:ring-primary focus:border-primary"
+            >
+              {allGenres.map((val, i) => (
+                <option key={i} value={val.id}>
+                  {val.genre}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
-      </div>
 
-      {/* Submit Button */}
-      <div className="flex justify-start items-end">
-        <button
-          type="submit"
-          className="bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark transition"
-        >
-          {selectedBook ? "Update Book" : "Add Book"}
-        </button>
+        {/* Submit Button */}
+        <div className="flex justify-start items-end">
+          <button
+            type="submit"
+            className="bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark transition"
+          >
+            {selectedBook ? "Update Book" : "Add Book"}
+          </button>
+        </div>
       </div>
     </form>
   );

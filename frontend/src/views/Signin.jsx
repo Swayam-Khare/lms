@@ -239,6 +239,7 @@ export default function Signin() {
 
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full bg-primary hover:bg-green-900 text-white mt-4 p-2 rounded-md"
               >
                 {loading ? "Signing in..." : "Sign In"}

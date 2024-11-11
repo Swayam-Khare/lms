@@ -1,24 +1,45 @@
 package com.ss.lms.mapper;
 
+import com.ss.lms.dto.AuthorDTO;
 import com.ss.lms.dto.BookDTO;
+import com.ss.lms.dto.GenreDTO;
 import com.ss.lms.entity.Book;
+import com.ss.lms.entity.Genre;
+import com.ss.lms.entity.PublishingHouse;
+import com.ss.lms.repository.AuthorRepository;
+import com.ss.lms.repository.GenreRepository;
+import com.ss.lms.repository.PublishingHouseRepository;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class BookMapper {
 
-    private final PublishingHouseMapper publishingHouseMapper;
     private final GenreMapper genreMapper;
     private final AuthorMapper authorMapper;
+    private PublishingHouseMapper publishingHouseMapper;
+    private final PublishingHouseRepository publishingHouseRepository;
+    private final GenreRepository genreRepository;
+    private final AuthorRepository authorRepository;
+    private final ApplicationContext context;
 
-    public BookMapper(@Lazy PublishingHouseMapper publishingHouseMapper, @Lazy GenreMapper genreMapper, @Lazy AuthorMapper authorMapper) {
-        this.publishingHouseMapper = publishingHouseMapper;
+    public BookMapper(@Lazy GenreMapper genreMapper, @Lazy AuthorMapper authorMapper, PublishingHouseRepository publishingHouseRepository, GenreRepository genreRepository, AuthorRepository authorRepository, ApplicationContext context) {
         this.genreMapper = genreMapper;
         this.authorMapper = authorMapper;
+        this.publishingHouseRepository = publishingHouseRepository;
+        this.genreRepository = genreRepository;
+        this.authorRepository = authorRepository;
+        this.context = context;
     }
 
     public BookDTO toDTO(Book book) {
+
+        publishingHouseMapper = context.getBean(PublishingHouseMapper.class);
+
         BookDTO bookDTO = new BookDTO(
                 book.getId(),
                 book.getIsbnNumber(),
@@ -60,19 +81,26 @@ public class BookMapper {
         );
 
         book.setId(bookDTO.getId());
-        book.setPublishingHouse(publishingHouseMapper.toEntity(bookDTO.getPublishingHouse()));
 
-        book.setGenre(
-                bookDTO.getGenre() != null ?
-                        bookDTO.getGenre().stream().map(genreMapper::toEntity).toList() :
-                        null
-        );
+        PublishingHouse publishingHouse = publishingHouseRepository
+                .findById(bookDTO.getPublishingHouse().getId())
+                .orElse(null);
 
-        book.setAuthor(
-                bookDTO.getAuthor() != null ?
-                        bookDTO.getAuthor().stream().map(authorMapper::toEntity).toList() :
-                        null
-        );
+        book.setPublishingHouse(publishingHouse);
+
+        List<Integer> genreIds =  bookDTO
+                .getGenre()
+                .stream()
+                .map(GenreDTO::getId)
+                .toList();
+        book.setGenre(genreRepository.findAllByIdIn(genreIds));
+
+        List<Integer> authorIds = bookDTO
+                .getAuthor()
+                .stream()
+                .map(AuthorDTO::getId)
+                .toList();
+        book.setAuthor(authorRepository.findAllByIdIn(authorIds));
 
         return book;
     }

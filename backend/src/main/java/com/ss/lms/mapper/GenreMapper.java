@@ -21,9 +21,7 @@ public class GenreMapper {
         );
 
         genreDTO.setBook(
-                genre.getBook() != null ?
-                        genre.getBook().stream().map(bookMapper:: toDTO).toList() :
-                        null
+                null
         );
 
         return genreDTO;

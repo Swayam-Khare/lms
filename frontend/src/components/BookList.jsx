@@ -12,16 +12,16 @@ const BookList = ({ books, onEdit, onDelete }) => {
                 <div className="flex flex-col">
                   <span className="text-lg font-medium mb-2">{book.title}</span>
                   <div className="flex flex-wrap space-x-4 mb-2">
-                    <span className="text-sm text-gray-500">ISBN: {book.isbn}</span>
+                    <span className="text-sm text-gray-500">ISBN: {book.isbnNumber}</span>
                     <span className="text-sm text-gray-500">Edition: {book.edition}</span>
-                    <span className="text-sm text-gray-500">Publishing House: {book.publishingName}</span>
-                    <span className="text-sm text-gray-500">Year: {book.publishingYear}</span>
+                    <span className="text-sm text-gray-500">Publishing House: {book.publishingHouse.name}</span>
+                    <span className="text-sm text-gray-500">Year: {book.publishYear}</span>
                     <span className="text-sm text-gray-500">Pages: {book.pages}</span>
                   </div>
                 </div>
                 <div className="flex space-x-2">
                   <button
-                    onClick={() => onEdit(book.id)}
+                    onClick={() => onEdit(book)}
                     className="bg-[#00684a] text-white px-4 py-2 rounded-lg hover:bg-green-500 transition"
                   >
                     Edit

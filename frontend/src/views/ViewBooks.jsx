@@ -20,7 +20,7 @@ export default function ViewBooks() {
 
   const navigateTo = useNavigate();
 
-  async function addUser(book) {
+  async function addBook(book) {
     try {
       const result = await axios.post("http://localhost:8080/api/book/", book, {
         headers: {
@@ -32,7 +32,7 @@ export default function ViewBooks() {
 
       console.log(result);
 
-      toast.success("User Added", {
+      toast.success("Book Added", {
         position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -51,7 +51,7 @@ export default function ViewBooks() {
         error.response?.data?.status === 400 &&
         error.response?.data?.message.includes("Duplicate Entry")
       ) {
-        setErrorMessage(`User with the email already present`);
+        setErrorMessage(`Book with same isbn number already present`);
       } else if (
         error.status === 400 &&
         error.response?.data?.errors?.length > 0
@@ -61,10 +61,10 @@ export default function ViewBooks() {
     }
   }
 
-  async function updateUser() {
+  async function updateBook() {
     try {
       const result = await axios.put(
-        "http://localhost:8080/api/user/",
+        "http://localhost:8080/api/book/",
         selectedBook,
         {
           headers: {
@@ -76,7 +76,7 @@ export default function ViewBooks() {
       );
       console.log(result);
 
-      toast.success("User Updated", {
+      toast.success("Book Updated", {
         position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -87,7 +87,7 @@ export default function ViewBooks() {
       });
 
       setTimeout(() => {
-        navigateTo("/viewUsers");
+        navigateTo("/viewBooks");
       }, 1000);
 
       setErrorMessage("");
@@ -100,7 +100,7 @@ export default function ViewBooks() {
         error.response?.data?.status === 400 &&
         error.response?.data?.message.includes("Duplicate Entry")
       ) {
-        setErrorMessage(`User with the email already present`);
+        setErrorMessage(`Book with same isbn number is already present`);
       } else if (
         error.status === 400 &&
         error.response?.data?.errors?.length > 0
@@ -145,9 +145,9 @@ export default function ViewBooks() {
     }
   }
 
-  async function fetchUsers() {
+  async function fetchBooks() {
     try {
-      const response = await axios.get("http://localhost:8080/api/user/", {
+      const response = await axios.get("http://localhost:8080/api/book/", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + getToken(),
@@ -158,7 +158,7 @@ export default function ViewBooks() {
 
       console.log(result);
 
-      setUsers([...result]);
+      setBooks([...result]);
     } catch (error) {
       console.log(error);
     }
@@ -173,23 +173,23 @@ export default function ViewBooks() {
   }
 
   const handleAddOrUpdateUser = async (user) => {
-    if (selectedBook.id) {
+    if (selectedBook?.id) {
       // Update existing user
       console.log(selectedBook);
-      await updateUser();
+      await updateBook();
     } else {
       // Add new user with a unique ID
       console.log("Add user ", user);
 
-      await addUser(user);
+      await addBook(user);
     }
-    fetchUsers();
+    fetchBooks();
   };
 
   const handleDeleteUser = async (id) => {
     try {
       const result = await axios.delete(
-        "http://localhost:8080/api/user/" + id,
+        "http://localhost:8080/api/book/" + id,
         {
           headers: {
             Authorization: "Bearer " + getToken(),
@@ -199,7 +199,7 @@ export default function ViewBooks() {
       );
 
       console.log(result);
-      toast.success("User Deleted", {
+      toast.success("Book Deleted", {
         position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -209,7 +209,7 @@ export default function ViewBooks() {
         progress: undefined,
       });
 
-      await fetchUsers();
+      await fetchBooks();
     } catch (error) {
       console.log(error);
       if (error.response) {
@@ -233,10 +233,13 @@ export default function ViewBooks() {
   };
 
   useEffect(() => {
-    secure();
-    fetchUser();
-    fetchUsers();
-    setLoading(false);
+    const promise1 = secure();
+    const promise2 = fetchUser();
+    const promise3 = fetchBooks();
+
+    Promise.all([promise1, promise2, promise3]).then((values) => {
+      setLoading(false);
+    });
   }, []);
 
   return loading ? (

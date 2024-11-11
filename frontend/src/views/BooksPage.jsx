@@ -30,11 +30,17 @@ export default function BooksPage() {
     }
   }, [location.state]);
 
-  const handleAddOrUpdateBook = (book) => {
-    if (selectedBook) {
+  async function addBook(book) {
+    // TODO
+  }
+
+  const handleAddOrUpdateBook = async (book) => {
+    if (selectedBook.id) {
       setBooks(books.map(b => (b.id === selectedBook.id ? book : b)));
     } else {
-      setBooks([...books, { ...book, id: books.length + 1 }]); // Add new book with dummy ID
+      console.log("handleAdd", book);
+
+      await addBook
     }
     setSelectedBook(null);
   };

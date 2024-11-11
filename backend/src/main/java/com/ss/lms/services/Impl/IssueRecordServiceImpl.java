@@ -5,6 +5,7 @@ import com.ss.lms.entity.IssueRecord;
 import com.ss.lms.mapper.IssueRecordMapper;
 import com.ss.lms.repository.IssueRecordRepository;
 import com.ss.lms.services.IssueRecordService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class IssueRecordServiceImpl implements IssueRecordService {
     private final IssueRecordRepository issueRecordRepository;
     private final IssueRecordMapper issueRecordMapper;
 
-    public IssueRecordServiceImpl(IssueRecordRepository issueRecordRepository, IssueRecordMapper issueRecordMapper) {
+    public IssueRecordServiceImpl(IssueRecordRepository issueRecordRepository, @Lazy IssueRecordMapper issueRecordMapper) {
         this.issueRecordRepository = issueRecordRepository;
         this.issueRecordMapper = issueRecordMapper;
     }

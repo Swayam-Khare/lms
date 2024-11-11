@@ -2,17 +2,19 @@ package com.ss.lms.mapper;
 
 import com.ss.lms.dto.PublishingHouseDTO;
 import com.ss.lms.entity.PublishingHouse;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PublishingHouseMapper {
 
     private final AddressMapper addressMapper;
-    private final BookMapper bookMapper;
+    private final ApplicationContext context;
 
-    public PublishingHouseMapper(AddressMapper addressMapper, BookMapper bookMapper) {
+    public PublishingHouseMapper(@Lazy AddressMapper addressMapper, ApplicationContext context) {
         this.addressMapper = addressMapper;
-        this.bookMapper = bookMapper;
+        this.context = context;
     }
 
     public PublishingHouseDTO toDTO(PublishingHouse publishingHouse) {
@@ -24,11 +26,7 @@ public class PublishingHouseMapper {
                 null
         );
 
-        publishingHouseDTO.setBook(
-                publishingHouse.getBook() != null ?
-                        publishingHouse.getBook().stream().map(bookMapper::toDTO).toList() :
-                        null
-        );
+        publishingHouseDTO.setBook(null);
 
         return publishingHouseDTO;
     }
@@ -48,9 +46,7 @@ public class PublishingHouseMapper {
         );
 
         entity.setBook(
-                dto.getBook() != null ?
-                        dto.getBook().stream().map(bookMapper::toEntity).toList() :
-                        null
+                null
         );
 
         return entity;

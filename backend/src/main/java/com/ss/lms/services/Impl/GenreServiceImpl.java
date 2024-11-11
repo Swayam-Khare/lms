@@ -5,6 +5,7 @@ import com.ss.lms.entity.Genre;
 import com.ss.lms.mapper.GenreMapper;
 import com.ss.lms.repository.GenreRepository;
 import com.ss.lms.services.GenreService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class GenreServiceImpl implements GenreService {
     private final GenreRepository genreRepository;
     private final GenreMapper genreMapper;
 
-    public GenreServiceImpl(GenreRepository genreRepository, GenreMapper genreMapper) {
+    public GenreServiceImpl(GenreRepository genreRepository, @Lazy GenreMapper genreMapper) {
         this.genreRepository = genreRepository;
         this.genreMapper = genreMapper;
     }

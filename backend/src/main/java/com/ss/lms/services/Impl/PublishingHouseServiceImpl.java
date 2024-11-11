@@ -8,6 +8,7 @@ import com.ss.lms.mapper.BookMapper;
 import com.ss.lms.mapper.PublishingHouseMapper;
 import com.ss.lms.repository.PublishingHouseRepository;
 import com.ss.lms.services.PublishingHouseService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class PublishingHouseServiceImpl implements PublishingHouseService {
     private final AddressMapper addressMapper;
     private final BookMapper bookMapper;
 
-    public PublishingHouseServiceImpl(PublishingHouseRepository publishingHouseRepository, PublishingHouseMapper publishingHouseMapper, AddressMapper addressMapper, BookMapper bookMapper) {
+    public PublishingHouseServiceImpl(PublishingHouseRepository publishingHouseRepository, PublishingHouseMapper publishingHouseMapper, @Lazy AddressMapper addressMapper, @Lazy BookMapper bookMapper) {
         this.publishingHouseRepository = publishingHouseRepository;
         this.publishingHouseMapper = publishingHouseMapper;
         this.addressMapper = addressMapper;

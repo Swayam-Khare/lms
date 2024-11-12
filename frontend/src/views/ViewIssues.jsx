@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer"; // Adjust path as necessary
 import axios from "axios";
 import { getToken } from "../utils/cookieUtils";
-import UserList from "../components/UserList";
 import Navbar from "../components/Navbar";
 import NavbarAlt from "../components/NavbarAlt";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import UserDialog from "../components/UserDialog";
+import IssueRecordList from "../components/IssueRecordList";
+import IssueDialog from "../components/IssueDialog";
 
-export default function ViewUsers() {
-  const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null); // For editing a user
+export default function ViewIssues() {
+  const [records, setRecords] = useState([]);
+  const [selectedRecord, setSelectRecord] = useState(null); // For editing a user
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
@@ -20,7 +20,7 @@ export default function ViewUsers() {
 
   const navigateTo = useNavigate();
 
-  async function addUser(user) {
+  async function addRecord(user) {
     try {
       const result = await axios.post("http://localhost:8080/api/user/", user, {
         headers: {
@@ -42,7 +42,7 @@ export default function ViewUsers() {
         progress: undefined,
       });
 
-      setSelectedUser(null);
+      setSelectRecord(null);
 
       setOpen(false);
     } catch (error) {
@@ -61,11 +61,11 @@ export default function ViewUsers() {
     }
   }
 
-  async function updateUser() {
+  async function updateRecord() {
     try {
       const result = await axios.put(
         "http://localhost:8080/api/user/",
-        selectedUser,
+        selectedRecord,
         {
           headers: {
             "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export default function ViewUsers() {
       setErrorMessage("");
 
       setOpen(false);
-      setSelectedUser(null);
+      setSelectRecord(null);
     } catch (error) {
       console.log(error);
       if (
@@ -140,26 +140,12 @@ export default function ViewUsers() {
         setTimeout(() => {
           navigateTo("/signin");
         }, 2000);
-      } else if (error.response?.status == 404) {
-        toast.error(`Error fetching user. Please log in again`, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-        });
-
-        setTimeout(() => {
-          navigateTo("/signin");
-        }, 2000);
       }
       setUser(null);
     }
   }
 
-  async function fetchUsers() {
+  async function fetchRecords() {
     try {
       const response = await axios.get("http://localhost:8080/api/user/", {
         headers: {
@@ -172,7 +158,7 @@ export default function ViewUsers() {
 
       console.log(result);
 
-      setUsers([...result]);
+      setRecords([...result]);
     } catch (error) {
       console.log(error);
     }
@@ -186,21 +172,21 @@ export default function ViewUsers() {
     }
   }
 
-  const handleAddOrUpdateUser = async (user) => {
-    if (selectedUser.id) {
+  const handleAddOrUpdateRecord = async (user) => {
+    if (selectedRecord.id) {
       // Update existing user
-      console.log(selectedUser);
-      await updateUser();
+      console.log(selectedRecord);
+      await updateRecord();
     } else {
       // Add new user with a unique ID
       console.log("Add user ", user);
 
-      await addUser(user);
+      await addRecord(user);
     }
-    fetchUsers();
+    fetchRecords();
   };
 
-  const handleDeleteUser = async (id) => {
+  const handleDeleteRecord = async (id) => {
     try {
       const result = await axios.delete(
         "http://localhost:8080/api/user/" + id,
@@ -223,7 +209,7 @@ export default function ViewUsers() {
         progress: undefined,
       });
 
-      await fetchUsers();
+      await fetchRecords();
     } catch (error) {
       console.log(error);
       if (error.response) {
@@ -249,7 +235,7 @@ export default function ViewUsers() {
   useEffect(() => {
     secure();
     fetchUser();
-    fetchUsers();
+    fetchRecords();
     setLoading(false);
   }, []);
 
@@ -268,38 +254,38 @@ export default function ViewUsers() {
         ></div>
         <div className="relative max-w-7xl mx-auto bg-white bg-opacity-80 backdrop-blur-md shadow-lg rounded-lg p-8">
           <h1 className="text-4xl font-bold text-primary mb-6 text-center">
-            View Users
+            View Issue Records
           </h1>
           <div className="flex justify-end">
             <button
               onClick={() => {
                 setOpen(true);
-                setSelectedUser(null);
+                setSelectRecord(null);
                 setErrorMessage("");
               }}
               className="bg-primary box-border text-white px-4 py-2 rounded-md border-primary border-2
               hover:border-black transition"
             >
-              Add User
+              Add Record
             </button>
           </div>
-          <UserList
-            users={users}
-            onEdit={(user) => {
+          <IssueRecordList
+            issueRecords={records}
+            onUpdate={(user) => {
               setOpen(true);
               setErrorMessage("");
-              setSelectedUser(user);
+              setSelectRecord(user);
             }}
-            onDelete={handleDeleteUser}
+            onDelete={handleDeleteRecord}
           />
         </div>
         <ToastContainer />
-        <UserDialog
+        <IssueDialog
           open={open}
           setOpen={setOpen}
-          onSubmit={handleAddOrUpdateUser}
-          selectedUser={selectedUser}
-          setSelectedUser={setSelectedUser}
+          onSubmit={handleAddOrUpdateRecord}
+          selectedRecord={selectedRecord}
+          setSelectedRecord={setSelectRecord}
           errorMessage={errorMessage}
         />
       </div>

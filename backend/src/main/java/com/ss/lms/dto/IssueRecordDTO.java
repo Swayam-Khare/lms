@@ -27,7 +27,8 @@ public class IssueRecordDTO {
     @Valid
     private List<IssueBookDTO> issueBook;
 
-    public IssueRecordDTO(int id, Date issueDate, Date dueDate, UserDTO user, LibrarianDTO librarian, List<IssueBookDTO> issueBook) {
+    public IssueRecordDTO(int id, Date issueDate, Date dueDate, UserDTO user,
+                          LibrarianDTO librarian, List<IssueBookDTO> issueBook) {
         this.id = id;
         this.issueDate = issueDate;
         this.dueDate = dueDate;

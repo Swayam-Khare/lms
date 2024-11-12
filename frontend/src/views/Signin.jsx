@@ -11,7 +11,7 @@ export default function Signin() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("SELECT ROLE...");
+  const [role, setRole] = useState("LIBRARIAN");
 
   const navigateTo = useNavigate();
 
@@ -187,7 +187,7 @@ export default function Signin() {
                   className="w-full mt-4 p-2 border-2 border-gray-300 rounded-md"
                 />
 
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <select
                     placeholder="Hello"
                     className="shadow appearance-none border text-lg rounded w-full py-2 px-3 text-gray-500  focus:outline-none focus:shadow-outline"
@@ -198,10 +198,10 @@ export default function Signin() {
                     <option>User</option>
                     <option>Librarian</option>
                   </select>
-                </div>
+                </div> */}
 
                 <button
-                  className="absolute top-1/3 mr-1 right-2 transform -translate-y-1/2 focus:outline-none"
+                  className="absolute top-1/3 mr-1 right-2 transform translate-y-2 focus:outline-none"
                   type="button"
                   onClick={handleTogglePassword}
                 >

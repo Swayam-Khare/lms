@@ -141,6 +141,21 @@ export default function ViewBooks() {
           navigateTo("/signin");
         }, 2000);
       }
+      else if (error.response?.status == 404) {
+        toast.error(`Error fetching user. Please log in again`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+
+        setTimeout(() => {
+          navigateTo("/signin");
+        }, 2000);
+      }
       setBook(null);
     }
   }
@@ -173,7 +188,8 @@ export default function ViewBooks() {
   }
 
   const handleAddOrUpdateUser = async (user) => {
-    if (selectedBook?.id) {
+    console.log(selectedBook);
+    if (selectedBook) {
       // Update existing user
       console.log(selectedBook);
       await updateBook();
@@ -186,7 +202,7 @@ export default function ViewBooks() {
     fetchBooks();
   };
 
-  const handleDeleteUser = async (id) => {
+  const handleDeleteBook = async (id) => {
     try {
       const result = await axios.delete(
         "http://localhost:8080/api/book/" + id,
@@ -275,10 +291,11 @@ export default function ViewBooks() {
             books={books}
             onEdit={(book) => {
               setOpen(true);
+              console.log("onedit", book);
               setErrorMessage("");
               setSelectedBook(book);
             }}
-            onDelete={handleDeleteUser}
+            onDelete={handleDeleteBook}
           />
         </div>
         <ToastContainer />

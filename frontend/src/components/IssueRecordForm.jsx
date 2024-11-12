@@ -1,6 +1,4 @@
-// src/components/IssueRecordForm.js
-
-import React from 'react';
+import React, { useState } from "react";
 
 const IssueRecordForm = ({
   showModal,
@@ -10,22 +8,35 @@ const IssueRecordForm = ({
   onSubmit,
   addBook,
 }) => {
+  
+  const [loading, setLoading] = useState(true);
+  const [issueDate, setIssueDate] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [borrower, setBorrower] = useState(null);
+  const [librarian, setLibrarian] = useState(null);
+  const [isbnNumber, setIsbnNumber] = useState("");
+  const [fine, setFine] = useState(0);
+  const [isReturned, setIsReturned] = useState(false);
+  
+
   const deleteBook = (index) => {
     const updatedBooks = record.books.filter((_, i) => i !== index);
-    onChange({ target: { name: 'books', value: updatedBooks } });
+    onChange({ target: { name: "books", value: updatedBooks } });
   };
 
   const handleBookChange = (index, field, value) => {
     const updatedBooks = [...record.books];
     updatedBooks[index][field] = value;
-    onChange({ target: { name: 'books', value: updatedBooks } });
+    onChange({ target: { name: "books", value: updatedBooks } });
   };
 
   return (
     showModal && (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
         <div className="bg-white p-12 rounded shadow-lg max-w-3xl w-full max-h-[80vh]">
-          <h2 className="text-xl font-bold mb-4">{record.id ? 'Update' : 'Add'} Issue Record</h2>
+          <h2 className="text-xl font-bold mb-4">
+            {record.id ? "Update" : "Add"} Issue Record
+          </h2>
           <div className="max-h-[60vh] overflow-y-auto">
             <input
               type="date"
@@ -67,14 +78,18 @@ const IssueRecordForm = ({
                   type="text"
                   placeholder="Book Name"
                   value={book.bookName}
-                  onChange={(e) => handleBookChange(index, 'bookName', e.target.value)} // Updated onChange handler
+                  onChange={(e) =>
+                    handleBookChange(index, "bookName", e.target.value)
+                  } // Updated onChange handler
                   className="border rounded w-full mb-2 p-2"
                 />
                 <input
                   type="text"
                   placeholder="Book ID"
                   value={book.bookId}
-                  onChange={(e) => handleBookChange(index, 'bookId', e.target.value)} // Updated onChange handler
+                  onChange={(e) =>
+                    handleBookChange(index, "bookId", e.target.value)
+                  } // Updated onChange handler
                   className="border rounded w-full mb-2 p-2"
                 />
                 {record.books.length > 1 && (
@@ -93,7 +108,7 @@ const IssueRecordForm = ({
             >
               Add Another Book
             </button>
-          </div> 
+          </div>
           <div className="flex justify-between mt-4">
             <button
               onClick={onSubmit}

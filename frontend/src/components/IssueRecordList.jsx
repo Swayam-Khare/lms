@@ -11,7 +11,7 @@ const IssueRecordList = ({ issueRecords, onDelete, onUpdate }) => {
           <th className="border-b-2 border-gray-300 py-2 px-4 text-left">Due Date</th>
           <th className="border-b-2 border-gray-300 py-2 px-4 text-left">User Name</th>
           <th className="border-b-2 border-gray-300 py-2 px-4 text-left">Librarian Name</th>
-          <th className="border-b-2 border-gray-300 py-2 px-4 text-left">Books</th>
+          <th className="border-b-2 border-gray-300 py-2 px-4 text-left">Book</th>
         </tr>
       </thead>
       <tbody>
@@ -20,11 +20,11 @@ const IssueRecordList = ({ issueRecords, onDelete, onUpdate }) => {
             <td className="border-b border-gray-200 py-2 px-4 text-left">{record.id}</td>
             <td className="border-b border-gray-200 py-2 px-4 text-left">{record.issueDate}</td>
             <td className="border-b border-gray-200 py-2 px-4 text-left">{record.dueDate}</td>
-            <td className="border-b border-gray-200 py-2 px-4 text-left">{record.userName}</td>
-            <td className="border-b border-gray-200 py-2 px-4 text-left">{record.librarianName}</td>
+            <td className="border-b border-gray-200 py-2 px-4 text-left">{record.user.firstName} {record.user.lastName}</td>
+            <td className="border-b border-gray-200 py-2 px-4 text-left">{record.librarian.firstName} {record.librarian.lastName}</td>
             <td className="border-b border-gray-200 py-2 px-4 text-left">
-              {record.books.map((book, index) => (
-                <div key={index}>{book.bookName} (ID: {book.bookId})</div>
+              {record.issueBook.map((book, index) => (
+                <div key={index}>{book.isbnNumber} </div>
               ))}
             </td>
           </tr>

@@ -7,6 +7,7 @@ import com.ss.lms.entity.IssueBook;
 import com.ss.lms.entity.IssueRecord;
 import com.ss.lms.entity.User;
 import com.ss.lms.entity.UserPrincipal;
+import com.ss.lms.exception.CustomEntityNotFoundException;
 import com.ss.lms.mapper.AddressMapper;
 import com.ss.lms.mapper.IssueRecordMapper;
 import com.ss.lms.mapper.PhoneNumberMapper;
@@ -110,8 +111,7 @@ public class UserServiceImpl implements UserService {
                 .orElse(null);
 
         if (user == null) {
-            // TODO: throw custom exception "user not found"
-            return null;
+            throw new CustomEntityNotFoundException("User not found");
         }
 
         log.info(userDTO.toString());

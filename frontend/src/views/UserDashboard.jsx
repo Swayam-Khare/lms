@@ -172,11 +172,11 @@ export default function UserDashboard() {
             <h2 className="text-2xl font-semibold text-gray-700 mb-6">
               Current Issued Books
             </h2>
-            <IssueRecordList
+            {/* <IssueRecordList
               issueRecords={issueRecords}
               onDelete={handleDelete}
               onUpdate={handleUpdate}
-            />
+            /> */}
           </div>
         </div>
       </div>

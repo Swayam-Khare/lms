@@ -15,23 +15,24 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
   const [allAuthors, setAllAuthors] = useState([]);
   const [allPublishingHouses, setAllPublishingHouses] = useState([]);
   const [allGenres, setAllGenres] = useState([]);
+  const [selectAuthor, setSelectAuthor] = useState(1);
 
-  useEffect(() => {
-    console.log(selectedBook);
+  // useEffect(() => {
+  //   console.log(selectedBook);
 
-    if (selectedBook) {
-      setTitle(selectedBook.title);
-      setISBN(selectedBook.isbnNumber);
-      setPublishingYear(parseInt(selectedBook.publishYear));
-      setPages(selectedBook.pages);
-      setEdition(selectedBook.edition);
-      setPublishingHouse(selectedBook.publishingHouse);
-      setAuthor(selectedBook.author[0] || null);
-      setGenre(selectedBook.genre[0] || null);
-    } else {
-      resetForm();
-    }
-  }, [selectedBook]);
+  //   if (selectedBook) {
+  //     setTitle(selectedBook.title);
+  //     setISBN(selectedBook.isbnNumber);
+  //     setPublishingYear(parseInt(selectedBook.publishYear));
+  //     setPages(selectedBook.pages);
+  //     setEdition(selectedBook.edition);
+  //     setPublishingHouse(selectedBook.publishingHouse);
+  //     setAuthor(selectedBook.author[0] || null);
+  //     setGenre(selectedBook.genre[0] || null);
+  //   } else {
+  //     resetForm();
+  //   }
+  // }, [selectedBook]);
 
   const resetForm = () => {
     setTitle("");
@@ -47,6 +48,17 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(publishingHouse);
+    setSelectedBook({
+      ...selectedBook,
+      title,
+      isbnNumber: isbn,
+      publishYear: publishingYear,
+      pages,
+      edition,
+      publishingHouse,
+      author: [author],
+      genre: [genre],
+    });
     onSubmit({
       title,
       isbnNumber: isbn,
@@ -57,7 +69,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
       author: [author],
       genre: [genre],
     });
-    setSelectedBook(null);
+    // setSelectedBook(null);
   };
 
   const handleAuthorChange = (i) => {
@@ -292,7 +304,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
               Author Name
             </label>
             <select
-              defaultValue={author.id}
+              defaultValue={selectAuthor}
               onChange={(e) => handleAuthorChange(e.target.value)}
               required
               className="w-full p-2 mt-2 border border-gray-300 rounded-lg 
@@ -300,7 +312,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
                focus:border-primary"
             >
               {allAuthors.map((val, i) => (
-                <option key={val.id} value={val.id}>
+                <option key={i} value={val.id}>
                   {val.firstName} {val.lastName}
                 </option>
               ))}

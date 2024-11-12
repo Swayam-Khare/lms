@@ -5,11 +5,10 @@ import Signin from "./views/Signin";
 import Signup from "./views/Signup";
 import ViewBooks from "./views/ViewBooks";
 import ViewUsers from "./views/ViewUsers";
-import ViewIssueRecords from "./views/ViewIssueRecords";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyAccount from "./views/MyAccount";
-import ChangePassword from "./views/ChangePassword";
 import UserDashboard from "./views/UserDashboard";
+import ViewIssues from "./views/ViewIssues";
 
 const router = createBrowserRouter([
   {
@@ -42,20 +41,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/viewIssueRecords", // Add the new route for issue records
-    element: <ViewIssueRecords />,
+    element: <ViewIssues />,
   },
   {
     path: "/myAccount", // Add the new route for issue records
     element: <MyAccount />,
   },
   {
-    path: "/changePassword", // Add the new route for issue records
-    element: <ChangePassword />,
-  },
-  {
     path: "/userDashboard", // Add the new route for issue records
     element: <UserDashboard />,
   },
+  {
+    path: "/profile",
+    element: <MyAccount />
+  }
 ]);
 
 function App() {

@@ -22,12 +22,12 @@ export default function NavbarAlt({ user }) {
         </div>
         <div className="flex gap-10 mr-2 font-medium">
           <div className="flex items-center gap-5">
-            <span
+            {/* <span
               onClick={() => goTo("dashboard")}
               className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer"
             >
               Dashboard
-            </span>
+            </span> */}
 
             <span
               onClick={() => goTo("viewBooks")}

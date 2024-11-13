@@ -187,17 +187,15 @@ export default function ViewBooks() {
     }
   }
 
-  const handleAddOrUpdateUser = async (user) => {
-    console.log(selectedBook);
-    if (selectedBook) {
-      // Update existing user
-      console.log(selectedBook);
-      await updateBook();
-    } else {
-      // Add new user with a unique ID
-      console.log("Add user ", user);
+  const handleAddOrUpdateUser = async (book) => {
 
-      await addBook(user);
+    if (selectedBook) {
+      await updateBook();
+    }
+    else {
+      console.log("Add user ", book);
+
+      await addBook(book);
     }
     fetchBooks();
   };

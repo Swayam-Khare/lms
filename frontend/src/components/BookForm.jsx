@@ -17,23 +17,6 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
   const [allGenres, setAllGenres] = useState([]);
   const [selectAuthor, setSelectAuthor] = useState(1);
 
-  // useEffect(() => {
-  //   console.log(selectedBook);
-
-  //   if (selectedBook) {
-  //     setTitle(selectedBook.title);
-  //     setISBN(selectedBook.isbnNumber);
-  //     setPublishingYear(parseInt(selectedBook.publishYear));
-  //     setPages(selectedBook.pages);
-  //     setEdition(selectedBook.edition);
-  //     setPublishingHouse(selectedBook.publishingHouse);
-  //     setAuthor(selectedBook.author[0] || null);
-  //     setGenre(selectedBook.genre[0] || null);
-  //   } else {
-  //     resetForm();
-  //   }
-  // }, [selectedBook]);
-
   const resetForm = () => {
     setTitle("");
     setISBN("");
@@ -45,20 +28,25 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
     setGenre([]);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(publishingHouse);
-    setSelectedBook({
-      ...selectedBook,
-      title,
-      isbnNumber: isbn,
-      publishYear: publishingYear,
-      pages,
-      edition,
-      publishingHouse,
-      author: [author],
-      genre: [genre],
+  useEffect(() => {
+    setSelectedBook((book) => {
+      return {
+        id: book.id,
+        title,
+        isbnNumber: isbn,
+        publishYear: publishingYear,
+        pages,
+        edition,
+        publishingHouse,
+        author: [author],
+        genre: [genre],
+      };
     });
+  }, [isbn, title, publishingYear, pages, edition, publishingHouse, author, genre]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Book Form", selectedBook);
     onSubmit({
       title,
       isbnNumber: isbn,
@@ -139,7 +127,6 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
         setAllPublishingHouses(response.data);
         setPublishingHouse(response.data[0]);
       }
-
     } catch (error) {
       console.log(error);
     }
@@ -153,12 +140,15 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
     if (selectedBook) {
       setTitle(selectedBook.title);
       setISBN(selectedBook.isbnNumber);
-      setPublishingYear(selectedBook.publishingYear);
       setPages(selectedBook.pages);
       setEdition(selectedBook.edition);
       setPublishingHouse(selectedBook.publishingHouse);
       setAuthor(selectedBook.author[0] || null);
       setGenre(selectedBook.genre[0] || null);
+
+      const year = parseInt(selectedBook.publishYear)
+      setPublishingYear(year)
+      
     } else {
       resetForm();
     }
@@ -209,7 +199,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
           <input
             type="number"
             placeholder="Enter Published Year"
-            value={parseInt(publishingYear)}
+            value={publishingYear}
             onChange={(e) => setPublishingYear(e.target.value)}
             required
             min="1"

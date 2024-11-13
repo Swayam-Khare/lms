@@ -147,13 +147,16 @@ export default function ViewIssues() {
 
   async function fetchRecords() {
     try {
-      const response = await axios.get("http://localhost:8080/api/user/", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + getToken(),
-        },
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "http://localhost:8080/api/issue-record/",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getToken(),
+          },
+          withCredentials: true,
+        }
+      );
       const result = response.data;
 
       console.log(result);
@@ -233,10 +236,13 @@ export default function ViewIssues() {
   };
 
   useEffect(() => {
-    secure();
-    fetchUser();
-    fetchRecords();
-    setLoading(false);
+    const promise1 = secure();
+    const promise2 = fetchUser();
+    const promise3 = fetchRecords();
+
+    Promise.all([promise1, promise2, promise3]).then((values) => {
+      setLoading(false);
+    });
   }, []);
 
   return loading ? (

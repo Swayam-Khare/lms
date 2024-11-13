@@ -1,9 +1,7 @@
 package com.ss.lms.rest;
 
 import com.ss.lms.dto.IssueRecordDTO;
-import com.ss.lms.dto.UserDTO;
 import com.ss.lms.services.IssueRecordService;
-import com.ss.lms.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

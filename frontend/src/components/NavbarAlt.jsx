@@ -16,7 +16,7 @@ export default function NavbarAlt({ user }) {
     <nav>
       <div className="flex shadow-md justify-between items-center">
         <div className="ml-32 cursor-pointer">
-          <a href="/">
+          <a onClick={() => {goTo("")}}>
             <Logo width={40} />
           </a>
         </div>

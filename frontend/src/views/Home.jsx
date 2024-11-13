@@ -17,7 +17,7 @@ export default function Home() {
 
   async function fetchUser() {
     try {
-      const response = await axios.get("http://localhost:8080/api/user/me",
+      const response = await axios.get("http://localhost:8080/api/auth/me",
         {
           headers: {
             Authorization: "Bearer " + getToken()

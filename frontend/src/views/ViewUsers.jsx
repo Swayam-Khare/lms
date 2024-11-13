@@ -247,10 +247,13 @@ export default function ViewUsers() {
   };
 
   useEffect(() => {
-    secure();
-    fetchUser();
-    fetchUsers();
-    setLoading(false);
+    const promise1 = secure();
+    const promise2 = fetchUser();
+    const promise3 = fetchUsers();
+
+    Promise.all([promise1, promise2, promise3]).then((values) => {
+      setLoading(false);
+    });
   }, []);
 
   return loading ? (

@@ -5,7 +5,6 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
-import UserForm from "./UserForm";
 import IssueRecordForm from "./IssueRecordForm";
 
 export default function IssueDialog({ open, setOpen, onSubmit, selectedRecord, setSelectedRecord, errorMessage }) {
@@ -15,7 +14,7 @@ export default function IssueDialog({ open, setOpen, onSubmit, selectedRecord, s
   return (
     <>
       <Dialog size="xl" open={open} handler={handleOpen}>
-        <DialogHeader className="text-primary">Add User</DialogHeader>
+        <DialogHeader className="text-primary">Issue Record</DialogHeader>
         <DialogBody>
           <IssueRecordForm
             onSubmit={onSubmit}

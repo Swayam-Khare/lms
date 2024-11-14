@@ -29,24 +29,25 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
   };
 
   useEffect(() => {
-    setSelectedBook((book) => {
-      return {
-        id: book.id,
-        title,
-        isbnNumber: isbn,
-        publishYear: publishingYear,
-        pages,
-        edition,
-        publishingHouse,
-        author: [author],
-        genre: [genre],
-      };
-    });
+    if (selectedBook) {
+      setSelectedBook((book) => {
+        return {
+          id: book.id,
+          title,
+          isbnNumber: isbn,
+          publishYear: publishingYear,
+          pages,
+          edition,
+          publishingHouse,
+          author: [author],
+          genre: [genre],
+        };
+      });
+    }
   }, [isbn, title, publishingYear, pages, edition, publishingHouse, author, genre]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Book Form", selectedBook);
     onSubmit({
       title,
       isbnNumber: isbn,

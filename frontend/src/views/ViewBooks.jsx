@@ -17,6 +17,7 @@ export default function ViewBooks() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [openAdd, setOpenAdd] = useState(false);
 
   const navigateTo = useNavigate();
 
@@ -29,8 +30,6 @@ export default function ViewBooks() {
         },
         withCredentials: true,
       });
-
-      console.log(result);
 
       toast.success("Book Added", {
         position: "bottom-center",
@@ -74,7 +73,6 @@ export default function ViewBooks() {
           withCredentials: true,
         }
       );
-      console.log(result);
 
       toast.success("Book Updated", {
         position: "bottom-center",
@@ -171,8 +169,6 @@ export default function ViewBooks() {
       });
       const result = response.data;
 
-      console.log(result);
-
       setBooks([...result]);
     } catch (error) {
       console.log(error);
@@ -193,8 +189,6 @@ export default function ViewBooks() {
       await updateBook();
     }
     else {
-      console.log("Add user ", book);
-
       await addBook(book);
     }
     fetchBooks();
@@ -212,7 +206,6 @@ export default function ViewBooks() {
         }
       );
 
-      console.log(result);
       toast.success("Book Deleted", {
         position: "bottom-center",
         autoClose: 3000,
@@ -287,9 +280,11 @@ export default function ViewBooks() {
           </div>
           <BookList
             books={books}
+            onAdd={() => {
+              
+            }}
             onEdit={(book) => {
               setOpen(true);
-              console.log("onedit", book);
               setErrorMessage("");
               setSelectedBook(book);
             }}

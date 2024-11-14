@@ -14,7 +14,8 @@ public class IssueBookDTO {
 
     private BookCopyDTO bookCopy;
 
-    public IssueBookDTO(int id, int isbnNumber, float fine, boolean isReturned, IssueRecordDTO issueRecord, BookCopyDTO bookCopy) {
+    public IssueBookDTO(int id, int isbnNumber, float fine, boolean isReturned,
+                        IssueRecordDTO issueRecord, BookCopyDTO bookCopy) {
         this.id = id;
         this.isbnNumber = isbnNumber;
         this.fine = fine;

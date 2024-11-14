@@ -18,7 +18,7 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
   return loading ? (
     <div>Loading...</div>
   ) : (
-    <form className="bg-white p-3 rounded-lg">
+    <form className="bg-white p-1 rounded-lg">
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 mb-4 mx-4">
         <div className="">
           <label htmlFor="issueDate" className="text-primary font-bold ml-1">
@@ -78,6 +78,14 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
                 className="border rounded w-full mb-2 p-2"
               />
               <input
+                type="text"
+                placeholder="Book ID"
+                value={isbnNumber}
+                name="isbnNumber"
+                onChange={(e) => setIsbnNumber(e.target.value)}
+                className="border rounded w-full mb-2 p-2"
+              />
+              <input
                 name="fine"
                 type="number"
                 min={0}
@@ -87,19 +95,32 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
                 className="border rounded w-full mb-2 p-2"
               />
 
-              <label htmlFor="checkbox"></label>
-              <input
-                name="isReturned"
-                type="checkbox"
-                value={isReturned}
-                onChange={(e) => setIsReturned(e.target.value)}
-                className="border rounded w-full mb-2 p-2"
-              />
+              <div className="flex mt-2">
+                <label
+                  htmlFor="isReturned"
+                  className="text-primary font-bold ml-1 mr-2 cursor-pointer"
+                >
+                  Book returned
+                </label>
+                <input
+                  id="isReturned"
+                  name="isReturned"
+                  type="checkbox"
+                  value={isReturned}
+                  onChange={(e) => setIsReturned(e.target.value)}
+                  className="border rounded cursor-pointer"
+                />
+              </div>
 
               {issueBooks.length > 1 && (
                 <button
                   type="button"
-                  // onClick={() => deleteBook(index)}
+                  onClick={(e) => {
+                    const array = issueBooks.filter(
+                      (_val, ind) => ind !== index
+                    );
+                    setIssueBooks(array);
+                  }}
                   className="bg-red-500 text-white px-2 py-1 rounded"
                 >
                   Delete
@@ -115,7 +136,7 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
               ]);
             }}
             type="button"
-            className="bg-blue-500 text-white px-4 py-1 rounded mb-2"
+            className="bg-blue-500 text-white px-4 py-1 rounded mb-2 mt-2"
           >
             Add Another Book
           </button>

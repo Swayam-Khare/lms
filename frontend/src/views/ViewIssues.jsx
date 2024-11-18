@@ -20,6 +20,8 @@ export default function ViewIssues() {
 
   const navigateTo = useNavigate();
 
+  const role = localStorage.getItem("role");
+
   async function addRecord(user) {
     try {
       const result = await axios.post("http://localhost:8080/api/user/", user, {
@@ -138,7 +140,7 @@ export default function ViewIssues() {
         });
 
         setTimeout(() => {
-          navigateTo("/signin");
+          navigateTo("/lib/signin");
         }, 2000);
       }
       setUser(null);
@@ -228,7 +230,7 @@ export default function ViewIssues() {
           });
 
           setTimeout(() => {
-            navigateTo("/signin");
+            navigateTo("/lib/signin");
           }, 2000);
         }
       }
@@ -262,19 +264,23 @@ export default function ViewIssues() {
           <h1 className="text-4xl font-bold text-primary mb-6 text-center">
             View Issue Records
           </h1>
-          <div className="flex justify-end">
-            <button
-              onClick={() => {
-                setOpen(true);
-                setSelectRecord(null);
-                setErrorMessage("");
-              }}
-              className="bg-primary box-border text-white px-4 py-2 rounded-md border-primary border-2
+          {role == "LIBRARIAN" ? (
+            <div className="flex justify-end">
+              <button
+                onClick={() => {
+                  setOpen(true);
+                  setSelectRecord(null);
+                  setErrorMessage("");
+                }}
+                className="bg-primary box-border text-white px-4 py-2 rounded-md border-primary border-2
               hover:border-black transition"
-            >
-              Add Record
-            </button>
-          </div>
+              >
+                Add Record
+              </button>
+            </div>
+          ) : (
+            <></>
+          )}
           <IssueRecordList
             issueRecords={records}
             onUpdate={(user) => {

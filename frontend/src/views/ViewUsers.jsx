@@ -138,7 +138,7 @@ export default function ViewUsers() {
         });
 
         setTimeout(() => {
-          navigateTo("/signin");
+          navigateTo("/lib/signin");
         }, 2000);
       } else if (error.response?.status == 404) {
         toast.error(`Error fetching user. Please log in again`, {
@@ -152,7 +152,7 @@ export default function ViewUsers() {
         });
 
         setTimeout(() => {
-          navigateTo("/signin");
+          navigateTo("/lib/signin");
         }, 2000);
       }
       setUser(null);
@@ -239,7 +239,7 @@ export default function ViewUsers() {
           });
 
           setTimeout(() => {
-            navigateTo("/signin");
+            navigateTo("/lib/signin");
           }, 2000);
         }
       }

@@ -16,6 +16,8 @@ public class IssueRecordDTO {
     @NotNull(message = "Due Date is required")
     private Date dueDate;
 
+    private boolean isReturned;
+
     @Valid
     @NotNull(message = "details are required")
     private UserDTO user;
@@ -27,11 +29,12 @@ public class IssueRecordDTO {
     @Valid
     private List<IssueBookDTO> issueBook;
 
-    public IssueRecordDTO(int id, Date issueDate, Date dueDate, UserDTO user,
+    public IssueRecordDTO(int id, Date issueDate, Date dueDate, boolean isReturned, UserDTO user,
                           LibrarianDTO librarian, List<IssueBookDTO> issueBook) {
         this.id = id;
         this.issueDate = issueDate;
         this.dueDate = dueDate;
+        this.isReturned = isReturned;
         this.user = user;
         this.librarian = librarian;
         this.issueBook = issueBook;
@@ -59,6 +62,14 @@ public class IssueRecordDTO {
 
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public boolean isReturned() {
+        return isReturned;
+    }
+
+    public void setReturned(boolean returned) {
+        isReturned = returned;
     }
 
     public UserDTO getUser() {

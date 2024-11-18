@@ -10,6 +10,7 @@ import NavbarAlt from "../components/NavbarAlt";
 export default function MyAccount() {
   const navigateTo = useNavigate();
   const [loading, setLoading] = useState(true);
+  
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -53,7 +54,7 @@ export default function MyAccount() {
         });
 
         setTimeout(() => {
-          navigateTo("/signin");
+          navigateTo("/lib/signin");
         }, 2000);
       } else if (error.response?.status == 404) {
         toast.error(`Error fetching user. Please log in again`, {
@@ -67,11 +68,10 @@ export default function MyAccount() {
         });
 
         setTimeout(() => {
-          navigateTo("/signin");
+          navigateTo("/lib/signin");
         }, 2000);
       }
     }
-    
   }
 
   async function secure() {
@@ -94,7 +94,6 @@ export default function MyAccount() {
 
   const handleInputChange = (e) => {
     let { name, value } = e.target;
-    console.log("name:", name, "value", value);
 
     if (name.startsWith("address")) {
       name = name.split(".")[1];
@@ -105,11 +104,12 @@ export default function MyAccount() {
   };
 
   const handleSave = async () => {
-    console.log("user:", user);
+
+    const role = localStorage.getItem("role").toLowerCase();
 
     try {
       const response = await axios.put(
-        "http://localhost:8080/api/librarian/",
+        `http://localhost:8080/api/${role}/`,
         user,
         {
           headers: {
@@ -132,14 +132,9 @@ export default function MyAccount() {
           progress: undefined,
         });
       }
-
     } catch (error) {
-      if (
-        error.status === 400 &&
-        error.response?.data?.errors?.length > 0
-      ) {
-        console.log('inside');
-        
+      if (error.status === 400 && error.response?.data?.errors?.length > 0) {
+
         toast.error(`${error.response.data.errors[0]}`, {
           position: "top-center",
           autoClose: 3000,

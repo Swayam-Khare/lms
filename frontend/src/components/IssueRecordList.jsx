@@ -2,6 +2,9 @@
 import React from 'react';
 
 const IssueRecordList = ({ issueRecords, onDelete, onUpdate }) => {
+
+  
+
   return (
     <table className="min-w-full mt-8 table-auto border-collapse">
       <thead>

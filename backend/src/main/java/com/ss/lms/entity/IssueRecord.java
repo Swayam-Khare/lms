@@ -20,6 +20,9 @@ public class IssueRecord {
     @Column(name = "due_date")
     private Date dueDate;
 
+    @Column(name = "is_returned")
+    private boolean isReturned;
+
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
@@ -39,9 +42,10 @@ public class IssueRecord {
     public IssueRecord() {
     }
 
-    public IssueRecord(Date issueDate, Date dueDate) {
+    public IssueRecord(Date issueDate, Date dueDate, boolean isReturned) {
         this.issueDate = issueDate;
         this.dueDate = dueDate;
+        this.isReturned = isReturned;
     }
 
     public int getId() {
@@ -66,6 +70,14 @@ public class IssueRecord {
 
     public void setDueDate(Date due_date) {
         this.dueDate = due_date;
+    }
+
+    public boolean isReturned() {
+        return isReturned;
+    }
+
+    public void setReturned(boolean returned) {
+        isReturned = returned;
     }
 
     public User getUser() {
@@ -99,6 +111,7 @@ public class IssueRecord {
                 ", issue_date=" + issueDate +
                 ", due_date=" + dueDate +
                 ", user=" + user +
+                ", isReturned=" + isReturned +
                 ", librarian=" + librarian +
                 '}';
     }

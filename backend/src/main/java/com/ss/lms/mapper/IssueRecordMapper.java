@@ -24,6 +24,7 @@ public class IssueRecordMapper {
                 issueRecord.getId(),
                 issueRecord.getIssueDate(),
                 issueRecord.getDueDate(),
+                issueRecord.isReturned(),
                 userMapper.toDTO(issueRecord.getUser()),
                 librarianMapper.toDTO(issueRecord.getLibrarian()),
                 null
@@ -41,7 +42,8 @@ public class IssueRecordMapper {
     public IssueRecord toEntity(IssueRecordDTO issueRecordDTO) {
         IssueRecord issueRecord = new IssueRecord(
                 issueRecordDTO.getIssueDate(),
-                issueRecordDTO.getDueDate()
+                issueRecordDTO.getDueDate(),
+                issueRecordDTO.isReturned()
         );
 
         issueRecord.setId(issueRecordDTO.getId());

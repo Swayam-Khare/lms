@@ -21,6 +21,8 @@ export default function ViewBooks() {
 
   const navigateTo = useNavigate();
 
+  const role = localStorage.getItem("role");
+
   async function addBook(book) {
     try {
       const result = await axios.post("http://localhost:8080/api/book/", book, {
@@ -136,7 +138,7 @@ export default function ViewBooks() {
         });
 
         setTimeout(() => {
-          navigateTo("/signin");
+          navigateTo("/lib/signin");
         }, 2000);
       }
       else if (error.response?.status == 404) {
@@ -151,7 +153,7 @@ export default function ViewBooks() {
         });
 
         setTimeout(() => {
-          navigateTo("/signin");
+          navigateTo("/lib/signin");
         }, 2000);
       }
       setBook(null);
@@ -232,7 +234,7 @@ export default function ViewBooks() {
           });
 
           setTimeout(() => {
-            navigateTo("/signin");
+            navigateTo("/lib/signin");
           }, 2000);
         }
       }
@@ -265,7 +267,7 @@ export default function ViewBooks() {
           <h1 className="text-4xl font-bold text-primary mb-6 text-center">
             View Books
           </h1>
-          <div className="flex justify-end">
+          {role == "LIBRARIAN" ? (<div className="flex justify-end">
             <button
               onClick={() => {
                 setOpen(true);
@@ -277,7 +279,7 @@ export default function ViewBooks() {
             >
               Add Book
             </button>
-          </div>
+          </div>) : <></>}
           <BookList
             books={books}
             onAdd={() => {

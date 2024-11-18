@@ -9,20 +9,15 @@ import org.springframework.stereotype.Component;
 public class IssueBookMapper {
 
     private final IssueRecordMapper issueRecordMapper;
-    private final BookCopyMapper bookCopyMapper;
 
-    public IssueBookMapper(@Lazy IssueRecordMapper issueRecordMapper, @Lazy BookCopyMapper bookCopyMapper) {
+    public IssueBookMapper(@Lazy IssueRecordMapper issueRecordMapper) {
         this.issueRecordMapper = issueRecordMapper;
-        this.bookCopyMapper = bookCopyMapper;
     }
 
     public IssueBookDTO toDTO(IssueBook issueBook) {
         IssueBookDTO dto = new IssueBookDTO(
                 issueBook.getId(),
                 issueBook.getIsbnNumber(),
-                issueBook.getFine(),
-                issueBook.isReturned(),
-                null,
                 null
         );
 
@@ -32,20 +27,12 @@ public class IssueBookMapper {
                         null
         );
 
-        dto.setBookCopy(
-                issueBook.getBookCopy() != null ?
-                        bookCopyMapper.toDTO(issueBook.getBookCopy()) :
-                        null
-        );
-
         return dto;
     }
 
     public IssueBook toEntity(IssueBookDTO dto) {
         IssueBook issueBook = new IssueBook(
-                dto.getIsbnNumber(),
-                dto.getFine(),
-                dto.isReturned()
+                dto.getIsbnNumber()
         );
 
         issueBook.setId(dto.getId());
@@ -53,12 +40,6 @@ public class IssueBookMapper {
         issueBook.setIssueRecord(
                 dto.getIssueRecord() != null ?
                         issueRecordMapper.toEntity(dto.getIssueRecord()) :
-                        null
-        );
-
-        issueBook.setBookCopy(
-                dto.getBookCopy() != null ?
-                        bookCopyMapper.toEntity(dto.getBookCopy()) :
                         null
         );
 

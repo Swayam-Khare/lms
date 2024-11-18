@@ -5,14 +5,36 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
   const [issueDate, setIssueDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [borrower, setBorrower] = useState(null);
+  const [users, setUsers] = useState([]);
   const [librarian, setLibrarian] = useState(null);
   const [isbnNumber, setIsbnNumber] = useState("");
   const [fine, setFine] = useState(0);
   const [issueBooks, setIssueBooks] = useState([]);
   const [isReturned, setIsReturned] = useState(false);
 
+  async function fetchUsers() {
+    try {
+      const response = await axios.get("http://localhost:8080/api/user/", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + getToken(),
+        },
+        withCredentials: true,
+      });
+      const result = response.data;
+
+      console.log(result);
+
+      setUsers([...result]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
-    setLoading(false);
+    fetchUsers().then(() => {
+      setLoading(false);
+    });
   }, []);
 
   return loading ? (

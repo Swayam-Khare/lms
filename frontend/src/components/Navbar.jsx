@@ -11,7 +11,7 @@ export default function Navbar() {
   }
 
   function handleSignin() {
-    window.location.href = "/signin";
+    window.location.href = "/lib/signin";
   }
 
   return (

@@ -1,4 +1,7 @@
 const BookList = ({ books, onEdit, onDelete }) => {
+
+  const role = localStorage.getItem("role");
+
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-semibold mb-4 text-gray-800">Books List</h2>
@@ -19,7 +22,7 @@ const BookList = ({ books, onEdit, onDelete }) => {
                     <span className="text-sm text-gray-500">Pages: {book.pages}</span>
                   </div>
                 </div>
-                <div className="flex space-x-2">
+                {role == "LIBRARIAN" ? (<div className="flex space-x-2">
                   <button
                     onClick={() => onEdit(book)}
                     className="bg-[#00684a] text-white px-4 py-2 rounded-lg hover:bg-green-500 transition"
@@ -32,7 +35,7 @@ const BookList = ({ books, onEdit, onDelete }) => {
                   >
                     Delete
                   </button>
-                </div>
+                </div>) : <></>}
               </div>
             </li>
           ))}

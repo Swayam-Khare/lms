@@ -29,10 +29,6 @@ public class PublishingHouse {
     )
     private List<Book> book;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "publishing_house_id")
-//    private List<PhoneNumber> phoneNumber;
-
     public PublishingHouse() {
     }
 

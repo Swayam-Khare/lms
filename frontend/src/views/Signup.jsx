@@ -70,7 +70,7 @@ export default function Signup() {
 
       // redirect to home page
       setTimeout(() => {
-        navigateTo("/signin")
+        navigateTo("/lib/signin")
       }, 2000)
 
       setLoading(false);
@@ -212,7 +212,7 @@ export default function Signup() {
 
             <div className="mt-4 text-center">
               Already have an account?{" "}
-              <a href="/signin" className="text-primary hover:underline">
+              <a href="/lib/signin" className="text-primary hover:underline">
                 Login
               </a>
             </div>

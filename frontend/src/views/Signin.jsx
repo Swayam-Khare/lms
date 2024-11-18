@@ -6,12 +6,19 @@ import animationData2 from "../assets/signin.json";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function Signin() {
+export default function Signin({ getRole }) {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("LIBRARIAN");
+  const [role, setRole] = useState(getRole);
+
+  localStorage.setItem("role", getRole);
+
+  const currentRole = getRole.toLowerCase();
+  const altRole = currentRole == "librarian" ? "User" : "Librarian";
+
+  const altSigninUrl = altRole !== "User" ? "/lib/signin" : "/user/signin";
 
   const navigateTo = useNavigate();
 
@@ -23,6 +30,10 @@ export default function Signin() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
+  const redirectSignin = () => {
+    window.location.href = altSigninUrl;
+  }
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -163,7 +174,7 @@ export default function Signin() {
           <div className="text-3xl text-gray-600">Welcome back!</div>
 
           <div className="mt-6 text-2xl text-left text-primary mb-2 font-bold">
-            Login to your account
+            {`Login to your ${currentRole} account`}
           </div>
           <hr />
           <div className="mt-4">
@@ -186,19 +197,6 @@ export default function Signin() {
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full mt-4 p-2 border-2 border-gray-300 rounded-md"
                 />
-
-                {/* <div className="mt-4">
-                  <select
-                    placeholder="Hello"
-                    className="shadow appearance-none border text-lg rounded w-full py-2 px-3 text-gray-500  focus:outline-none focus:shadow-outline"
-                    id="subject"
-                    onChange={(e) => setRole(e.target.value.toUpperCase())}
-                  >
-                    <option>Select Role...</option>
-                    <option>User</option>
-                    <option>Librarian</option>
-                  </select>
-                </div> */}
 
                 <button
                   className="absolute top-1/3 mr-1 right-2 transform translate-y-2 focus:outline-none"
@@ -246,11 +244,18 @@ export default function Signin() {
               </button>
             </form>
 
-            <div className="mt-4 text-center">
-              Don't have an account?{" "}
-              <a href="/signup" className="text-primary hover:underline">
-                Sign up
-              </a>
+            <div className="mt-4 flex justify-between">
+              <div>
+                Don't have an account?{" "}
+                <a href="/signup" className="text-primary hover:underline">
+                  Sign up
+                </a>
+              </div>
+              <div>
+                <span onClick={redirectSignin} className="text-primary hover:underline cursor-pointer">
+                  {`${altRole} login`}
+                </span>
+              </div>
             </div>
           </div>
         </div>

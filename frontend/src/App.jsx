@@ -16,8 +16,12 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/signin",
-    element: <Signin />,
+    path: "/lib/signin",
+    element: <Signin getRole="LIBRARIAN" />,
+  },
+  {
+    path: "/user/signin",
+    element: <Signin getRole="USER" />,
   },
   {
     path: "/signup",
@@ -53,8 +57,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/profile",
-    element: <MyAccount />
-  }
+    element: <MyAccount />,
+  },
 ]);
 
 function App() {

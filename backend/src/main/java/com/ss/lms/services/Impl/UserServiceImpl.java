@@ -10,7 +10,6 @@ import com.ss.lms.entity.UserPrincipal;
 import com.ss.lms.exception.CustomEntityNotFoundException;
 import com.ss.lms.mapper.AddressMapper;
 import com.ss.lms.mapper.IssueRecordMapper;
-import com.ss.lms.mapper.PhoneNumberMapper;
 import com.ss.lms.mapper.UserMapper;
 import com.ss.lms.repository.IssueRecordRepository;
 import com.ss.lms.repository.UserRepository;
@@ -151,8 +150,7 @@ public class UserServiceImpl implements UserService {
                 .orElse(null);
 
         if (user == null) {
-            // TODO: throw custom exception "user not found"
-            return;
+            throw new CustomEntityNotFoundException("User not found with the given id: " + id);
         }
 
         userRepository.deleteById(id);
@@ -181,14 +179,12 @@ public class UserServiceImpl implements UserService {
         List<IssueRecord> records = user.getIssueRecord();
 
         for (IssueRecord record : records) {
-            List<IssueBook> books = record.getIssueBook();
-
-            for (IssueBook book : books) {
-                if (!book.isReturned()) {
-                    numberOfBooksToReturn++;
-                }
-                totalNumberOfBooksBorrowed++;
+            if (!record.isReturned()) {
+                numberOfBooksToReturn++;
             }
+
+            List<IssueBook> books = record.getIssueBook();
+            totalNumberOfBooksBorrowed += books.size();
         }
 
         return new UserInfoResponse(

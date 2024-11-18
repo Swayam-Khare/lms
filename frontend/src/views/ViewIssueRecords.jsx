@@ -19,6 +19,8 @@ const ViewIssueRecords = () => {
     books: [{ bookId: '', bookName: '' }],
   });
 
+  const role = localStorage.getItem("role");
+
   useEffect(() => {
     // Dummy data
     const dummyRecords = [
@@ -96,23 +98,27 @@ const ViewIssueRecords = () => {
 
   return (
     <div className="p-6">
-      <button 
-        onClick={() => setShowModal(true)} 
-        className="bg-[#00684a] text-white px-4 py-2 rounded mb-4"
-      >
-        Add Issue Record
-      </button>
+      {role == "LIBRARIAN" ? (
+        <button
+          onClick={() => setShowModal(true)}
+          className="bg-[#00684a] text-white px-4 py-2 rounded mb-4"
+        >
+          Add Issue Record
+        </button>
+      ) : (
+        <></>
+      )}
       {loading ? (
         <Skeleton height={400} count={5} />
       ) : (
         <>
-          <IssueRecordList 
-            issueRecords={issueRecords} 
-            onDelete={handleDelete} 
-            onUpdate={handleUpdate} 
+          <IssueRecordList
+            issueRecords={issueRecords}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
           />
           <Footer />
-          <IssueRecordForm 
+          <IssueRecordForm
             showModal={showModal}
             onClose={() => setShowModal(false)}
             record={record}

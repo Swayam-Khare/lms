@@ -38,10 +38,6 @@ public class Author {
     )
     private List<Book> book;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "author_id")
-//    private List<PhoneNumber> phoneNumber;
-
     public Author() {
     }
 

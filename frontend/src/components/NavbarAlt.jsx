@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function NavbarAlt({ user }) {
   const navigate = useNavigate();
+  const role = localStorage.getItem("role");
 
   const goTo = (path) => {
     navigate(`/${path}`);
@@ -16,31 +17,34 @@ export default function NavbarAlt({ user }) {
     <nav>
       <div className="flex shadow-md justify-between items-center">
         <div className="ml-32 cursor-pointer">
-          <a onClick={() => {goTo("")}}>
+          <a
+            onClick={() => {
+              goTo("");
+            }}
+          >
             <Logo width={40} />
           </a>
         </div>
         <div className="flex gap-10 mr-2 font-medium">
           <div className="flex items-center gap-5">
-            {/* <span
-              onClick={() => goTo("dashboard")}
-              className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer"
-            >
-              Dashboard
-            </span> */}
-
             <span
               onClick={() => goTo("viewBooks")}
               className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer"
             >
               Books
             </span>
-            <span
-              onClick={() => goTo("viewUsers")}
-              className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer"
-            >
-              Members
-            </span>
+            {role == "LIBRARIAN" ? (
+              <>
+                <span
+                  onClick={() => goTo("viewUsers")}
+                  className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer"
+                >
+                  Members
+                </span>
+              </>
+            ) : (
+              <></>
+            )}
             <span
               onClick={() => goTo("viewIssueRecords")}
               className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer"

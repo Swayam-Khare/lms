@@ -22,19 +22,23 @@ export default function ViewIssues() {
 
   const role = localStorage.getItem("role");
 
-  async function addRecord(user) {
+  async function addRecord(record) {
     try {
-      const result = await axios.post("http://localhost:8080/api/user/", user, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + getToken(),
-        },
-        withCredentials: true,
-      });
+      const result = await axios.post(
+        "http://localhost:8080/api/issue-record/",
+        record,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getToken(),
+          },
+          withCredentials: true,
+        }
+      );
 
       console.log(result);
 
-      toast.success("User Added", {
+      toast.success("Issue Record Added", {
         position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -53,7 +57,7 @@ export default function ViewIssues() {
         error.response?.data?.status === 400 &&
         error.response?.data?.message.includes("Duplicate Entry")
       ) {
-        setErrorMessage(`User with the email already present`);
+        setErrorMessage(`Issue Record already present`);
       } else if (
         error.status === 400 &&
         error.response?.data?.errors?.length > 0
@@ -177,16 +181,16 @@ export default function ViewIssues() {
     }
   }
 
-  const handleAddOrUpdateRecord = async (user) => {
-    if (selectedRecord.id) {
+  const handleAddOrUpdateRecord = async (record) => {
+    if (selectedRecord?.id) {
       // Update existing user
       console.log(selectedRecord);
       await updateRecord();
     } else {
       // Add new user with a unique ID
-      console.log("Add user ", user);
-
-      await addRecord(user);
+      console.log("Add Record ", record);
+      record.librarian = user;
+      await addRecord(record);
     }
     fetchRecords();
   };

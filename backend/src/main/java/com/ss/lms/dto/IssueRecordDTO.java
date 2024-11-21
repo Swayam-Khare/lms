@@ -23,7 +23,6 @@ public class IssueRecordDTO {
     private UserDTO user;
 
     @Valid
-    @NotNull(message = "Librarian details are required")
     private LibrarianDTO librarian;
 
     @Valid

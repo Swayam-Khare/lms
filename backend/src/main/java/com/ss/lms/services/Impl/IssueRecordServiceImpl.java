@@ -1,9 +1,18 @@
 package com.ss.lms.services.Impl;
 
 import com.ss.lms.dto.IssueRecordDTO;
+import com.ss.lms.entity.IssueBook;
 import com.ss.lms.entity.IssueRecord;
+import com.ss.lms.entity.Librarian;
+import com.ss.lms.entity.User;
+import com.ss.lms.exception.CustomEntityNotFoundException;
+import com.ss.lms.mapper.IssueBookMapper;
 import com.ss.lms.mapper.IssueRecordMapper;
+import com.ss.lms.mapper.LibrarianMapper;
+import com.ss.lms.repository.IssueBookRepository;
 import com.ss.lms.repository.IssueRecordRepository;
+import com.ss.lms.repository.LibrarianRepository;
+import com.ss.lms.repository.UserRepository;
 import com.ss.lms.services.IssueRecordService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -20,10 +29,20 @@ public class IssueRecordServiceImpl implements IssueRecordService {
 
     private final IssueRecordRepository issueRecordRepository;
     private final IssueRecordMapper issueRecordMapper;
+    private final LibrarianMapper librarianMapper;
+    private final LibrarianRepository librarianRepository;
+    private final UserRepository userRepository;
+    private final IssueBookMapper issueBookMapper;
+    private final IssueBookRepository issueBookRepository;
 
-    public IssueRecordServiceImpl(IssueRecordRepository issueRecordRepository, @Lazy IssueRecordMapper issueRecordMapper) {
+    public IssueRecordServiceImpl(IssueRecordRepository issueRecordRepository, @Lazy IssueRecordMapper issueRecordMapper, LibrarianMapper librarianMapper, LibrarianRepository librarianRepository, UserRepository userRepository, IssueBookMapper issueBookMapper, IssueBookRepository issueBookRepository) {
         this.issueRecordRepository = issueRecordRepository;
         this.issueRecordMapper = issueRecordMapper;
+        this.librarianMapper = librarianMapper;
+        this.librarianRepository = librarianRepository;
+        this.userRepository = userRepository;
+        this.issueBookMapper = issueBookMapper;
+        this.issueBookRepository = issueBookRepository;
     }
 
     @Override
@@ -48,10 +67,39 @@ public class IssueRecordServiceImpl implements IssueRecordService {
 
     @Override
     public IssueRecordDTO create(IssueRecordDTO issueRecordDTO) {
+        int librarianId = issueRecordDTO.getLibrarian().getId();
+        int userId = issueRecordDTO.getUser().getId();
 
-        IssueRecord issueRecord = issueRecordRepository.save(
-                issueRecordMapper.toEntity(issueRecordDTO)
+        Librarian librarian = librarianRepository.findById(librarianId).orElseThrow(() ->
+                new CustomEntityNotFoundException("Librarian not found with id: " + librarianId));
+
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomEntityNotFoundException("User not found with id: " + userId));
+
+        IssueRecord issueRecord = issueRecordMapper.toEntity(issueRecordDTO);
+
+        issueRecord.setIssueBook(null);
+        issueRecord.setLibrarian(librarian);
+        issueRecord.setUser(user);
+
+        issueRecord = issueRecordRepository.save(
+                issueRecord
         );
+
+        List<IssueBook> issueBooks =  issueRecordDTO
+                .getIssueBook()
+                .stream()
+                .map(issueBookMapper::toEntity)
+                .toList();
+
+        IssueRecord finalIssueRecord = issueRecord;
+        issueBooks.forEach((book) -> {
+            book.setIssueRecord(finalIssueRecord);
+        });
+
+        List<IssueBook> createdBooks =  issueBookRepository.saveAll(issueBooks);
+        issueRecord.setIssueBook(createdBooks);
+
         return issueRecordMapper.toDTO(issueRecord);
     }
 

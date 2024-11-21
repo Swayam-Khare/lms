@@ -1,13 +1,15 @@
 package com.ss.lms.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 public class IssueBookDTO {
 
     private int id;
 
+    @NotNull(message = "Isbn number is required")
     private int isbnNumber;
 
     private IssueRecordDTO issueRecord;
-
 
     public IssueBookDTO(int id, int isbnNumber, IssueRecordDTO issueRecord) {
         this.id = id;

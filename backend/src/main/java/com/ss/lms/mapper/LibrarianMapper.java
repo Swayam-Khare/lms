@@ -8,11 +8,9 @@ import org.springframework.stereotype.Component;
 public class LibrarianMapper {
 
     private final AddressMapper addressMapper;
-    private final PhoneNumberMapper phoneNumberMapper;
 
-    public LibrarianMapper(AddressMapper addressMapper, PhoneNumberMapper phoneNumberMapper) {
+    public LibrarianMapper(AddressMapper addressMapper) {
         this.addressMapper = addressMapper;
-        this.phoneNumberMapper = phoneNumberMapper;
     }
 
     public LibrarianDTO toDTO(Librarian librarian) {

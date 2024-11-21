@@ -9,11 +9,9 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
     private final AddressMapper addressMapper;
-    private final IssueRecordMapper issueRecordMapper;
 
-    public UserMapper(AddressMapper addressMapper, @Lazy IssueRecordMapper issueRecordMapper) {
+    public UserMapper(AddressMapper addressMapper) {
         this.addressMapper = addressMapper;
-        this.issueRecordMapper = issueRecordMapper;
     }
 
     public UserDTO toDTO(User user) {
@@ -33,15 +31,6 @@ public class UserMapper {
         userDTO.setAddress(
                 user.getAddress() != null ?
                         addressMapper.toDTO(user.getAddress()) :
-                        null
-        );
-
-        userDTO.setIssueRecord(
-                user.getIssueRecord() != null ?
-                        user.getIssueRecord()
-                                .stream()
-                                .map(issueRecordMapper::toDTO)
-                                .toList() :
                         null
         );
 
@@ -66,10 +55,7 @@ public class UserMapper {
                         null
         );
 
-        user.setIssueRecord(userDTO.getIssueRecord() != null ?
-                userDTO.getIssueRecord().stream().map(issueRecordMapper::toEntity).toList() :
-                null
-        );
+        user.setIssueRecord(null);
 
         return user;
     }

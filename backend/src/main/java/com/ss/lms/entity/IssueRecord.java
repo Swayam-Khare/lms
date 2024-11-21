@@ -35,7 +35,8 @@ public class IssueRecord {
 
     @OneToMany(
             mappedBy = "issueRecord",
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     private List<IssueBook> issueBook;
 

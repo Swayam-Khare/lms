@@ -27,12 +27,6 @@ export default function NavbarAlt({ user }) {
         </div>
         <div className="flex gap-10 mr-2 font-medium">
           <div className="flex items-center gap-5">
-            <span
-              onClick={() => goTo("viewBooks")}
-              className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer"
-            >
-              Books
-            </span>
             {role == "LIBRARIAN" ? (
               <>
                 <span
@@ -45,6 +39,13 @@ export default function NavbarAlt({ user }) {
             ) : (
               <></>
             )}
+            <span
+              onClick={() => goTo("viewBooks")}
+              className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer"
+            >
+              Books
+            </span>
+
             <span
               onClick={() => goTo("viewIssueRecords")}
               className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer"

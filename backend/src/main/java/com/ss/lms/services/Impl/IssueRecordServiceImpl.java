@@ -48,10 +48,14 @@ public class IssueRecordServiceImpl implements IssueRecordService {
     @Override
     public List<IssueRecordDTO> getAll() {
 
-        return issueRecordRepository.findAll()
-                .stream()
-                .map(issueRecordMapper::toDTO)
-                .toList();
+        List<IssueRecord> issueRecords = issueRecordRepository.findAll();
+
+        for (IssueRecord record : issueRecords) {
+            List<IssueBook> issueBooks = issueBookRepository.findIssueBookByIssueRecord(record);
+            record.setIssueBook(issueBooks);
+        }
+
+        return issueRecords.stream().map()
     }
 
     @Override

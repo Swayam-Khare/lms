@@ -8,11 +8,33 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
   const [dueDate, setDueDate] = useState("");
   const [borrower, setBorrower] = useState(null);
   const [users, setUsers] = useState([]);
-  const [librarian, setLibrarian] = useState(null);
   const [books, setBooks] = useState([]);
-  const [fine, setFine] = useState(0);
   const [issueBooks, setIssueBooks] = useState([]);
   const [isReturned, setIsReturned] = useState(false);
+
+  useEffect(() => {
+    if(selectedRecord) {
+
+      const issueBook = [];
+
+      issueBooks.forEach((book, index) => {
+        issueBook.push({
+          isbnNumber: book.isbnNumber,
+        });
+      });
+
+      setSelectedRecord((record) => {
+        return {
+          id: record.id,
+          issueDate,
+          dueDate,
+          isReturned,
+          user: borrower,
+          issueBook
+        };
+      });
+    }
+  }, [issueBooks, issueDate, dueDate, borrower, isReturned]);
 
   async function fetchUsers() {
     try {
@@ -81,6 +103,18 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
   useEffect(() => {
     const promise1 = fetchUsers();
     const promise2 = fetchBooks();
+
+    if(selectedRecord) {
+      setIssueDate(selectedRecord.issueDate);
+      setDueDate(selectedRecord.dueDate);
+      setIsReturned(selectedRecord.isReturned);
+      setBorrower(selectedRecord.user);
+
+      const booksIssued = books.filter((book) => selectedRecord.issueBook.find((issue) => book.isbnNumber === issue.isbnNumber));
+
+      console.log(booksIssued);
+
+    }
 
     Promise.all([promise1, promise2]).then((_val) => setLoading(false));
   }, []);

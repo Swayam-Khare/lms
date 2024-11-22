@@ -282,9 +282,6 @@ export default function ViewBooks() {
           </div>) : <></>}
           <BookList
             books={books}
-            onAdd={() => {
-              
-            }}
             onEdit={(book) => {
               setOpen(true);
               setErrorMessage("");

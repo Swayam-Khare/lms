@@ -287,10 +287,10 @@ export default function ViewIssues() {
           )}
           <IssueRecordList
             issueRecords={records}
-            onUpdate={(user) => {
+            onUpdate={(record) => {
               setOpen(true);
               setErrorMessage("");
-              setSelectRecord(user);
+              setSelectRecord(record);
             }}
             onDelete={handleDeleteRecord}
           />

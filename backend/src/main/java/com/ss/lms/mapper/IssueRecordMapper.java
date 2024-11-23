@@ -9,15 +9,17 @@ public class IssueRecordMapper {
 
     private final UserMapper userMapper;
     private final LibrarianMapper librarianMapper;
+    private final IssueBookMapper issueBookMapper;
 
-    public IssueRecordMapper(UserMapper userMapper, LibrarianMapper librarianMapper) {
+    public IssueRecordMapper(UserMapper userMapper, LibrarianMapper librarianMapper, IssueBookMapper issueBookMapper) {
         this.userMapper = userMapper;
         this.librarianMapper = librarianMapper;
+        this.issueBookMapper = issueBookMapper;
     }
 
     public IssueRecordDTO toDTO(IssueRecord issueRecord) {
 
-        return new IssueRecordDTO(
+        IssueRecordDTO issueRecordDTO = new IssueRecordDTO(
                 issueRecord.getId(),
                 issueRecord.getIssueDate(),
                 issueRecord.getDueDate(),
@@ -26,6 +28,14 @@ public class IssueRecordMapper {
                 librarianMapper.toDTO(issueRecord.getLibrarian()),
                 null
         );
+
+        issueRecordDTO.setIssueBook(
+                issueRecord.getIssueBook() != null ?
+                        issueRecord.getIssueBook().stream().map(issueBookMapper::toDTO).toList() :
+                        null
+        );
+
+        return issueRecordDTO;
     }
 
     public IssueRecord toEntity(IssueRecordDTO issueRecordDTO) {
@@ -45,7 +55,11 @@ public class IssueRecordMapper {
                 librarianMapper.toEntity(issueRecordDTO.getLibrarian())
         );
 
-        issueRecord.setIssueBook(null);
+        issueRecord.setIssueBook(
+                issueRecordDTO.getIssueBook() != null ?
+                        issueRecordDTO.getIssueBook().stream().map(issueBookMapper::toEntity).toList() :
+                        null
+        );
 
         return issueRecord;
     }

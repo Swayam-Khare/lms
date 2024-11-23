@@ -47,15 +47,23 @@ public class IssueRecordServiceImpl implements IssueRecordService {
 
     @Override
     public List<IssueRecordDTO> getAll() {
-
         List<IssueRecord> issueRecords = issueRecordRepository.findAll();
+        setIssueBooks(issueRecords);
+        return issueRecords.stream().map(issueRecordMapper::toDTO).toList();
+    }
 
-        for (IssueRecord record : issueRecords) {
-            List<IssueBook> issueBooks = issueBookRepository.findIssueBookByIssueRecord(record);
-            record.setIssueBook(issueBooks);
-        }
+    @Override
+    public List<IssueRecordDTO> getAllByUserId(int userId) {
+        List<IssueRecord> issueRecords = issueRecordRepository.findIssueRecordByUser_Id(userId);
+        setIssueBooks(issueRecords);
+        return issueRecords.stream().map(issueRecordMapper::toDTO).toList();
+    }
 
-        return issueRecords.stream().map()
+    @Override
+    public List<IssueRecordDTO> getAllByLibrarianId(int librarianId) {
+        List<IssueRecord> issueRecords = issueRecordRepository.findIssueRecordByLibrarian_Id(librarianId);
+        setIssueBooks(issueRecords);
+        return issueRecords.stream().map(issueRecordMapper::toDTO).toList();
     }
 
     @Override
@@ -139,5 +147,12 @@ public class IssueRecordServiceImpl implements IssueRecordService {
         }
 
         issueRecordRepository.deleteById(id);
+    }
+
+    private void setIssueBooks(List<IssueRecord> issueRecords) {
+        for (IssueRecord record : issueRecords) {
+            List<IssueBook> issueBooks = issueBookRepository.findIssueBookByIssueRecord(record);
+            record.setIssueBook(issueBooks);
+        }
     }
 }

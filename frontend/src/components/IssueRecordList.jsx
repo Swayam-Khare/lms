@@ -1,9 +1,7 @@
 import React from "react";
 
 const IssueRecordList = ({ issueRecords, onDelete, onUpdate }) => {
-
   const role = localStorage.getItem("role");
-  console.log(issueRecords);
 
   return (
     <table className="min-w-full mt-8 table-auto border-collapse">

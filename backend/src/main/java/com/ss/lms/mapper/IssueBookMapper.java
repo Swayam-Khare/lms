@@ -8,26 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class IssueBookMapper {
 
-    private final IssueRecordMapper issueRecordMapper;
-
-    public IssueBookMapper(@Lazy IssueRecordMapper issueRecordMapper) {
-        this.issueRecordMapper = issueRecordMapper;
-    }
-
     public IssueBookDTO toDTO(IssueBook issueBook) {
-        IssueBookDTO dto = new IssueBookDTO(
+
+        return new IssueBookDTO(
                 issueBook.getId(),
                 issueBook.getIsbnNumber(),
                 null
         );
-
-        dto.setIssueRecord(
-                issueBook.getIssueRecord() != null ?
-                        issueRecordMapper.toDTO(issueBook.getIssueRecord()) :
-                        null
-        );
-
-        return dto;
     }
 
     public IssueBook toEntity(IssueBookDTO dto) {
@@ -36,12 +23,6 @@ public class IssueBookMapper {
         );
 
         issueBook.setId(dto.getId());
-
-        issueBook.setIssueRecord(
-                dto.getIssueRecord() != null ?
-                        issueRecordMapper.toEntity(dto.getIssueRecord()) :
-                        null
-        );
 
         return issueBook;
     }

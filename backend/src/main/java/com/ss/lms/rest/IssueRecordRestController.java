@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/issue-record")
 @CrossOrigin(origins = "http://localhost:5173")
@@ -24,6 +23,16 @@ public class IssueRecordRestController {
     @GetMapping("/")
     public List<IssueRecordDTO> getAll() {
         return issueRecordService.getAll();
+    }
+
+    @GetMapping("/librarian/{id}")
+    public List<IssueRecordDTO> getAllByLibrarianId(@PathVariable int id) {
+        return issueRecordService.getAllByLibrarianId(id);
+    }
+
+    @GetMapping("/user/{id}")
+    public List<IssueRecordDTO> getAllByUserId(@PathVariable int id) {
+        return issueRecordService.getAllByUserId(id);
     }
 
     @GetMapping("/{id}")

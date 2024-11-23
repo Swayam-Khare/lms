@@ -19,7 +19,6 @@ export default function ViewIssues() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigateTo = useNavigate();
-
   const role = localStorage.getItem("role");
 
   async function addRecord(record) {
@@ -35,8 +34,6 @@ export default function ViewIssues() {
           withCredentials: true,
         }
       );
-
-      console.log(result);
 
       toast.success("Issue Record Added", {
         position: "bottom-center",
@@ -80,7 +77,6 @@ export default function ViewIssues() {
           withCredentials: true,
         }
       );
-      console.log(result);
 
       toast.success("User Updated", {
         position: "bottom-center",
@@ -127,6 +123,7 @@ export default function ViewIssues() {
 
       if (response.data) {
         setUser(response.data);
+        await fetchRecords(response.data.id);
       } else {
         setUser(null);
       }
@@ -151,10 +148,13 @@ export default function ViewIssues() {
     }
   }
 
-  async function fetchRecords() {
+  async function fetchRecords(id) {
+
+    const api = role == "LIBRARIAN" ? "librarian" : "user";
+
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/issue-record/",
+        `http://localhost:8080/api/issue-record/${api}/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -164,8 +164,6 @@ export default function ViewIssues() {
         }
       );
       const result = response.data;
-
-      console.log(result);
 
       setRecords([...result]);
     } catch (error) {
@@ -183,16 +181,13 @@ export default function ViewIssues() {
 
   const handleAddOrUpdateRecord = async (record) => {
     if (selectedRecord?.id) {
-      // Update existing user
-      console.log(selectedRecord);
       await updateRecord();
+      
     } else {
-      // Add new user with a unique ID
-      console.log("Add Record ", record);
       record.librarian = user;
       await addRecord(record);
     }
-    fetchRecords();
+    fetchRecords(user.id);
   };
 
   const handleDeleteRecord = async (id) => {
@@ -207,7 +202,6 @@ export default function ViewIssues() {
         }
       );
 
-      console.log(result);
       toast.success("User Deleted", {
         position: "bottom-center",
         autoClose: 3000,
@@ -218,7 +212,6 @@ export default function ViewIssues() {
         progress: undefined,
       });
 
-      await fetchRecords();
     } catch (error) {
       console.log(error);
       if (error.response) {
@@ -244,9 +237,8 @@ export default function ViewIssues() {
   useEffect(() => {
     const promise1 = secure();
     const promise2 = fetchUser();
-    const promise3 = fetchRecords();
 
-    Promise.all([promise1, promise2, promise3]).then((values) => {
+    Promise.all([promise1, promise2]).then((values) => {
       setLoading(false);
     });
   }, []);

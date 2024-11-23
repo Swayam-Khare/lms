@@ -1,11 +1,16 @@
 package com.ss.lms.services;
 
 import com.ss.lms.dto.IssueRecordDTO;
+import com.ss.lms.dto.UserDTO;
 
 import java.util.List;
 
 public interface IssueRecordService {
     List<IssueRecordDTO> getAll();
+
+    List<IssueRecordDTO> getAllByUserId(int userId);
+
+    List<IssueRecordDTO> getAllByLibrarianId(int librarianId);
 
     IssueRecordDTO getById(int id);
 

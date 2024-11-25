@@ -17,6 +17,10 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
   const [allGenres, setAllGenres] = useState([]);
   const [selectAuthor, setSelectAuthor] = useState(1);
 
+  const [pubId, setPubId] = useState("");
+  const [authId, setAuthId] = useState("");
+  const [genId, setGenId] = useState("");
+
   const resetForm = () => {
     setTitle("");
     setISBN("");
@@ -44,7 +48,16 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
         };
       });
     }
-  }, [isbn, title, publishingYear, pages, edition, publishingHouse, author, genre]);
+  }, [
+    isbn,
+    title,
+    publishingYear,
+    pages,
+    edition,
+    publishingHouse,
+    author,
+    genre,
+  ]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,16 +76,19 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
 
   const handleAuthorChange = (i) => {
     const auth = allAuthors.find((val) => val.id == i);
+    setAuthId(auth.id);
     setAuthor(auth);
   };
 
   const handleGenreChange = (i) => {
     const gen = allGenres.find((val) => val.id == i);
+    setGenId(gen.id);
     setGenre(gen);
   };
 
   const handlePublishingHouseChange = (i) => {
     const pubHouse = allPublishingHouses.find((val) => val.id == i);
+    setPubId(pubHouse.id);
     setPublishingHouse(pubHouse);
   };
 
@@ -88,6 +104,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
       if (response.data?.length) {
         setAllAuthors(response.data);
         setAuthor(response.data[0]);
+        setAuthId(response.data[0].id);
       }
     } catch (error) {
       console.log(error);
@@ -106,6 +123,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
       if (response.data?.length) {
         setAllGenres(response.data);
         setGenre(response.data[0]);
+        setGenId(response.data[0].id);
       }
     } catch (error) {
       console.log(error);
@@ -127,6 +145,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
       if (response.data?.length) {
         setAllPublishingHouses(response.data);
         setPublishingHouse(response.data[0]);
+        setPubId(response.data[0].id);
       }
     } catch (error) {
       console.log(error);
@@ -138,23 +157,25 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
     const promise2 = fetchGenres();
     const promise3 = fetchPublishingHouse();
 
-    if (selectedBook) {
-      setTitle(selectedBook.title);
-      setISBN(selectedBook.isbnNumber);
-      setPages(selectedBook.pages);
-      setEdition(selectedBook.edition);
-      setPublishingHouse(selectedBook.publishingHouse);
-      setAuthor(selectedBook.author[0] || null);
-      setGenre(selectedBook.genre[0] || null);
-
-      const year = parseInt(selectedBook.publishYear)
-      setPublishingYear(year)
-      
-    } else {
-      resetForm();
-    }
-
     Promise.all([promise1, promise2, promise3]).then((_values) => {
+      if (selectedBook) {
+        setTitle(selectedBook.title);
+        setISBN(selectedBook.isbnNumber);
+        setPages(selectedBook.pages);
+        setEdition(selectedBook.edition);
+        setPublishingHouse(selectedBook.publishingHouse);
+        setAuthor(selectedBook.author[0] || null);
+        setGenre(selectedBook.genre[0] || null);
+
+        setPubId(selectedBook.publishingHouse.id);
+        setGenId(selectedBook.genre[0].id);
+        setAuthId(selectedBook.author[0].id);
+
+        const year = parseInt(selectedBook.publishYear);
+        setPublishingYear(year);
+      } else {
+        resetForm();
+      }
       setLoading(false);
     });
   }, []);
@@ -273,7 +294,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
               Publishing House
             </label>
             <select
-              defaultValue={allPublishingHouses[0].id}
+              value={pubId}
               onChange={(e) => handlePublishingHouseChange(e.target.value)}
               required
               className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
@@ -295,7 +316,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
               Author Name
             </label>
             <select
-              defaultValue={selectAuthor}
+              defaultValue={authId}
               onChange={(e) => handleAuthorChange(e.target.value)}
               required
               className="w-full p-2 mt-2 border border-gray-300 rounded-lg 
@@ -316,7 +337,7 @@ const BookForm = ({ onSubmit, selectedBook, setSelectedBook }) => {
           <div className="flex-1">
             <label className="block text-gray-700 font-medium">Genre</label>
             <select
-              defaultValue={allGenres[0].id}
+              defaultValue={genId}
               onChange={(e) => handleGenreChange(e.target.value)}
               required
               className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none

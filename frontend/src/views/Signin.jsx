@@ -125,9 +125,9 @@ export default function Signin({ getRole }) {
       // redirect to home page
       setTimeout(() => {
         if (role === "LIBRARIAN") {
-          navigateTo("/viewUsers");
+          navigateTo("/viewUsers", { replace: true });
         } else {
-          navigateTo("/userDashboard");
+          navigateTo("/userDashboard", { replace: true });
         }
       }, 1000);
 

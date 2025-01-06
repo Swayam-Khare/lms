@@ -12,6 +12,8 @@ import ViewIssues from "./views/ViewIssues";
 import TestOAuth from "./views/TestOAuth";
 import Dashboard from "./views/Dashboard";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,43 +33,83 @@ const router = createBrowserRouter([
   },
   {
     path: "/addBook",
-    element: <BooksPage />, // Add book page
+    element: (
+      <ProtectedRoute>
+        <BooksPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/editBook/:bookId",
-    element: <BooksPage />, // Edit book page
+    element: (
+      <ProtectedRoute>
+        <BooksPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/viewBooks",
-    element: <ViewBooks />, // View all books
+    element: (
+      <ProtectedRoute>
+        <ViewBooks />
+      </ProtectedRoute>
+    ),
   },
   {
-    path: "/viewUsers", // Add route for ViewUsers
-    element: <ViewUsers />,
+    path: "/viewUsers",
+    element: (
+      <ProtectedRoute>
+        <ViewUsers />
+      </ProtectedRoute>
+    ),
   },
   {
-    path: "/viewIssueRecords", // Add the new route for issue records
-    element: <ViewIssues />,
+    path: "/viewIssueRecords",
+    element: (
+      <ProtectedRoute>
+        <ViewIssues />
+      </ProtectedRoute>
+    ),
   },
   {
-    path: "/myAccount", // Add the new route for issue records
-    element: <MyAccount />,
+    path: "/myAccount",
+    element: (
+      <ProtectedRoute>
+        <MyAccount />
+      </ProtectedRoute>
+    ),
   },
   {
-    path: "/userDashboard", // Add the new route for issue records
-    element: <UserDashboard />,
+    path: "/userDashboard",
+    element: (
+      <ProtectedRoute>
+        <UserDashboard />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/profile",
-    element: <MyAccount />,
+    element: (
+      <ProtectedRoute>
+        <MyAccount />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/test",
-    element: <TestOAuth />,
+    element: (
+      <ProtectedRoute>
+        <TestOAuth />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/test/dash",
-    element: <Dashboard />,
+    element: (
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+    ),
   }
 ]);
 

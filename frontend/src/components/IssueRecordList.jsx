@@ -8,7 +8,7 @@ const IssueRecordList = ({ issueRecords, onDelete, onUpdate }) => {
       <thead>
         <tr>
           <th className="border-b-2 border-gray-300 py-2 px-4 text-left">
-            Issue ID
+            S. No.
           </th>
           <th className="border-b-2 border-gray-300 py-2 px-4 text-left">
             Issue Date
@@ -28,10 +28,10 @@ const IssueRecordList = ({ issueRecords, onDelete, onUpdate }) => {
         </tr>
       </thead>
       <tbody>
-        {issueRecords.map((record) => (
+        {issueRecords.map((record, index) => (
           <tr key={record.id}>
             <td className="border-b border-gray-200 py-2 px-4 text-left">
-              {record.id}
+              {index+1}
             </td>
             <td className="border-b border-gray-200 py-2 px-4 text-left">
               {record.issueDate}

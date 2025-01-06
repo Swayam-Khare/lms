@@ -15,7 +15,7 @@ export default function IssueDialog({ open, setOpen, onSubmit, selectedRecord, s
     <>
       <Dialog size="xl" open={open} handler={handleOpen}>
         <DialogHeader className="text-primary">Issue Record</DialogHeader>
-        <DialogBody>
+        <DialogBody className="h-[32rem] overflow-scroll">
           <IssueRecordForm
             onSubmit={onSubmit}
             selectedRecord={selectedRecord}

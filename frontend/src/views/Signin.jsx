@@ -181,6 +181,7 @@ export default function Signin({ getRole }) {
             <form onSubmit={handleSignin} className="w-80 lg:w-96">
               <input
                 type="email"
+                autocomplete="off"
                 placeholder="Email"
                 required
                 className="w-full mt-4 p-2 border-2 border-gray-300 rounded-md"

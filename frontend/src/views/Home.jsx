@@ -79,11 +79,12 @@ export default function Home() {
       </div>
       ) :
         (<>
-          <section id="hero" className="h-screen">
-            {user ? <NavbarAlt user={user} /> : <Navbar />}
+        {user ? <NavbarAlt user={user} /> : <Navbar />}
+          <section id="hero" className="h-screen mb-12">
+            
             <HeroSection />
           </section>
-          <section id="about-project" className="h-screen">
+          <section id="about-project" className="h-screen pb-12">
             <AboutSection />
           </section>
           <section>

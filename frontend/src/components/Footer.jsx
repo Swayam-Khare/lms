@@ -12,7 +12,7 @@ export default function Footer() {
               <div class="md:flex md:justify-between">
                   <div class="mb-6 md:mb-0">
                       <a
-                          href="https://localhost:5173/"
+                          href="http://localhost:5173/"
                           class="flex items-center"
                       >
                           <img
@@ -30,7 +30,7 @@ export default function Footer() {
                           <ul class="text-gray-500 dark:text-gray-400 font-medium">
                               <li class="mb-4">
                                   <a
-                                      href="https://localhost:5173/"
+                                      href="http://localhost:5173/"
                                       class="hover:underline"
                                   >
                                       Edify
@@ -53,7 +53,7 @@ export default function Footer() {
                           <ul class="text-gray-500 dark:text-gray-400 font-medium">
                               <li class="mb-4">
                                   <a
-                                      href="https://github.com/themesberg/flowbite"
+                                      href="https://github.com/Swayam-Khare/lms"
                                       class="hover:underline "
                                   >
                                       Github
@@ -61,7 +61,7 @@ export default function Footer() {
                               </li>
                               <li>
                                   <a
-                                      href="https://discord.gg/4eeurUVvTy"
+                                      href="#"
                                       class="hover:underline"
                                   >
                                       Discord
@@ -92,7 +92,7 @@ export default function Footer() {
               <div class="sm:flex sm:items-center sm:justify-between">
                   <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
                       © 2023{" "}
-                      <a href="https://localhost:5173/" class="hover:underline">
+                      <a href="http://localhost:5173/" class="hover:underline">
                           Edify™
                       </a>
                       . All Rights Reserved.
@@ -100,7 +100,7 @@ export default function Footer() {
                   <div class="flex mt-4 sm:justify-center sm:mt-0">
                       <a
                           href="#"
-                          class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                          class="text-gray-500 hover:text-gray-700 dark:hover:text-white"
                       >
                           <svg
                               class="w-4 h-4"
@@ -119,7 +119,7 @@ export default function Footer() {
                       </a>
                       <a
                           href="#"
-                          class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5"
+                          class="text-gray-500 hover:text-gray-700 dark:hover:text-white ms-5"
                       >
                           <svg
                               class="w-4 h-4"
@@ -134,7 +134,7 @@ export default function Footer() {
                       </a>
                       <a
                           href="#"
-                          class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5"
+                          class="text-gray-500 hover:text-gray-700 dark:hover:text-white ms-5"
                       >
                           <svg
                               class="w-4 h-4"
@@ -152,8 +152,8 @@ export default function Footer() {
                           <span class="sr-only">Twitter page</span>
                       </a>
                       <a
-                          href="#"
-                          class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5"
+                          href="https://github.com/Swayam-Khare/"
+                          class="text-gray-500 hover:text-gray-700 dark:hover:text-white ms-5"
                       >
                           <svg
                               class="w-4 h-4"
@@ -172,7 +172,7 @@ export default function Footer() {
                       </a>
                       <a
                           href="#"
-                          class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5"
+                          class="text-gray-500 hover:text-gray-700 dark:hover:text-white ms-5"
                       >
                           <svg
                               class="w-4 h-4"

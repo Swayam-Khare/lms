@@ -52,6 +52,7 @@ public class IssueRecordRestController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
+        System.out.println(id);
         issueRecordService.deleteById(id);
     }
 }

@@ -1,7 +1,7 @@
 export default function AboutSection() {
   return (
     <>
-      <div className="mx-32 pt-16 pb-10">
+      <div className="mx-32 pt-8 pb-10">
         <div className="text-5xl font-medium text-center">
           About Our Platform{" "}
         </div>
@@ -13,7 +13,7 @@ export default function AboutSection() {
           conquering exams and interviews with data-driven preparation.
         </div>
 
-        <div className="flex gap-4 mt-24">
+        <div className="flex gap-4 mt-20">
           <div className="flex-grow rounded-lg bg-white shadow-lg text-center py-8 px-8 ">
             <img
               src="./src/assets/target.svg"

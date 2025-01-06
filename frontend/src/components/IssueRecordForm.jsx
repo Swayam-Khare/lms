@@ -12,6 +12,11 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
   const [issueBooks, setIssueBooks] = useState([]);
   const [isReturned, setIsReturned] = useState(false);
 
+  const [userId, setUserId] = useState("");
+  const [bookId, setBookId] = useState([]);
+
+  let tempBooks;
+
   useEffect(() => {
     if(selectedRecord) {
 
@@ -64,6 +69,10 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
       });
       const result = response.data;
 
+      tempBooks = result;
+
+      const bookIds = result.map((book) => book.id);
+      setBookId(bookIds);
       setBooks([...result]);
     } catch (error) {
       console.log(error);
@@ -72,11 +81,14 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
 
   function handleUserChange(i) {
     const borrow = users.find((val) => val.id == i);
+    setUserId(borrow.id);
     setBorrower(borrow);
   }
 
   function handleBookChange(id, index) {
     const bookFound = books.find((val) => val.id == id);
+    bookId[index] = bookFound.id;
+    setBookId([...bookId]);
     issueBooks[index] = bookFound;
   }
 
@@ -104,19 +116,24 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
     const promise1 = fetchUsers();
     const promise2 = fetchBooks();
 
-    if(selectedRecord) {
-      setIssueDate(selectedRecord.issueDate);
-      setDueDate(selectedRecord.dueDate);
-      setIsReturned(selectedRecord.isReturned);
-      setBorrower(selectedRecord.user);
+    Promise.all([promise1, promise2]).then((_val) => {
+      if(selectedRecord) {
+        setIssueDate(selectedRecord.issueDate);
+        setDueDate(selectedRecord.dueDate);
+        setIsReturned(selectedRecord.isReturned);
+        setBorrower(selectedRecord.user);
+        setUserId(selectedRecord.user.id);
 
-      const booksIssued = books.filter((book) => selectedRecord.issueBook.find((issue) => book.isbnNumber === issue.isbnNumber));
-
-      console.log(booksIssued);
-
-    }
-
-    Promise.all([promise1, promise2]).then((_val) => setLoading(false));
+        const booksIssued = tempBooks.filter((book) => selectedRecord.issueBook.find((issue) => book.isbnNumber == issue.isbnNumber));
+        const bookIds = booksIssued.map((book) => book.id);
+        console.log("Books Issued: ", selectedRecord.issueBook);
+        console.log(bookIds);
+        
+        setBookId(bookIds);
+        setIssueBooks(booksIssued);
+      }
+      setLoading(false);
+    });
   }, []);
 
   return loading ? (
@@ -155,7 +172,7 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
                 Borrower:
               </label>
               <select
-                defaultValue={users[0].id}
+                defaultValue={userId}
                 onChange={(e) => handleUserChange(e.target.value)}
                 required
                 className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
@@ -195,7 +212,7 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
                     {index + 1}
                   </label>
                   <select
-                    defaultValue={books[0].id}
+                    defaultValue={bookId[index]}
                     onChange={(e) => handleBookChange(e.target.value, index)}
                     required
                     className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none

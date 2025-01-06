@@ -19,7 +19,7 @@ export default function HeroSection() {
   }
 
   return (
-    <div className="mx-32 py-10 flex flex-wrap justify-between">
+    <div className="mx-32 py-5 flex  justify-between">
       <div style={{ width: "600px" }} className="mt-14">
         <div className="text-2xl mb-6 font-bold text-gray-800">
           Edify, your gateway to knowledge

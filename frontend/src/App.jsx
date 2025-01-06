@@ -9,6 +9,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyAccount from "./views/MyAccount";
 import UserDashboard from "./views/UserDashboard";
 import ViewIssues from "./views/ViewIssues";
+import TestOAuth from "./views/TestOAuth";
+import Dashboard from "./views/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +61,14 @@ const router = createBrowserRouter([
     path: "/profile",
     element: <MyAccount />,
   },
+  {
+    path: "/test",
+    element: <TestOAuth />,
+  },
+  {
+    path: "/test/dash",
+    element: <Dashboard />,
+  }
 ]);
 
 function App() {

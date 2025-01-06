@@ -29,16 +29,14 @@ public class IssueRecordServiceImpl implements IssueRecordService {
 
     private final IssueRecordRepository issueRecordRepository;
     private final IssueRecordMapper issueRecordMapper;
-    private final LibrarianMapper librarianMapper;
     private final LibrarianRepository librarianRepository;
     private final UserRepository userRepository;
     private final IssueBookMapper issueBookMapper;
     private final IssueBookRepository issueBookRepository;
 
-    public IssueRecordServiceImpl(IssueRecordRepository issueRecordRepository, @Lazy IssueRecordMapper issueRecordMapper, LibrarianMapper librarianMapper, LibrarianRepository librarianRepository, UserRepository userRepository, IssueBookMapper issueBookMapper, IssueBookRepository issueBookRepository) {
+    public IssueRecordServiceImpl(IssueRecordRepository issueRecordRepository, @Lazy IssueRecordMapper issueRecordMapper, LibrarianRepository librarianRepository, UserRepository userRepository, IssueBookMapper issueBookMapper, IssueBookRepository issueBookRepository) {
         this.issueRecordRepository = issueRecordRepository;
         this.issueRecordMapper = issueRecordMapper;
-        this.librarianMapper = librarianMapper;
         this.librarianRepository = librarianRepository;
         this.userRepository = userRepository;
         this.issueBookMapper = issueBookMapper;
@@ -142,11 +140,13 @@ public class IssueRecordServiceImpl implements IssueRecordService {
                 .orElse(null);
 
         if (issueRecord == null) {
-            // TODO: throw custom exception "Issue Record not found"
-            return;
+            throw new CustomEntityNotFoundException("Issue Record not found with id: " + id);
         }
 
-        issueRecordRepository.deleteById(id);
+        issueRecord.setLibrarian(null);
+        issueRecord.setUser(null);
+        issueRecord = issueRecordRepository.saveAndFlush(issueRecord);
+        issueRecordRepository.delete(issueRecord);
     }
 
     private void setIssueBooks(List<IssueRecord> issueRecords) {

@@ -14,10 +14,7 @@ public class IssueBook {
     @Column(name = "isbn_number")
     private int isbnNumber;
 
-    @ManyToOne(
-        cascade = {CascadeType.DETACH, CascadeType.MERGE,
-                CascadeType.PERSIST, CascadeType.REFRESH}
-    )
+    @ManyToOne
     @JoinColumn(name = "issue_id")
     private IssueRecord issueRecord;
 

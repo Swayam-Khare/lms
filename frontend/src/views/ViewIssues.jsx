@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Footer from "../components/Footer"; // Adjust path as necessary
+import Footer from "../components/Footer";
 import axios from "axios";
 import { getToken } from "../utils/cookieUtils";
 import Navbar from "../components/Navbar";
@@ -12,7 +12,7 @@ import IssueDialog from "../components/IssueDialog";
 
 export default function ViewIssues() {
   const [records, setRecords] = useState([]);
-  const [selectedRecord, setSelectRecord] = useState(null); // For editing a user
+  const [selectedRecord, setSelectRecord] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
@@ -67,7 +67,7 @@ export default function ViewIssues() {
   async function updateRecord() {
     try {
       const result = await axios.put(
-        "http://localhost:8080/api/user/",
+        "http://localhost:8080/api/issue-record/",
         selectedRecord,
         {
           headers: {
@@ -78,7 +78,7 @@ export default function ViewIssues() {
         }
       );
 
-      toast.success("User Updated", {
+      toast.success("Record Updated", {
         position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -102,7 +102,7 @@ export default function ViewIssues() {
         error.response?.data?.status === 400 &&
         error.response?.data?.message.includes("Duplicate Entry")
       ) {
-        setErrorMessage(`User with the email already present`);
+        setErrorMessage(`Record already present`);
       } else if (
         error.status === 400 &&
         error.response?.data?.errors?.length > 0
@@ -181,6 +181,7 @@ export default function ViewIssues() {
 
   const handleAddOrUpdateRecord = async (record) => {
     if (selectedRecord?.id) {
+      record.librarian = user;
       await updateRecord();
       
     } else {
@@ -193,7 +194,7 @@ export default function ViewIssues() {
   const handleDeleteRecord = async (id) => {
     try {
       const result = await axios.delete(
-        "http://localhost:8080/api/user/" + id,
+        "http://localhost:8080/api/issue-record/" + id,
         {
           headers: {
             Authorization: "Bearer " + getToken(),
@@ -202,7 +203,9 @@ export default function ViewIssues() {
         }
       );
 
-      toast.success("User Deleted", {
+      console.log(result);
+
+      toast.success("Record Deleted", {
         position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -211,6 +214,8 @@ export default function ViewIssues() {
         draggable: true,
         progress: undefined,
       });
+
+      await fetchRecords(user.id);
 
     } catch (error) {
       console.log(error);

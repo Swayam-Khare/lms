@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Footer from "../components/Footer"; // Adjust path as necessary
+import Footer from "../components/Footer";
 import axios from "axios";
 import { getToken } from "../utils/cookieUtils";
 import UserList from "../components/UserList";
@@ -12,7 +12,7 @@ import UserDialog from "../components/UserDialog";
 
 export default function ViewUsers() {
   const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null); // For editing a user
+  const [selectedUser, setSelectedUser] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
@@ -29,8 +29,6 @@ export default function ViewUsers() {
         },
         withCredentials: true,
       });
-
-      console.log(result);
 
       toast.success("User Added", {
         position: "bottom-center",
@@ -74,7 +72,6 @@ export default function ViewUsers() {
           withCredentials: true,
         }
       );
-      console.log(result);
 
       toast.success("User Updated", {
         position: "bottom-center",
@@ -170,8 +167,6 @@ export default function ViewUsers() {
       });
       const result = response.data;
 
-      console.log(result);
-
       setUsers([...result]);
     } catch (error) {
       console.log(error);
@@ -188,12 +183,9 @@ export default function ViewUsers() {
 
   const handleAddOrUpdateUser = async (user) => {
     if (selectedUser.id) {
-      // Update existing user
-      console.log(selectedUser);
+      
       await updateUser();
     } else {
-      // Add new user with a unique ID
-      console.log("Add user ", user);
 
       await addUser(user);
     }
@@ -212,7 +204,6 @@ export default function ViewUsers() {
         }
       );
 
-      console.log(result);
       toast.success("User Deleted", {
         position: "bottom-center",
         autoClose: 3000,
@@ -257,7 +248,7 @@ export default function ViewUsers() {
   }, []);
 
   return loading ? (
-    <div>Loading...</div>
+    <>Loading...</>
   ) : (
     <>
       {user ? <NavbarAlt user={user} /> : <Navbar />}

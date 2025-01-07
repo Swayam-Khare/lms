@@ -181,7 +181,7 @@ export default function ViewIssues() {
 
   const handleAddOrUpdateRecord = async (record) => {
     if (selectedRecord?.id) {
-      record.librarian = user;
+      selectedRecord.librarian = user;
       await updateRecord();
       
     } else {
@@ -192,6 +192,14 @@ export default function ViewIssues() {
   };
 
   const handleDeleteRecord = async (id) => {
+
+    const isDelete = confirm("Are you sure you want to delete this record?");
+    console.log(isDelete);
+    
+    if (!isDelete) {
+      return;
+    }
+
     try {
       const result = await axios.delete(
         "http://localhost:8080/api/issue-record/" + id,
@@ -285,9 +293,10 @@ export default function ViewIssues() {
           <IssueRecordList
             issueRecords={records}
             onUpdate={(record) => {
+              console.log("record: ", record);
+              setSelectRecord(record)
               setOpen(true);
               setErrorMessage("");
-              setSelectRecord(record);
             }}
             onDelete={handleDeleteRecord}
           />

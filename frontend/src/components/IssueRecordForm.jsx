@@ -33,7 +33,7 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
           id: record.id,
           issueDate,
           dueDate,
-          isReturned,
+          returned: isReturned,
           user: borrower,
           issueBook
         };
@@ -103,10 +103,13 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
       });
     });
 
+    console.log("returned: ", isReturned);
+    
+
     onSubmit({
       issueDate,
       dueDate,
-      isReturned,
+      returned: isReturned,
       user: borrower,
       issueBook,
     });
@@ -118,16 +121,17 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
 
     Promise.all([promise1, promise2]).then((_val) => {
       if(selectedRecord) {
+        console.log("selectedRecord: ", selectedRecord);
+        
+
         setIssueDate(selectedRecord.issueDate);
         setDueDate(selectedRecord.dueDate);
-        setIsReturned(selectedRecord.isReturned);
+        setIsReturned(selectedRecord.returned);
         setBorrower(selectedRecord.user);
         setUserId(selectedRecord.user.id);
 
         const booksIssued = tempBooks.filter((book) => selectedRecord.issueBook.find((issue) => book.isbnNumber == issue.isbnNumber));
         const bookIds = booksIssued.map((book) => book.id);
-        console.log("Books Issued: ", selectedRecord.issueBook);
-        console.log(bookIds);
         
         setBookId(bookIds);
         setIssueBooks(booksIssued);
@@ -173,6 +177,7 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
               </label>
               <select
                 defaultValue={userId}
+                disabled={selectedRecord}
                 onChange={(e) => handleUserChange(e.target.value)}
                 required
                 className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
@@ -198,7 +203,8 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
             name="isReturned"
             type="checkbox"
             value={isReturned}
-            onChange={(e) => setIsReturned(e.target.value)}
+            checked={isReturned}
+            onChange={(e) => setIsReturned(e.target.checked)}
             className="border rounded cursor-pointer"
           />
 
@@ -213,6 +219,7 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
                   </label>
                   <select
                     defaultValue={bookId[index]}
+                    disabled={selectedRecord}
                     onChange={(e) => handleBookChange(e.target.value, index)}
                     required
                     className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none
@@ -230,6 +237,7 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
               {issueBooks.length >= 1 && (
                 <button
                   type="button"
+                  disabled={selectedRecord}
                   onClick={(e) => {
                     const array = issueBooks.filter(
                       (_val, ind) => ind !== index
@@ -248,6 +256,7 @@ const IssueRecordForm = ({ onSubmit, selectedRecord, setSelectedRecord }) => {
             onClick={() => {
               setIssueBooks([...issueBooks, { id: "" }]);
             }}
+            disabled={selectedRecord}
             type="button"
             className="bg-blue-500 text-white px-4 py-1 rounded mb-2 mt-2"
           >

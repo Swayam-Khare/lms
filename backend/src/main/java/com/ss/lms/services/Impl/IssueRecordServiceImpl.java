@@ -8,7 +8,6 @@ import com.ss.lms.entity.User;
 import com.ss.lms.exception.CustomEntityNotFoundException;
 import com.ss.lms.mapper.IssueBookMapper;
 import com.ss.lms.mapper.IssueRecordMapper;
-import com.ss.lms.mapper.LibrarianMapper;
 import com.ss.lms.repository.IssueBookRepository;
 import com.ss.lms.repository.IssueRecordRepository;
 import com.ss.lms.repository.LibrarianRepository;

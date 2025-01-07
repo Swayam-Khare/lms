@@ -127,7 +127,7 @@ export default function Signin({ getRole }) {
         if (role === "LIBRARIAN") {
           navigateTo("/viewUsers", { replace: true });
         } else {
-          navigateTo("/userDashboard", { replace: true });
+          navigateTo("/viewBooks", { replace: true });
         }
       }, 1000);
 
@@ -246,17 +246,14 @@ export default function Signin({ getRole }) {
             </form>
 
             <div className="mt-4 flex justify-between">
+            {currentRole === "librarian" && (
               <div>
-                Don't have an account?{" "}
-                <a href="/signup" className="text-primary hover:underline">
-                  Sign up
-                </a>
-              </div>
-              <div>
-                <span onClick={redirectSignin} className="text-primary hover:underline cursor-pointer">
-                  {`${altRole} login`}
-                </span>
-              </div>
+              Don't have an account?{" "}
+              <a href="/signup" className="text-primary hover:underline">
+                Sign up
+              </a>
+            </div>
+            )}
             </div>
           </div>
         </div>

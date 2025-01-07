@@ -48,7 +48,7 @@ public class AuthRestController {
 
         Cookie cookie = new Cookie("jwtAuth", token);
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 60);
+        cookie.setMaxAge(5 * 3600);
 
         res.addCookie(cookie);
         return token;

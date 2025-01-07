@@ -110,7 +110,7 @@ export default function Signin({ getRole }) {
         }
       );
       const result = response.data;
-      console.log(result);
+      localStorage.setItem("user", JSON.stringify(data));
 
       toast.success("Login successful", {
         position: "bottom-center",

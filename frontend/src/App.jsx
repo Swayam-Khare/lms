@@ -12,7 +12,7 @@ import ViewIssues from "./views/ViewIssues";
 import TestOAuth from "./views/TestOAuth";
 import Dashboard from "./views/Dashboard";
 
-import ProtectedRoute from "./components/ProtectedRoute";
+import {ProtectedRoute} from "./components/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {

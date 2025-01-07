@@ -1,0 +1,10 @@
+spring.application.name=lms
+
+spring.datasource.url=jdbc:{db-url}
+spring.datasource.username={username}
+spring.datasource.password={password}
+
+logging.level.org.hibernate.SQL=trace
+logging.level.org.hibernate.orm.jdbc.bind=trace
+logging.level.org.springframework.web=trace
+spring.jpa.properties.hibernate.format_sql=true

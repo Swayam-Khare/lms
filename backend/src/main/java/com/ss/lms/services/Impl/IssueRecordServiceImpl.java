@@ -115,21 +115,35 @@ public class IssueRecordServiceImpl implements IssueRecordService {
 
     @Override
     public IssueRecordDTO update(IssueRecordDTO issueRecordDTO) {
+        int librarianId = issueRecordDTO.getLibrarian().getId();
+        int userId = issueRecordDTO.getUser().getId();
 
         IssueRecord issueRecord = issueRecordRepository
                 .findById(issueRecordDTO.getId())
                 .orElse(null);
 
         if (issueRecord == null) {
-            // TODO: throw custom exception "Issue Record not found"
-            return null;
+            throw new CustomEntityNotFoundException("IssueRecord not found with id: " + issueRecordDTO.getId());
         }
 
-        issueRecord = issueRecordMapper.toEntity(issueRecordDTO);
+        Librarian librarian = librarianRepository.findById(librarianId).orElseThrow(() ->
+                new CustomEntityNotFoundException("Librarian not found with id: " + librarianId));
 
-        return issueRecordMapper.toDTO(
-                issueRecordRepository.save(issueRecord)
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomEntityNotFoundException("User not found with id: " + userId));
+
+        issueRecord.setLibrarian(librarian);
+        issueRecord.setUser(user);
+
+        issueRecord.setIssueDate(issueRecordDTO.getIssueDate());
+        issueRecord.setDueDate(issueRecordDTO.getDueDate());
+        issueRecord.setReturned(issueRecordDTO.isReturned());
+
+        issueRecord = issueRecordRepository.save(
+                issueRecord
         );
+
+        return issueRecordMapper.toDTO(issueRecord);
     }
 
     @Override

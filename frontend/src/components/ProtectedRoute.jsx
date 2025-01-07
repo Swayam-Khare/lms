@@ -1,21 +1,12 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
+export const ProtectedRoute = ({ children }) => {
+    const isAuthenticated = localStorage.getItem('user') ? true : false;
 
-    return (
-        <Route
-            {...rest}
-            render={props =>
-                isAuthenticated ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect to="/login" />
-                )
-            }
-        />
+    return isAuthenticated ? (
+        React.isValidElement(children) ? children : null
+    ) : (
+        <Navigate to="/lib/signin" />
     );
 };
-
-export default ProtectedRoute;

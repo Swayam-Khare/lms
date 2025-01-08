@@ -172,14 +172,6 @@ export default function ViewIssues() {
     }
   }
 
-  async function secure() {
-    const token = getToken();
-
-    if (!token) {
-      navigateTo("/");
-    }
-  }
-
   const handleAddOrUpdateRecord = async (record) => {
     if (selectedRecord?.id) {
       selectedRecord.librarian = user;
@@ -250,10 +242,9 @@ export default function ViewIssues() {
   };
 
   useEffect(() => {
-    const promise1 = secure();
     const promise2 = fetchUser();
 
-    Promise.all([promise1, promise2]).then((values) => {
+    Promise.all([promise2]).then((values) => {
       setLoading(false);
     });
   }, []);

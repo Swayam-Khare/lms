@@ -177,14 +177,6 @@ export default function ViewBooks() {
     }
   }
 
-  async function secure() {
-    const token = getToken();
-
-    if (!token) {
-      navigateTo("/");
-    }
-  }
-
   const handleAddOrUpdateUser = async (book) => {
 
     if (selectedBook) {
@@ -243,11 +235,10 @@ export default function ViewBooks() {
   };
 
   useEffect(() => {
-    const promise1 = secure();
     const promise2 = fetchUser();
     const promise3 = fetchBooks();
 
-    Promise.all([promise1, promise2, promise3]).then((values) => {
+    Promise.all([promise2, promise3]).then((values) => {
       setLoading(false);
     });
   }, []);

@@ -174,14 +174,6 @@ export default function ViewUsers() {
     }
   }
 
-  async function secure() {
-    const token = getToken();
-
-    if (!token) {
-      navigateTo("/");
-    }
-  }
-
   const handleAddOrUpdateUser = async (user) => {
     if (selectedUser.id) {
       
@@ -240,11 +232,10 @@ export default function ViewUsers() {
   };
 
   useEffect(() => {
-    const promise1 = secure();
     const promise2 = fetchUser();
     const promise3 = fetchUsers();
 
-    Promise.all([promise1, promise2, promise3]).then((values) => {
+    Promise.all([promise2, promise3]).then((values) => {
       setLoading(false);
     });
   }, []);

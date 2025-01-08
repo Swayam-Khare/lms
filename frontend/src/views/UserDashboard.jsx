@@ -40,16 +40,7 @@ export default function UserDashboard() {
     }
   }
 
-  async function secure() {
-    const token = getToken();
-
-    if (!token) {
-      navigateTo("/");
-    }
-  }
-
   useEffect(() => {
-    secure();
 
     // Simulate fetching user data from an API or backend service
     const fetchUserData = async () => {

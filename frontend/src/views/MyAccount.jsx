@@ -10,7 +10,7 @@ import NavbarAlt from "../components/NavbarAlt";
 export default function MyAccount() {
   const navigateTo = useNavigate();
   const [loading, setLoading] = useState(true);
-  
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -76,22 +76,10 @@ export default function MyAccount() {
     }
   }
 
-  async function secure() {
-    const token = getToken();
-
-    if (!token) {
-      navigateTo("/");
-    }
-  }
-
   useEffect(() => {
-    secure().then((val) => {
-      fetchUser().then((val) => {
-        setLoading(false);
-      });
+    fetchUser().then((val) => {
+      setLoading(false);
     });
-
-    // setUser(dummyUser);
   }, []);
 
   const handleInputChange = (e) => {
@@ -106,7 +94,6 @@ export default function MyAccount() {
   };
 
   const handleSave = async () => {
-
     const role = localStorage.getItem("role").toLowerCase();
 
     try {
@@ -136,7 +123,6 @@ export default function MyAccount() {
       }
     } catch (error) {
       if (error.status === 400 && error.response?.data?.errors?.length > 0) {
-
         toast.error(`${error.response.data.errors[0]}`, {
           position: "top-center",
           autoClose: 3000,

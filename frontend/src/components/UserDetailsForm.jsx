@@ -149,7 +149,7 @@ const UserDetailsForm = ({ user, onInputChange }) => {
             required
           />
           <input
-            type="text"
+            type="number"
             id="pincode"
             name="pincode"
             value={user.address?.pincode}

@@ -17,7 +17,6 @@ export default function ViewBooks() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [openAdd, setOpenAdd] = useState(false);
 
   const navigateTo = useNavigate();
 
@@ -138,6 +137,7 @@ export default function ViewBooks() {
         });
 
         setTimeout(() => {
+          localStorage.clear();
           navigateTo("/lib/signin");
         }, 2000);
       }
@@ -234,6 +234,7 @@ export default function ViewBooks() {
           });
 
           setTimeout(() => {
+            localStorage.clear();
             navigateTo("/lib/signin");
           }, 2000);
         }

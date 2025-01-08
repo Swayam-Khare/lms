@@ -41,8 +41,8 @@ export default function ViewUsers() {
       });
 
       setSelectedUser(null);
-
       setOpen(false);
+
     } catch (error) {
       console.log(error);
       if (
@@ -135,6 +135,7 @@ export default function ViewUsers() {
         });
 
         setTimeout(() => {
+          localStorage.clear();
           navigateTo("/lib/signin");
         }, 2000);
       } else if (error.response?.status == 404) {
@@ -230,6 +231,7 @@ export default function ViewUsers() {
           });
 
           setTimeout(() => {
+            localStorage.clear();
             navigateTo("/lib/signin");
           }, 2000);
         }

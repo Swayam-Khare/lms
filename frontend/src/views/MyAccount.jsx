@@ -54,6 +54,8 @@ export default function MyAccount() {
         });
 
         setTimeout(() => {
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
           navigateTo("/lib/signin");
         }, 2000);
       } else if (error.response?.status == 404) {
@@ -171,15 +173,6 @@ export default function MyAccount() {
                 Save Changes
               </button>
             </div>
-
-            {/* <div className="mt-4 text-center">
-            <span
-              onClick={() => alert("Change Password Clicked")} // Replace with the actual change password function
-              className="text-blue-600 cursor-pointer hover:underline font-semibold"
-            >
-              Change Password
-            </span>
-          </div> */}
           </div>
         </div>
         <ToastContainer />

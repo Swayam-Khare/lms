@@ -61,21 +61,6 @@ export default function UserForm({ onSubmit, selectedUser, setSelectedUser }) {
     setSelectedUser({ ...user, address: { ...user.address, [name]: value } });
   };
 
-  // const handlePhoneChange = (index, value) => {
-  //   const updatedPhones = [...user.phoneNumber];
-  //   updatedPhones[index] = {number: value};
-  //   setSelectedUser({ ...user, phoneNumber: updatedPhones });
-  // };
-
-  // const addPhoneField = () => {
-  //   setSelectedUser({ ...user, phoneNumber: [...user.phoneNumber, {number: ""}] });
-  // };
-
-  // const removePhoneField = (index) => {
-  //   const updatedPhones = user.phoneNumber.filter((_, i) => i !== index);
-  //   setSelectedUser({ ...user, phoneNumber: updatedPhones });
-  // };
-
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-lg">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

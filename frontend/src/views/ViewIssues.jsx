@@ -89,13 +89,13 @@ export default function ViewIssues() {
       });
 
       setTimeout(() => {
-        navigateTo("/viewUsers");
+        navigateTo("/viewIssueRecords");
       }, 1000);
 
       setErrorMessage("");
-
       setOpen(false);
       setSelectRecord(null);
+
     } catch (error) {
       console.log(error);
       if (
@@ -141,6 +141,7 @@ export default function ViewIssues() {
         });
 
         setTimeout(() => {
+          localStorage.clear();
           navigateTo("/lib/signin");
         }, 2000);
       }
@@ -240,6 +241,7 @@ export default function ViewIssues() {
           });
 
           setTimeout(() => {
+            localStorage.clear();
             navigateTo("/lib/signin");
           }, 2000);
         }

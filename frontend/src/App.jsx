@@ -11,8 +11,8 @@ import UserDashboard from "./views/UserDashboard";
 import ViewIssues from "./views/ViewIssues";
 import TestOAuth from "./views/TestOAuth";
 import Dashboard from "./views/Dashboard";
-
 import {ProtectedRoute} from "./components/ProtectedRoute.jsx";
+import AuthGuard from "./components/AuthGuard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,15 +21,27 @@ const router = createBrowserRouter([
   },
   {
     path: "/lib/signin",
-    element: <Signin getRole="LIBRARIAN" />,
+    element: (
+      <AuthGuard>
+        <Signin getRole="LIBRARIAN" />
+      </AuthGuard>
+    ),
   },
   {
     path: "/user/signin",
-    element: <Signin getRole="USER" />,
+    element: (
+      <AuthGuard>
+        <Signin getRole="USER" />
+      </AuthGuard>
+    ),
   },
   {
     path: "/signup",
-    element: <Signup />,
+    element: (
+      <AuthGuard>
+        <Signup />
+      </AuthGuard>
+    ),
   },
   {
     path: "/addBook",

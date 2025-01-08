@@ -4,6 +4,8 @@ export default function ProfileMenu({ user, onClick }) {
 
   function logout() {
     deleteCookie();
+    localStorage.removeItem('user');
+    localStorage.removeItem('role');
     onClick('');
     window.location.reload();
   }

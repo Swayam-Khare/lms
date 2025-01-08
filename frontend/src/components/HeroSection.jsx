@@ -1,5 +1,4 @@
 import { ReactTyped } from "react-typed";
-import Logo from "../components/Logo"
 import Lottie from 'react-lottie';
 import animationData from '../assets/Hero.json';
 import Button from "../components/Button";
@@ -17,6 +16,8 @@ export default function HeroSection() {
   function handleSignup() {
     window.location.href = "/signup";
   }
+
+  const isLoggedIn = localStorage.getItem("user");
 
   return (
     <div className="mx-32 py-5 flex  justify-between">
@@ -44,9 +45,11 @@ export default function HeroSection() {
           resources with just a few clicks. Track your borrowed items, return
           dates, and request renewals online.
         </div>
-        <div className="w-40 mt-4">
-          <Button label={"Sign Up"} onClick={handleSignup} />
-        </div>
+        {!isLoggedIn && (
+          <div className="w-40 mt-4">
+            <Button label={"Sign Up"} onClick={handleSignup} />
+          </div>
+        )}
       </div>
 
       <div className="mr-10 cursor-default">

@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.logging.Logger;
 
@@ -62,6 +63,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public UserDTO registerUser(UserDTO userDTO) {
         User user = userMapper.toEntity(userDTO);
         user.setPassword(encoder.encode(user.getPassword()));
@@ -69,6 +71,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public LibrarianDTO registerLibrarian(LibrarianDTO librarianDTO) {
         Librarian librarian = librarianMapper.toEntity(librarianDTO);
         librarian.setPassword(encoder.encode(librarian.getPassword()));

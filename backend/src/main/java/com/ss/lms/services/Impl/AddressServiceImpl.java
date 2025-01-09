@@ -2,10 +2,12 @@ package com.ss.lms.services.Impl;
 
 import com.ss.lms.dto.AddressDTO;
 import com.ss.lms.entity.Address;
+import com.ss.lms.exception.CustomEntityNotFoundException;
 import com.ss.lms.mapper.AddressMapper;
 import com.ss.lms.repository.AddressRepository;
 import com.ss.lms.services.AddressService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +56,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    @Transactional
     public AddressDTO update(AddressDTO addressDTO) {
 
         Address address = addressRepository
@@ -61,8 +64,8 @@ public class AddressServiceImpl implements AddressService {
                 .orElse(null);
 
         if (address == null) {
-            // TODO: throw custom exception "address not found"
-            return null;
+            throw new CustomEntityNotFoundException(
+                    "Address not found with id: " + addressDTO.getId());
         }
 
         address = addressMapper.toEntity(addressDTO);
@@ -73,6 +76,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
 
         Address address = addressRepository
@@ -80,8 +84,8 @@ public class AddressServiceImpl implements AddressService {
                 .orElse(null);
 
         if (address == null) {
-            // TODO: throw custom exception "address not found"
-            return;
+            throw new CustomEntityNotFoundException(
+                    "Address not found with id: " + id);
         }
 
         addressRepository.deleteById(id);

@@ -2,10 +2,12 @@ package com.ss.lms.services.Impl;
 
 import com.ss.lms.dto.BookDTO;
 import com.ss.lms.entity.Book;
+import com.ss.lms.exception.CustomEntityNotFoundException;
 import com.ss.lms.mapper.BookMapper;
 import com.ss.lms.repository.BookRepository;
 import com.ss.lms.services.BookService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -46,10 +48,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public BookDTO create(BookDTO bookDTO) {
-
-
-
         Book book = bookRepository.save(
                 bookMapper.toEntity(bookDTO)
         );
@@ -57,6 +57,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public BookDTO update(BookDTO bookDTO) {
 
         Book book = bookRepository
@@ -64,8 +65,8 @@ public class BookServiceImpl implements BookService {
                 .orElse(null);
 
         if (book == null) {
-            // TODO: throw custom exception "book not found"
-            return null;
+            throw new CustomEntityNotFoundException(
+                    "Book not found with id: " + bookDTO.getId());
         }
 
         book = bookMapper.toEntity(bookDTO);
@@ -76,15 +77,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
-
         Book book = bookRepository
                 .findById(id)
                 .orElse(null);
 
         if (book == null) {
-            // TODO: throw custom exception "book not found"
-            return;
+            throw new CustomEntityNotFoundException(
+                    "Book not found with id: " + id);
         }
 
         bookRepository.deleteById(id);

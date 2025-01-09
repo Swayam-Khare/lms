@@ -10,6 +10,7 @@ import com.ss.lms.mapper.LibrarianMapper;
 import com.ss.lms.repository.LibrarianRepository;
 import com.ss.lms.services.LibrarianService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,6 +52,7 @@ public class LibrarianServiceImpl implements LibrarianService {
     }
 
     @Override
+    @Transactional
     public LibrarianDTO create(LibrarianDTO librarianDTO) {
 
         Librarian librarian = librarianRepository.save(
@@ -60,6 +62,7 @@ public class LibrarianServiceImpl implements LibrarianService {
     }
 
     @Override
+    @Transactional
     public LibrarianDTO update(LibrarianDTO librarianDTO) {
 
         Librarian librarian = librarianRepository
@@ -67,7 +70,7 @@ public class LibrarianServiceImpl implements LibrarianService {
                 .orElse(null);
 
         if (librarian == null) {
-            throw new CustomEntityNotFoundException("Librarian not found");
+            throw new CustomEntityNotFoundException("Librarian not found with id: " + librarianDTO.getId());
         }
 
         log.info(librarianDTO.toString());
@@ -112,6 +115,7 @@ public class LibrarianServiceImpl implements LibrarianService {
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
 
         Librarian librarian = librarianRepository
@@ -119,8 +123,7 @@ public class LibrarianServiceImpl implements LibrarianService {
                 .orElse(null);
 
         if (librarian == null) {
-            // TODO: throw custom exception "Librarian not found"
-            return;
+            throw new CustomEntityNotFoundException("Librarian not found with id: " + id);
         }
 
         librarianRepository.deleteById(id);

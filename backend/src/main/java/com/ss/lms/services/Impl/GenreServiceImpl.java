@@ -7,6 +7,7 @@ import com.ss.lms.repository.GenreRepository;
 import com.ss.lms.services.GenreService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -55,6 +56,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    @Transactional
     public GenreDTO update(GenreDTO genreDTO) {
 
         Genre genre = genreRepository

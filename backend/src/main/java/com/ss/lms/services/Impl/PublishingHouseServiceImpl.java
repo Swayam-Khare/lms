@@ -10,6 +10,7 @@ import com.ss.lms.repository.PublishingHouseRepository;
 import com.ss.lms.services.PublishingHouseService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -53,6 +54,7 @@ public class PublishingHouseServiceImpl implements PublishingHouseService {
     }
 
     @Override
+    @Transactional
     public PublishingHouseDTO create(PublishingHouseDTO publishingHouseDTO) {
 
         PublishingHouse publishingHouse = publishingHouseRepository.save(
@@ -62,6 +64,7 @@ public class PublishingHouseServiceImpl implements PublishingHouseService {
     }
 
     @Override
+    @Transactional
     public PublishingHouseDTO update(PublishingHouseDTO dto) {
 
         PublishingHouse publishingHouse = publishingHouseRepository
@@ -93,6 +96,7 @@ public class PublishingHouseServiceImpl implements PublishingHouseService {
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
 
         PublishingHouse publishingHouse = publishingHouseRepository

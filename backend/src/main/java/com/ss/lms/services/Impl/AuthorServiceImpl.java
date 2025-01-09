@@ -10,6 +10,7 @@ import com.ss.lms.repository.AuthorRepository;
 import com.ss.lms.services.AuthorService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +55,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional
     public AuthorDTO create(AuthorDTO authorDTO) {
 
         Author author = authorRepository.save(
@@ -63,6 +65,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional
     public AuthorDTO update(AuthorDTO authorDTO) {
 
         Author author = authorRepository
@@ -95,6 +98,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
 
         Author author = authorRepository

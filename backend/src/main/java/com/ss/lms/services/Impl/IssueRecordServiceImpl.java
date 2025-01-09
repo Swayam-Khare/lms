@@ -15,6 +15,7 @@ import com.ss.lms.repository.UserRepository;
 import com.ss.lms.services.IssueRecordService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -75,6 +76,7 @@ public class IssueRecordServiceImpl implements IssueRecordService {
     }
 
     @Override
+    @Transactional
     public IssueRecordDTO create(IssueRecordDTO issueRecordDTO) {
         int librarianId = issueRecordDTO.getLibrarian().getId();
         int userId = issueRecordDTO.getUser().getId();
@@ -113,6 +115,7 @@ public class IssueRecordServiceImpl implements IssueRecordService {
     }
 
     @Override
+    @Transactional
     public IssueRecordDTO update(IssueRecordDTO issueRecordDTO) {
         int librarianId = issueRecordDTO.getLibrarian().getId();
         int userId = issueRecordDTO.getUser().getId();
@@ -146,6 +149,7 @@ public class IssueRecordServiceImpl implements IssueRecordService {
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
 
         IssueRecord issueRecord = issueRecordRepository

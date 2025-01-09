@@ -13,6 +13,7 @@ import TestOAuth from "./views/TestOAuth";
 import Dashboard from "./views/Dashboard";
 import {ProtectedRoute} from "./components/ProtectedRoute.jsx";
 import AuthGuard from "./components/AuthGuard.jsx";
+import AddEditUser from "./views/AddEditUser.jsx";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <ViewUsers />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/addUsers/:id",
+    element: (
+      <ProtectedRoute>
+        <AddEditUser />
       </ProtectedRoute>
     ),
   },

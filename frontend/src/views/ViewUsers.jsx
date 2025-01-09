@@ -8,7 +8,6 @@ import NavbarAlt from "../components/NavbarAlt";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import UserDialog from "../components/UserDialog";
 
 export default function ViewUsers() {
   const [users, setUsers] = useState([]);
@@ -19,45 +18,6 @@ export default function ViewUsers() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigateTo = useNavigate();
-
-  async function addUser(user) {
-    try {
-      const result = await axios.post("http://localhost:8080/api/user/", user, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + getToken(),
-        },
-        withCredentials: true,
-      });
-
-      toast.success("User Added", {
-        position: "bottom-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
-      setSelectedUser(null);
-      setOpen(false);
-
-    } catch (error) {
-      console.log(error);
-      if (
-        error.response?.data?.status === 400 &&
-        error.response?.data?.message.includes("Duplicate Entry")
-      ) {
-        setErrorMessage(`User with the email already present`);
-      } else if (
-        error.status === 400 &&
-        error.response?.data?.errors?.length > 0
-      ) {
-        setErrorMessage(error.response.data.errors[0]);
-      }
-    }
-  }
 
   async function updateUser() {
     try {
@@ -246,12 +206,8 @@ export default function ViewUsers() {
     <>
       {user ? <NavbarAlt user={user} /> : <Navbar />}
       <div className="bg-gray-100 min-h-screen p-6 relative">
-        {/* Background Art */}
         <div
           className="absolute inset-0 bg-fixed bg-no-repeat bg-cover opacity-10"
-          style={{
-            backgroundImage: 'url("/path-to-your-background-image.jpg")',
-          }}
         ></div>
         <div className="relative max-w-7xl mx-auto bg-white bg-opacity-80 backdrop-blur-md shadow-lg rounded-lg p-8">
           <h1 className="text-4xl font-bold text-primary mb-6 text-center">
@@ -260,9 +216,7 @@ export default function ViewUsers() {
           <div className="flex justify-end">
             <button
               onClick={() => {
-                setOpen(true);
-                setSelectedUser(null);
-                setErrorMessage("");
+                navigateTo("/addUsers/new");
               }}
               className="bg-primary box-border text-white px-4 py-2 rounded-md border-primary border-2
               hover:border-black transition"
@@ -273,22 +227,12 @@ export default function ViewUsers() {
           <UserList
             users={users}
             onEdit={(user) => {
-              setOpen(true);
-              setErrorMessage("");
-              setSelectedUser(user);
+              navigateTo(`/addUser/${user.id}`);
             }}
             onDelete={handleDeleteUser}
           />
         </div>
         <ToastContainer />
-        <UserDialog
-          open={open}
-          setOpen={setOpen}
-          onSubmit={handleAddOrUpdateUser}
-          selectedUser={selectedUser}
-          setSelectedUser={setSelectedUser}
-          errorMessage={errorMessage}
-        />
       </div>
       <Footer />
     </>

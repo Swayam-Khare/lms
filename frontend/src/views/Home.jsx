@@ -36,6 +36,7 @@ export default function Home() {
     }
     catch(error) {
       console.log(error);
+      localStorage.clear();
       setUser(null);
     }
   }

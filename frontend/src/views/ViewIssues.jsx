@@ -187,7 +187,6 @@ export default function ViewIssues() {
   const handleDeleteRecord = async (id) => {
 
     const isDelete = confirm("Are you sure you want to delete this record?");
-    console.log(isDelete);
     
     if (!isDelete) {
       return;

@@ -4,6 +4,8 @@ import com.ss.lms.dto.UserDTO;
 import com.ss.lms.dto.UserInfoResponse;
 import com.ss.lms.services.UserService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,8 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173")
 public class UserRestController {
 
+    private static final Logger log = LoggerFactory.getLogger(UserRestController.class.getSimpleName());
+
     private final UserService userService;
 
     @Autowired
@@ -22,7 +26,12 @@ public class UserRestController {
     }
 
     @GetMapping("/")
-    public List<UserDTO> getAll() {
+    public List<UserDTO> getAll(@RequestParam(name = "search", required = false) String search) {
+//        log.info("Searching users with search string: {}", search);
+        if (search != null) {
+            return userService.searchUsers(search);
+        }
+
         return userService.getAll();
     }
 

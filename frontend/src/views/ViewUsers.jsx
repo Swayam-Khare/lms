@@ -146,6 +146,12 @@ export default function ViewUsers() {
   };
 
   const handleDeleteUser = async (id) => {
+    const isDelete = confirm("Are you sure you want to delete this record?");
+    
+    if (!isDelete) {
+      return;
+    }
+
     try {
       const result = await axios.delete(
         "http://localhost:8080/api/user/" + id,
@@ -227,7 +233,7 @@ export default function ViewUsers() {
           <UserList
             users={users}
             onEdit={(user) => {
-              navigateTo(`/addUser/${user.id}`);
+              navigateTo(`/addUsers/${user.id}`);
             }}
             onDelete={handleDeleteUser}
           />

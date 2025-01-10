@@ -189,6 +189,12 @@ export default function ViewBooks() {
   };
 
   const handleDeleteBook = async (id) => {
+    const isDelete = confirm("Are you sure you want to delete this record?");
+    
+    if (!isDelete) {
+      return;
+    }
+
     try {
       const result = await axios.delete(
         "http://localhost:8080/api/book/" + id,

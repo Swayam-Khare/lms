@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import NavbarAlt from "../components/NavbarAlt";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function AddEditUser() {
@@ -15,6 +16,20 @@ export default function AddEditUser() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigateTo = useNavigate();
+  const { id } = useParams();
+
+  async function getSelectedUser() {
+    if (id && !selectedUser) {
+      const selected = await axios.get(`http://localhost:8080/api/user/${id}`, {
+        headers: {
+          Authorization: "Bearer " + getToken(),
+        },
+        withCredentials: true,
+      });
+
+      setSelectedUser(selected.data);
+    }
+  }
 
   async function fetchUser() {
     try {
@@ -127,10 +142,6 @@ export default function AddEditUser() {
         progress: undefined,
       });
 
-      setTimeout(() => {
-        navigateTo("/viewUsers");
-      }, 1000);
-
       setErrorMessage("");
 
       setSelectedUser(null);
@@ -156,12 +167,18 @@ export default function AddEditUser() {
     } else {
       await addUser(user);
     }
-
-    // Redirect to view users page after 1 second
+    setTimeout(() => {
+      navigateTo("/viewUsers");
+    }, 1000);
   };
 
   useEffect(() => {
-    fetchUser().then(() => setLoading(false));
+    const promise1 = fetchUser();
+    const promise2 = getSelectedUser();
+
+    Promise.all([promise1, promise2]).then(() => {
+      setLoading(false);
+    });
   }, []);
 
   return (

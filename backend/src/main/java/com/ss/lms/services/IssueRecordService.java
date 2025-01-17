@@ -8,6 +8,10 @@ import java.util.List;
 public interface IssueRecordService {
     List<IssueRecordDTO> getAll();
 
+    List<IssueRecordDTO> searchByUser(String searchText, int id);
+
+    List<IssueRecordDTO> searchByLibrarian(String searchText, int id);
+
     List<IssueRecordDTO> getAllByUserId(int userId);
 
     List<IssueRecordDTO> getAllByLibrarianId(int librarianId);

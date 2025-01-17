@@ -22,7 +22,11 @@ public class BookRestController {
     }
 
     @GetMapping("/")
-    public List<BookDTO> getAll() {
+    public List<BookDTO> getAll(@RequestParam(name = "search", required = false) String search) {
+        if (search != null) {
+            return bookService.search(search);
+        }
+
         return bookService.getAll();
     }
 

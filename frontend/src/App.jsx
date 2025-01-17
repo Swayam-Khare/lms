@@ -11,7 +11,7 @@ import UserDashboard from "./views/UserDashboard";
 import ViewIssues from "./views/ViewIssues";
 import TestOAuth from "./views/TestOAuth";
 import Dashboard from "./views/Dashboard";
-import {ProtectedRoute} from "./components/ProtectedRoute.jsx";
+import { ProtectedRoute } from "./components/ProtectedRoute.jsx";
 import AuthGuard from "./components/AuthGuard.jsx";
 import AddEditUser from "./views/AddEditUser.jsx";
 

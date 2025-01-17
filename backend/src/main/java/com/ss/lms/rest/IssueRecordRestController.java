@@ -20,18 +20,23 @@ public class IssueRecordRestController {
         this.issueRecordService = issueRecordService;
     }
 
-    @GetMapping("/")
-    public List<IssueRecordDTO> getAll() {
-        return issueRecordService.getAll();
-    }
-
     @GetMapping("/librarian/{id}")
-    public List<IssueRecordDTO> getAllByLibrarianId(@PathVariable int id) {
+    public List<IssueRecordDTO> getAllByLibrarianId(@RequestParam(name = "user", required = false) String user, @PathVariable int id) {
+
+        if (user != null) {
+            return issueRecordService.searchByUser(user, id);
+        }
+
         return issueRecordService.getAllByLibrarianId(id);
     }
 
     @GetMapping("/user/{id}")
-    public List<IssueRecordDTO> getAllByUserId(@PathVariable int id) {
+    public List<IssueRecordDTO> getAllByUserId(@RequestParam("librarian") String librarian, @PathVariable int id) {
+
+        if (librarian != null) {
+            return issueRecordService.searchByLibrarian(librarian, id);
+        }
+
         return issueRecordService.getAllByUserId(id);
     }
 

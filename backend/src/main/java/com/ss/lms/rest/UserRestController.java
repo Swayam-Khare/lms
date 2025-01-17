@@ -27,7 +27,6 @@ public class UserRestController {
 
     @GetMapping("/")
     public List<UserDTO> getAll(@RequestParam(name = "search", required = false) String search) {
-//        log.info("Searching users with search string: {}", search);
         if (search != null) {
             return userService.searchUsers(search);
         }

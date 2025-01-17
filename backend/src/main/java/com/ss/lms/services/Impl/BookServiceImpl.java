@@ -37,6 +37,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<BookDTO> search(String searchText) {
+        return bookRepository.findBySearch(searchText)
+                .stream()
+                .map(bookMapper::toDTO)
+                .toList();
+    }
+
+    @Override
     public BookDTO getById(int id) {
 
         return bookMapper.toDTO(Objects.requireNonNull(

@@ -51,6 +51,36 @@ public class IssueRecordServiceImpl implements IssueRecordService {
     }
 
     @Override
+    public List<IssueRecordDTO> searchByUser(String searchText, int id) {
+
+        Librarian librarian = librarianRepository.findById(id).orElse(null);
+
+        if (librarian == null) {
+            throw new CustomEntityNotFoundException("Librarian not found with id: " + id);
+        }
+
+        return issueRecordRepository.findByUser(searchText, librarian)
+                .stream()
+                .map(issueRecordMapper::toDTO)
+                .toList();
+    }
+
+    @Override
+    public List<IssueRecordDTO> searchByLibrarian(String searchText, int id) {
+
+        User user = userRepository.findById(id).orElse(null);
+
+        if (user == null) {
+            throw new CustomEntityNotFoundException("User not found with id: " + id);
+        }
+
+        return issueRecordRepository.findByLibrarian(searchText, user)
+                .stream()
+                .map(issueRecordMapper::toDTO)
+                .toList();
+    }
+
+    @Override
     public List<IssueRecordDTO> getAllByUserId(int userId) {
         List<IssueRecord> issueRecords = issueRecordRepository.findIssueRecordByUser_Id(userId);
         setIssueBooks(issueRecords);

@@ -14,4 +14,6 @@ public interface BookService {
 
     BookDTO update(BookDTO bookDTO);
 
+    List<BookDTO> search(String searchText);
+
     void deleteById(int id);}

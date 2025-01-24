@@ -9,6 +9,10 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import BookDialog from "../components/BookDialog";
+import { Input } from "@material-tailwind/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import debouncify from "../utils/debouncify.js";
 
 export default function ViewBooks() {
   const [books, setBooks] = useState([]);
@@ -160,9 +164,15 @@ export default function ViewBooks() {
     }
   }
 
-  async function fetchBooks() {
+  async function fetchBooks(search) {
+    let searchQuery = "";
+
+    if (search) {
+      searchQuery = `?search=${search}`;
+    }
+
     try {
-      const response = await axios.get("http://localhost:8080/api/book/", {
+      const response = await axios.get("http://localhost:8080/api/book/" + searchQuery, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + getToken(),
@@ -278,6 +288,14 @@ export default function ViewBooks() {
               Add Book
             </button>
           </div>) : <></>}
+          <div className="w-1/3">
+            <Input
+              label="Search"
+              color="teal"
+              onChange={debouncify((e) => fetchBooks(e.target.value), 300)}
+              icon={<FontAwesomeIcon icon={faMagnifyingGlass} />}
+            />
+          </div>
           <BookList
             books={books}
             onEdit={(book) => {

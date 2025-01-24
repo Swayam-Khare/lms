@@ -9,6 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import IssueRecordList from "../components/IssueRecordList";
 import IssueDialog from "../components/IssueDialog";
+import { Input } from "@material-tailwind/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import debouncify from "../utils/debouncify.js";
 
 export default function ViewIssues() {
   const [records, setRecords] = useState([]);
@@ -149,13 +153,19 @@ export default function ViewIssues() {
     }
   }
 
-  async function fetchRecords(id) {
-
+  async function fetchRecords(id, search) {
     const api = role == "LIBRARIAN" ? "librarian" : "user";
+    const searchRole = role == "LIBRARIAN" ? "user" : "librarian";
+    let searchQuery = "";
+
+    if (search) {
+      searchQuery = `?${searchRole}=${search}`;
+    }
+
 
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/issue-record/${api}/${id}`,
+        `http://localhost:8080/api/issue-record/${api}/${id}` + searchQuery,
         {
           headers: {
             "Content-Type": "application/json",
@@ -282,6 +292,14 @@ export default function ViewIssues() {
           ) : (
             <></>
           )}
+          <div className="w-1/3">
+            <Input
+              label="Search"
+              color="teal"
+              onChange={debouncify((e) => fetchRecords(user.id, e.target.value), 300)}
+              icon={<FontAwesomeIcon icon={faMagnifyingGlass} />}
+            />
+          </div>
           <IssueRecordList
             issueRecords={records}
             onUpdate={(record) => {

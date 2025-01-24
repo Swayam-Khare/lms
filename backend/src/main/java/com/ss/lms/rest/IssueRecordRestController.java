@@ -31,7 +31,7 @@ public class IssueRecordRestController {
     }
 
     @GetMapping("/user/{id}")
-    public List<IssueRecordDTO> getAllByUserId(@RequestParam("librarian") String librarian, @PathVariable int id) {
+    public List<IssueRecordDTO> getAllByUserId(@RequestParam(value = "librarian", required = false) String librarian, @PathVariable int id) {
 
         if (librarian != null) {
             return issueRecordService.searchByLibrarian(librarian, id);

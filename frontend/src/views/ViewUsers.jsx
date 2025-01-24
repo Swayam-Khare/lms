@@ -8,6 +8,10 @@ import NavbarAlt from "../components/NavbarAlt";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { Input } from "@material-tailwind/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import debouncify from "../utils/debouncify.js";
 
 export default function ViewUsers() {
   const [users, setUsers] = useState([]);
@@ -117,9 +121,13 @@ export default function ViewUsers() {
     }
   }
 
-  async function fetchUsers() {
+  async function fetchUsers(search) {
+    let searchQuery = "";
+    if (search) {
+      searchQuery = `?search=${search}`;
+    }
     try {
-      const response = await axios.get("http://localhost:8080/api/user/", {
+      const response = await axios.get("http://localhost:8080/api/user/" + searchQuery, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + getToken(),
@@ -136,10 +144,8 @@ export default function ViewUsers() {
 
   const handleAddOrUpdateUser = async (user) => {
     if (selectedUser.id) {
-      
       await updateUser();
     } else {
-
       await addUser(user);
     }
     fetchUsers();
@@ -147,7 +153,7 @@ export default function ViewUsers() {
 
   const handleDeleteUser = async (id) => {
     const isDelete = confirm("Are you sure you want to delete this record?");
-    
+
     if (!isDelete) {
       return;
     }
@@ -212,9 +218,7 @@ export default function ViewUsers() {
     <>
       {user ? <NavbarAlt user={user} /> : <Navbar />}
       <div className="bg-gray-100 min-h-screen p-6 relative">
-        <div
-          className="absolute inset-0 bg-fixed bg-no-repeat bg-cover opacity-10"
-        ></div>
+        <div className="absolute inset-0 bg-fixed bg-no-repeat bg-cover opacity-10"></div>
         <div className="relative max-w-7xl mx-auto bg-white bg-opacity-80 backdrop-blur-md shadow-lg rounded-lg p-8">
           <h1 className="text-4xl font-bold text-primary mb-6 text-center">
             View Users
@@ -229,6 +233,14 @@ export default function ViewUsers() {
             >
               Add User
             </button>
+          </div>
+          <div className="w-1/3">
+            <Input
+              label="Search"
+              color="teal"
+              onChange={debouncify((e) => fetchUsers(e.target.value), 300)}
+              icon={<FontAwesomeIcon icon={faMagnifyingGlass} />}
+            />
           </div>
           <UserList
             users={users}

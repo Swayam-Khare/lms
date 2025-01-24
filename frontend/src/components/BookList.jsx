@@ -17,7 +17,7 @@ const BookList = ({ books, onEdit, onDelete }) => {
                   <div className="flex flex-wrap space-x-4 mb-2">
                     <span className="text-sm text-gray-500">ISBN: {book.isbnNumber}</span>
                     <span className="text-sm text-gray-500">Edition: {book.edition}</span>
-                    <span className="text-sm text-gray-500">Publishing House: {book.publishingHouse.name}</span>
+                    <span className="text-sm text-gray-500">Author: {book.author[0].firstName} {book.author[0].lastName}</span>
                     <span className="text-sm text-gray-500">Year: {book.publishYear}</span>
                     <span className="text-sm text-gray-500">Pages: {book.pages}</span>
                   </div>

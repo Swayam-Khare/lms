@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import DialogComp from "./UserDialog";
+import { Input } from "@material-tailwind/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import debouncify from "../utils/debouncify.js";
 
 export default function UserList({ users, onEdit, onDelete }) {
   return (

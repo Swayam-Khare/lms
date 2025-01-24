@@ -17,7 +17,8 @@ public interface IssueRecordRepository extends JpaRepository<IssueRecord, Intege
             "SELECT i from IssueRecord i JOIN i.user u WHERE " +
                     "i.librarian = :lib AND " +
                     "(LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchText, '%')) OR " +
-                    "LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchText, '%')))"
+                    "LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchText, '%')) OR " +
+                    "LOWER(CONCAT(u.firstName, 'weds', u.lastName)) LIKE LOWER(CONCAT('%', :searchText, '%')))"
     )
     List<IssueRecord> findByUser(@Param("searchText") String searchText, @Param("lib") Librarian lib);
 
@@ -25,7 +26,8 @@ public interface IssueRecordRepository extends JpaRepository<IssueRecord, Intege
             "SELECT i from IssueRecord i JOIN i.librarian l WHERE " +
                     "i.user = :user AND " +
                     "(LOWER(l.firstName) LIKE LOWER(CONCAT('%', :searchText, '%')) OR " +
-                    "LOWER(l.lastName) LIKE LOWER(CONCAT('%', :searchText, '%')))"
+                    "LOWER(l.lastName) LIKE LOWER(CONCAT('%', :searchText, '%')) OR " +
+                    "LOWER(CONCAT(l.firstName, ' ', l.lastName)) LIKE LOWER(CONCAT('%', :searchText, '%')))"
     )
     List<IssueRecord> findByLibrarian(@Param("searchText") String searchText, @Param("user") User user);
 
